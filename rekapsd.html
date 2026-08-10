@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rekap Absensi SD</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
+body{background:#f1f5f9;padding:20px}
+.container{max-width:1200px;margin:auto}
+.header{background:linear-gradient(135deg,#2563eb,#1e40af);color:#fff;padding:25px;border-radius:18px;text-align:center;margin-bottom:20px}
+.card{background:#fff;border-radius:16px;padding:18px;margin-bottom:18px;box-shadow:0 5px 20px rgba(0,0,0,.08)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+input,select,button{width:100%;padding:12px;border-radius:10px;border:1px solid #d1d5db}
+button{background:#2563eb;color:#fff;font-weight:bold;cursor:pointer;border:none}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.stat{background:#fff;padding:18px;border-radius:16px;text-align:center;box-shadow:0 5px 20px rgba(0,0,0,.08)}
+.stat h2{font-size:28px;color:#2563eb}
+table{width:100%;border-collapse:collapse}
+th,td{padding:12px;border-bottom:1px solid #e5e7eb;text-align:left}
+th{background:#eff6ff}
+img{width:65px;height:65px;border-radius:10px;object-fit:cover;cursor:pointer}
+.badge{padding:6px 10px;border-radius:8px;font-size:12px;font-weight:bold}
+.masuk{background:#dcfce7;color:#166534}
+.pulang{background:#fee2e2;color:#991b1b}
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.8);align-items:center;justify-content:center}
+.modal img{width:auto;height:auto;max-width:90%;max-height:90%}
+@media(max-width:700px){.stats{grid-template-columns:1fr}.card{overflow:auto}}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<div class="header">
+<h1>📚 REKAP ABSENSI SISWA SD</h1>
+<p>Data Masuk & Pulang</p>
+</div>
+
+<div class="card">
+<div class="grid">
+<div>
+<label>Tanggal</label>
+<input type="date" id="tanggal">
+</div>
+
+<div>
+<label>Kelas</label>
+<select id="kelas">
+<option value="">Semua Kelas</option>
+<option>Kelas 1</option>
+<option>Kelas 2</option>
+<option>Kelas 3</option>
+<option>Kelas 4</option>
+<option>Kelas 5</option>
+<option>Kelas 6</option>
+</select>
+</div>
+
+<div>
+<label>Nama</label>
+<input id="cari" placeholder="Cari nama...">
+</div>
+
+<div style="display:flex;align-items:end">
+<button onclick="loadData()">🔄 Refresh</button>
+</div>
+</div>
+</div>
+
+<div class="stats">
+<div class="stat">
+<div>Total Siswa</div>
+<h2 id="jmlOrang">0</h2>
+</div>
+
+<div class="stat">
+<div>Masuk</div>
+<h2 id="jmlMasuk">0</h2>
+</div>
+
+<div class="stat">
+<div>Pulang</div>
+<h2 id="jmlPulang">0</h2>
+</div>
+</div>
+
+<div class="card">
+<table>
+<thead>
+<tr>
+<th>No</th>
+<th>Nama</th>
+<th>Kelas</th>
+<th>Jam</th>
+<th>Status</th>
+<th>Foto</th>
+</tr>
+</thead>
+<tbody id="tbody">
+<tr><td colspan="6" style="text-align:center">Memuat...</td></tr>
+</tbody>
+</table>
+</div>
+
+</div>
+
+<div class="modal" id="modal" onclick="this.style.display='none'">
+<img id="fotoBesar">
+</div>
+
+<script>
+const SUPABASE_URL="https://prcnxtzhukfopcfzyczm.supabase.co/rest/v1/";
+const SUPABASE_KEY="sb_publishable_wUZkF_KZgqDmhlVwdOAKRA_PkmZQ920";
+const db=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+
+let semua=[];
+
+document.getElementById("tanggal").value=new Date().toISOString().slice(0,10);
+
+document.getElementById("cari").oninput=tampil;
+document.getElementById("kelas").onchange=tampil;
+document.getElementById("tanggal").onchange=tampil;
+
+async function loadData(){
+
+const {data,error}=await db
+.from("absensi_sd")
+.select("*")
+.order("created_at",{ascending:false});
+
+if(error){
+alert(error.message);
+return;
+}
+
+semua=data;
+tampil();
+
+}
+
+async function tampil(){
+
+const tgl=document.getElementById("tanggal").value;
+const kelas=document.getElementById("kelas").value;
+const cari=document.getElementById("cari").value.toLowerCase();
+
+const data=semua.filter(x=>{
+
+const tanggal=x.created_at?.slice(0,10);
+
+return(
+(!tgl||tanggal===tgl)&&
+(!kelas||x.kelas===kelas)&&
+(!cari||x.nama.toLowerCase().includes(cari))
+);
+
+});
+
+document.getElementById("jmlOrang").textContent=
+new Set(data.map(x=>x.nama)).size;
+
+document.getElementById("jmlMasuk").textContent=
+data.filter(x=>x.jenis==="masuk").length;
+
+document.getElementById("jmlPulang").textContent=
+data.filter(x=>x.jenis==="pulang").length;
+
+let html="";
+
+for(let i=0;i<data.length;i++){
+
+let foto="-";
+
+if(data[i].foto_path){
+
+const {data:url}=await db.storage
+.from("selfie3")
+.createSignedUrl(data[i].foto_path,3600);
+
+foto=`<img src="${url.signedUrl}" onclick="lihat('${url.signedUrl}')">`;
+
+}
+
+const jam=new Date(data[i].created_at)
+.toLocaleTimeString("id-ID",{
+hour:"2-digit",
+minute:"2-digit",
+timeZone:"Asia/Jakarta"
+});
+
+html+=`
+<tr>
+<td>${i+1}</td>
+<td>${data[i].nama}</td>
+<td>${data[i].kelas}</td>
+<td>${jam}</td>
+<td>
+<span class="badge ${data[i].jenis}">
+${data[i].jenis.toUpperCase()}
+</span>
+</td>
+<td>${foto}</td>
+</tr>`;
+
+}
+
+document.getElementById("tbody").innerHTML=
+html||'<tr><td colspan="6" style="text-align:center">Tidak ada data</td></tr>';
+
+}
+
+function lihat(url){
+
+document.getElementById("fotoBesar").src=url;
+document.getElementById("modal").style.display="flex";
+
+}
+
+loadData();
+</script>
+
+</body>
+</html>
