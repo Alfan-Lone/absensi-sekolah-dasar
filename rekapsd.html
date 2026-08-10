@@ -919,18 +919,16 @@ async function tampilkanData(){
 
                         try{
 
-                          const hasil =
-                        const hasil =
-    supabaseClient
-    .storage
-    .from("selfie3")
-    .getPublicUrl(
-        item.foto_path
-    );
+                            const hasil =
+                                await supabaseClient
+                                .storage
+                                .from("selfie3")
+                                .createSignedUrl(
+                                    item.foto_path,
+                                    3600
+                                );
 
-const url =
-    hasil.data.publicUrl;
-                            
+
                             if(
                                 hasil.data &&
                                 hasil.data.signedUrl
