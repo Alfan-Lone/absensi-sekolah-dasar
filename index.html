@@ -1,464 +1,275 @@
-```html
+  ```html
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
-
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
-
-  <title>ABSENSI SISWA SD</title>
-
-
-  <!-- SUPABASE -->
+  <title>Absensi Siswa SD</title>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-
   <style>
-
     * {
       box-sizing: border-box;
     }
 
-
     body {
-
       margin: 0;
-
       min-height: 100vh;
-
       font-family: Arial, sans-serif;
-
-      background:
-        linear-gradient(
-          135deg,
-          #2563eb,
-          #1e3a8a
-        );
-
-      display: flex;
-
-      justify-content: center;
-
-      align-items: center;
-
-      padding: 15px;
-
+      background: linear-gradient(135deg, #dbeafe, #eff6ff);
       color: #111827;
-
     }
-
 
     .container {
-
       width: 100%;
-
-      max-width: 430px;
-
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
     }
-
 
     .card {
-
+      width: 100%;
+      max-width: 500px;
       background: white;
-
       border-radius: 24px;
-
-      padding: 22px;
-
-      box-shadow:
-        0 20px 50px
-        rgba(0,0,0,.3);
-
+      padding: 28px;
+      box-shadow: 0 15px 45px rgba(0,0,0,.12);
     }
-
 
     .header {
-
       text-align: center;
-
-      margin-bottom: 20px;
-
+      margin-bottom: 25px;
     }
-
 
     .header-icon {
-
-      font-size: 55px;
-
-      margin-bottom: 5px;
-
+      width: 80px;
+      height: 80px;
+      margin: auto;
+      border-radius: 50%;
+      background: #2563eb;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 40px;
+      box-shadow: 0 8px 20px rgba(37,99,235,.25);
     }
 
+    .header h1 {
+      margin: 15px 0 5px;
+      font-size: 28px;
+      color: #111827;
+    }
 
-    h1 {
-
+    .header p {
       margin: 0;
-
-      color: #1e3a8a;
-
-      font-size: 27px;
-
-    }
-
-
-    .subtitle {
-
-      margin-top: 6px;
-
       color: #64748b;
-
       font-size: 14px;
-
     }
 
-
-    .date {
-
-      margin-top: 12px;
-
-      padding: 10px;
-
+    .tanggal {
+      text-align: center;
       background: #eff6ff;
-
-      color: #1e40af;
-
-      border-radius: 10px;
-
+      color: #1d4ed8;
+      padding: 12px;
+      border-radius: 12px;
       font-weight: bold;
-
-      font-size: 14px;
-
+      margin-bottom: 20px;
     }
-
 
     label {
-
       display: block;
-
       font-weight: bold;
-
+      font-size: 14px;
       margin-bottom: 7px;
-
-      margin-top: 15px;
-
+      color: #374151;
     }
-
 
     input,
     select {
-
       width: 100%;
-
-      padding: 14px;
-
+      height: 50px;
+      padding: 0 14px;
       border: 1px solid #d1d5db;
-
       border-radius: 12px;
-
       font-size: 16px;
-
       outline: none;
-
       background: white;
-
+      margin-bottom: 16px;
     }
-
 
     input:focus,
     select:focus {
-
       border-color: #2563eb;
-
-      box-shadow:
-        0 0 0 3px
-        rgba(37,99,235,.12);
-
+      box-shadow: 0 0 0 3px rgba(37,99,235,.1);
     }
 
-
-    /* =========================
-       KAMERA
-    ========================= */
+    .camera-title {
+      font-weight: bold;
+      font-size: 14px;
+      color: #374151;
+      margin-bottom: 7px;
+    }
 
     .camera {
-
-      margin-top: 18px;
-
+      width: 100%;
       background: #111827;
-
       border-radius: 18px;
-
       overflow: hidden;
-
       position: relative;
-
+      margin-bottom: 15px;
     }
-
 
     video {
-
       width: 100%;
-
+      height: 350px;
       display: block;
-
-      aspect-ratio: 3 / 4;
-
       object-fit: cover;
-
       background: #111827;
-
     }
-
 
     .camera-info {
-
       position: absolute;
-
-      bottom: 0;
-
-      left: 0;
-
-      right: 0;
-
-      padding: 9px;
-
-      background:
-        rgba(0,0,0,.55);
-
+      left: 10px;
+      right: 10px;
+      bottom: 10px;
+      background: rgba(0,0,0,.55);
       color: white;
-
+      padding: 9px;
+      border-radius: 10px;
       text-align: center;
-
       font-size: 12px;
-
     }
-
 
     canvas {
-
       display: none;
-
     }
-
 
     .preview {
-
-      display: none;
-
       width: 100%;
-
-      margin-top: 12px;
-
       border-radius: 15px;
-
+      margin-bottom: 15px;
+      display: none;
     }
-
-
-    /* =========================
-       TOMBOL
-    ========================= */
 
     button {
-
       width: 100%;
-
+      height: 52px;
       border: none;
-
-      padding: 15px;
-
       border-radius: 12px;
-
       font-size: 15px;
-
       font-weight: bold;
-
       cursor: pointer;
-
-      margin-top: 10px;
-
+      margin-top: 8px;
+      transition: .2s;
     }
 
+    button:active {
+      transform: scale(.98);
+    }
 
     button:disabled {
-
       background: #9ca3af !important;
-
       cursor: not-allowed;
-
+      transform: none;
     }
 
-
-    .camera-button {
-
+    .foto-btn {
       background: #2563eb;
-
       color: white;
-
     }
 
-
-    .masuk {
-
+    .masuk-btn {
       background: #16a34a;
-
       color: white;
-
     }
 
-
-    .pulang {
-
+    .pulang-btn {
       background: #dc2626;
-
       color: white;
-
     }
-
-
-    /* =========================
-       STATUS
-    ========================= */
 
     .status {
-
       display: none;
-
       margin-top: 15px;
-
-      padding: 12px;
-
-      border-radius: 10px;
-
+      padding: 13px;
+      border-radius: 12px;
       text-align: center;
-
       font-size: 14px;
-
       font-weight: bold;
-
     }
-
 
     .status.success {
-
       display: block;
-
       background: #dcfce7;
-
       color: #166534;
-
     }
-
 
     .status.error {
-
       display: block;
-
       background: #fee2e2;
-
       color: #991b1b;
-
     }
-
 
     .status.info {
-
       display: block;
-
       background: #dbeafe;
-
       color: #1e40af;
-
     }
 
-
-    .info {
-
-      margin-top: 18px;
-
+    .footer {
       text-align: center;
-
-      color: #64748b;
-
+      color: #94a3b8;
       font-size: 12px;
-
-      line-height: 1.5;
-
+      margin-top: 20px;
     }
 
-
-    @media(max-width: 450px) {
-
-      body {
-
+    @media (max-width: 600px) {
+      .container {
         padding: 10px;
-
+        align-items: flex-start;
       }
 
       .card {
-
-        padding: 18px;
-
+        margin-top: 10px;
+        padding: 20px;
+        border-radius: 20px;
       }
 
-      h1 {
-
+      .header h1 {
         font-size: 24px;
-
       }
 
+      video {
+        height: 320px;
+      }
     }
-
   </style>
-
 </head>
-
 
 <body>
 
-
 <div class="container">
-
 
   <div class="card">
 
-
-    <!-- HEADER -->
-
     <div class="header">
+      <div class="header-icon">📚</div>
 
-      <div class="header-icon">
-        📚
-      </div>
+      <h1>ABSENSI SISWA</h1>
 
-      <h1>
-        ABSENSI SISWA
-      </h1>
-
-      <div class="subtitle">
-        Absensi Siswa Sekolah Dasar
-      </div>
-
-      <div
-        class="date"
-        id="tanggal"
-      >
-        Memuat tanggal...
-      </div>
-
+      <p>Absensi Siswa Sekolah Dasar</p>
     </div>
 
+    <div class="tanggal" id="tanggal">
+      Memuat tanggal...
+    </div>
 
     <!-- NAMA -->
-
-    <label for="nama">
-      Nama Siswa
-    </label>
+    <label for="nama">Nama Siswa</label>
 
     <input
       type="text"
@@ -467,12 +278,8 @@
       autocomplete="name"
     >
 
-
     <!-- KELAS -->
-
-    <label for="kelas">
-      Kelas
-    </label>
+    <label for="kelas">Kelas</label>
 
     <select id="kelas">
 
@@ -506,8 +313,10 @@
 
     </select>
 
-
     <!-- KAMERA -->
+    <div class="camera-title">
+      Foto Selfie
+    </div>
 
     <div class="camera">
 
@@ -524,11 +333,7 @@
 
     </div>
 
-
     <canvas id="canvas"></canvas>
-
-
-    <!-- PREVIEW -->
 
     <img
       id="preview"
@@ -536,84 +341,60 @@
       alt="Preview foto"
     >
 
-
-    <!-- AKTIFKAN KAMERA -->
-
+    <!-- FOTO -->
     <button
-      id="kameraBtn"
-      class="camera-button"
-      onclick="bukaKamera()"
+      id="fotoBtn"
+      class="foto-btn"
+      onclick="ambilFoto()"
     >
-      📷 AKTIFKAN KAMERA
+      📷 AMBIL FOTO
     </button>
 
-
-    <!-- ABSEN MASUK -->
-
+    <!-- MASUK -->
     <button
       id="masukBtn"
-      class="masuk"
-      onclick="ambilFoto('masuk')"
+      class="masuk-btn"
+      onclick="absen('masuk')"
       disabled
     >
-      🟢 FOTO & ABSEN MASUK
+      🟢 ABSEN MASUK
     </button>
 
-
-    <!-- ABSEN PULANG -->
-
+    <!-- PULANG -->
     <button
       id="pulangBtn"
-      class="pulang"
-      onclick="ambilFoto('pulang')"
+      class="pulang-btn"
+      onclick="absen('pulang')"
       disabled
     >
-      🔴 FOTO & ABSEN PULANG
+      🔴 ABSEN PULANG
     </button>
-
-
-    <!-- STATUS -->
 
     <div
       id="status"
       class="status"
     ></div>
 
-
-    <div class="info">
-
-      Pastikan nama dan kelas sudah benar
-      sebelum melakukan absensi.
-
-      <br>
-
-      Kamera digunakan untuk mengambil
-      foto sebagai bukti absensi.
-
+    <div class="footer">
+      Silakan isi nama, pilih kelas, lalu ambil foto untuk melakukan absensi.
     </div>
-
 
   </div>
 
 </div>
 
 
-
 <script>
-
 
 /* =====================================================
    SUPABASE
 ===================================================== */
 
-
 const SUPABASE_URL =
   "https://prcnxtzhukfopcfzyczm.supabase.co";
 
-
 const SUPABASE_KEY =
   "sb_publishable_wUZkF_KZgqDmhlVwdOAKRA_PkmZQ920";
-
 
 const supabaseClient =
   window.supabase.createClient(
@@ -622,196 +403,76 @@ const supabaseClient =
   );
 
 
-
 /* =====================================================
    VARIABEL
 ===================================================== */
 
-
 const video =
   document.getElementById("video");
-
 
 const canvas =
   document.getElementById("canvas");
 
-
 const preview =
   document.getElementById("preview");
 
+const namaInput =
+  document.getElementById("nama");
 
-const kameraBtn =
-  document.getElementById("kameraBtn");
-
+const kelasInput =
+  document.getElementById("kelas");
 
 const masukBtn =
   document.getElementById("masukBtn");
 
-
 const pulangBtn =
   document.getElementById("pulangBtn");
 
+const fotoBtn =
+  document.getElementById("fotoBtn");
 
 const statusBox =
   document.getElementById("status");
 
 
-let cameraStream = null;
-
+let fotoBlob = null;
 let sedangMengirim = false;
 
 
-
 /* =====================================================
-   TANGGAL WIB
+   TANGGAL
 ===================================================== */
-
-
-function dapatkanWaktuWIB() {
-
-  const sekarang =
-    new Date();
-
-
-  const tanggal =
-    new Intl.DateTimeFormat(
-      "en-CA",
-      {
-        timeZone: "Asia/Jakarta",
-
-        year: "numeric",
-
-        month: "2-digit",
-
-        day: "2-digit"
-      }
-    ).format(sekarang);
-
-
-  const waktu =
-    new Intl.DateTimeFormat(
-      "en-GB",
-      {
-        timeZone: "Asia/Jakarta",
-
-        hour: "2-digit",
-
-        minute: "2-digit",
-
-        second: "2-digit",
-
-        hour12: false
-      }
-    ).format(sekarang);
-
-
-  return {
-
-    tanggal: tanggal,
-
-    jam: waktu
-
-  };
-
-}
-
-
-
-/* =====================================================
-   TAMPILKAN TANGGAL
-===================================================== */
-
 
 function tampilkanTanggal() {
 
-  const sekarang =
-    new Date();
-
+  const sekarang = new Date();
 
   const tanggal =
-    new Intl.DateTimeFormat(
+    sekarang.toLocaleDateString(
       "id-ID",
       {
-        timeZone: "Asia/Jakarta",
-
         weekday: "long",
-
         day: "numeric",
-
         month: "long",
-
         year: "numeric"
       }
-    ).format(sekarang);
-
+    );
 
   document.getElementById(
     "tanggal"
-  ).textContent =
-    tanggal +
-    " • WIB";
-
+  ).textContent = tanggal;
 }
-
 
 tampilkanTanggal();
-
-
-
-/* =====================================================
-   STATUS
-===================================================== */
-
-
-function tampilkanStatus(
-  pesan,
-  tipe
-) {
-
-  statusBox.textContent =
-    pesan;
-
-  statusBox.className =
-    "status " + tipe;
-
-}
-
 
 
 /* =====================================================
    KAMERA
 ===================================================== */
 
-
-async function bukaKamera() {
+async function mulaiKamera() {
 
   try {
-
-    tampilkanStatus(
-      "⏳ Meminta izin kamera...",
-      "info"
-    );
-
-
-    /*
-      PERIKSA HTTPS
-    */
-
-    if (
-      location.protocol !== "https:" &&
-      location.hostname !== "localhost"
-    ) {
-
-      throw new Error(
-        "Website harus menggunakan HTTPS agar kamera dapat digunakan."
-      );
-
-    }
-
-
-    /*
-      PERIKSA FITUR KAMERA
-    */
 
     if (
       !navigator.mediaDevices ||
@@ -819,31 +480,22 @@ async function bukaKamera() {
     ) {
 
       throw new Error(
-        "Browser tidak mendukung akses kamera."
+        "Browser tidak mendukung kamera."
       );
-
     }
 
 
-    /*
-      MINTA AKSES KAMERA
-    */
-
-    cameraStream =
+    const stream =
       await navigator.mediaDevices.getUserMedia({
 
         video: {
-
           facingMode: "user",
-
           width: {
             ideal: 720
           },
-
           height: {
             ideal: 960
           }
-
         },
 
         audio: false
@@ -851,189 +503,86 @@ async function bukaKamera() {
       });
 
 
-    /*
-      HUBUNGKAN KE VIDEO
-    */
-
-    video.srcObject =
-      cameraStream;
-
-
-    await video.play();
-
-
-    /*
-      KAMERA BERHASIL
-    */
-
-    kameraBtn.textContent =
-      "✅ KAMERA AKTIF";
-
-
-    kameraBtn.disabled =
-      true;
-
-
-    masukBtn.disabled =
-      false;
-
-
-    pulangBtn.disabled =
-      false;
+    video.srcObject = stream;
 
 
     tampilkanStatus(
-      "✅ Kamera berhasil aktif. Silakan pilih jenis absensi.",
-      "success"
+      "📷 Kamera siap digunakan.",
+      "info"
     );
 
 
   } catch (error) {
 
-    console.error(
-      "KAMERA ERROR:",
-      error
-    );
-
+    console.error(error);
 
     tampilkanStatus(
-      "❌ Kamera tidak dapat digunakan: " +
-      error.message,
+      "❌ Kamera tidak dapat digunakan. Pastikan izin kamera sudah diberikan dan website dibuka melalui HTTPS.",
       "error"
     );
-
   }
-
 }
-
 
 
 /* =====================================================
    AMBIL FOTO
 ===================================================== */
 
-
-function ambilFoto(
-  jenis
-) {
-
-
-  if (sedangMengirim) {
-
-    return;
-
-  }
-
+function ambilFoto() {
 
   const nama =
-    document.getElementById(
-      "nama"
-    ).value.trim();
-
+    namaInput.value.trim();
 
   const kelas =
-    document.getElementById(
-      "kelas"
-    ).value;
+    kelasInput.value;
 
 
-  /*
-    CEK NAMA
-  */
-
-  if (
-    nama.length < 2
-  ) {
+  if (nama.length < 2) {
 
     tampilkanStatus(
-      "❌ Masukkan nama siswa terlebih dahulu.",
+      "Masukkan nama siswa terlebih dahulu.",
       "error"
     );
 
-    document.getElementById(
-      "nama"
-    ).focus();
+    namaInput.focus();
 
     return;
-
   }
 
-
-  /*
-    CEK KELAS
-  */
 
   if (!kelas) {
 
     tampilkanStatus(
-      "❌ Pilih kelas terlebih dahulu.",
+      "Pilih kelas terlebih dahulu.",
       "error"
     );
 
-    document.getElementById(
-      "kelas"
-    ).focus();
+    kelasInput.focus();
 
     return;
-
   }
 
-
-  /*
-    CEK KAMERA
-  */
-
-  if (
-    !cameraStream
-  ) {
-
-    tampilkanStatus(
-      "❌ Kamera belum aktif.",
-      "error"
-    );
-
-    return;
-
-  }
-
-
-  /*
-    CEK VIDEO
-  */
-
-  if (
-    !video.videoWidth ||
-    !video.videoHeight
-  ) {
-
-    tampilkanStatus(
-      "❌ Kamera belum siap. Tunggu sebentar.",
-      "error"
-    );
-
-    return;
-
-  }
-
-
-  /*
-    AMBIL FOTO DARI VIDEO
-  */
 
   const width =
     video.videoWidth;
-
 
   const height =
     video.videoHeight;
 
 
-  canvas.width =
-    width;
+  if (!width || !height) {
+
+    tampilkanStatus(
+      "Kamera belum siap. Tunggu beberapa detik.",
+      "error"
+    );
+
+    return;
+  }
 
 
-  canvas.height =
-    height;
+  canvas.width = width;
+  canvas.height = height;
 
 
   const context =
@@ -1049,47 +598,55 @@ function ambilFoto(
   );
 
 
-  /*
-    BUAT FILE JPG
-  */
-
   canvas.toBlob(
 
-    async function(blob) {
+    function(blob) {
 
       if (!blob) {
 
         tampilkanStatus(
-          "❌ Gagal mengambil foto.",
+          "Gagal mengambil foto.",
           "error"
         );
 
         return;
-
       }
 
 
-      /*
-        PREVIEW FOTO
-      */
+      fotoBlob = blob;
+
+
+      if (preview.src) {
+        URL.revokeObjectURL(
+          preview.src
+        );
+      }
+
 
       preview.src =
-        URL.createObjectURL(blob);
+        URL.createObjectURL(
+          blob
+        );
 
 
       preview.style.display =
         "block";
 
 
-      /*
-        KIRIM KE SUPABASE
-      */
+      masukBtn.disabled =
+        false;
 
-      await kirimAbsensi(
-        jenis,
-        blob,
-        nama,
-        kelas
+      pulangBtn.disabled =
+        false;
+
+
+      fotoBtn.textContent =
+        "📷 AMBIL FOTO ULANG";
+
+
+      tampilkanStatus(
+        "✅ Foto berhasil diambil. Pilih Absen Masuk atau Pulang.",
+        "success"
       );
 
     },
@@ -1097,70 +654,98 @@ function ambilFoto(
     "image/jpeg",
 
     0.8
-
   );
-
 }
 
 
-
 /* =====================================================
-   KIRIM ABSENSI
+   ABSEN
 ===================================================== */
 
+async function absen(jenis) {
 
-async function kirimAbsensi(
-  jenis,
-  fotoBlob,
-  nama,
-  kelas
-) {
+  if (sedangMengirim) {
+    return;
+  }
 
 
-  sedangMengirim =
-    true;
+  const nama =
+    namaInput.value.trim();
+
+  const kelas =
+    kelasInput.value;
 
 
-  masukBtn.disabled =
-    true;
+  if (nama.length < 2) {
+
+    tampilkanStatus(
+      "Masukkan nama siswa terlebih dahulu.",
+      "error"
+    );
+
+    return;
+  }
 
 
-  pulangBtn.disabled =
-    true;
+  if (!kelas) {
+
+    tampilkanStatus(
+      "Pilih kelas terlebih dahulu.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  if (!fotoBlob) {
+
+    tampilkanStatus(
+      "Ambil foto terlebih dahulu.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  sedangMengirim = true;
+
+
+  masukBtn.disabled = true;
+  pulangBtn.disabled = true;
+  fotoBtn.disabled = true;
 
 
   tampilkanStatus(
-    "⏳ Mengupload foto dan menyimpan absensi...",
+    "⏳ Mengirim absensi...",
     "info"
   );
 
 
   try {
 
+    /* =================================================
+       TANGGAL DAN WAKTU
+    ================================================= */
 
-    /*
-      AMBIL TANGGAL + JAM WIB
-
-      Ini sengaja dibuat menggunakan
-      Asia/Jakarta agar tidak terkena
-      masalah UTC.
-    */
-
-    const waktu =
-      dapatkanWaktuWIB();
+    const sekarang =
+      new Date();
 
 
     const tanggal =
-      waktu.tanggal;
+      sekarang
+        .toISOString()
+        .slice(0, 10);
 
 
-    const jam =
-      waktu.jam;
+    const waktu =
+      Date.now();
 
 
-    /*
-      BUAT NAMA FILE
-    */
+    /* =================================================
+       NAMA FILE
+    ================================================= */
 
     const namaFile =
       nama
@@ -1175,10 +760,6 @@ async function kirimAbsensi(
         );
 
 
-    const timestamp =
-      Date.now();
-
-
     const filePath =
       tanggal +
       "/" +
@@ -1186,26 +767,23 @@ async function kirimAbsensi(
       "-" +
       jenis +
       "-" +
-      timestamp +
+      waktu +
       ".jpg";
 
 
-    /*
-      UPLOAD FOTO
-    */
+    /* =================================================
+       UPLOAD FOTO KE BUCKET selfie3
+    ================================================= */
 
     const {
       error: uploadError
     } =
       await supabaseClient
         .storage
-        .from("selfies")
+        .from("selfie3")
         .upload(
-
           filePath,
-
           fotoBlob,
-
           {
             contentType:
               "image/jpeg",
@@ -1213,28 +791,24 @@ async function kirimAbsensi(
             upsert:
               false
           }
-
         );
 
 
-    if (
-      uploadError
-    ) {
+    if (uploadError) {
 
       throw uploadError;
-
     }
 
 
-    /*
-      SIMPAN DATA ABSENSI
-    */
+    /* =================================================
+       SIMPAN DATA KE DATABASE
+    ================================================= */
 
     const {
       error: insertError
     } =
       await supabaseClient
-        .from("absensi")
+        .from("absensi_sd")
         .insert({
 
           nama:
@@ -1242,12 +816,6 @@ async function kirimAbsensi(
 
           kelas:
             kelas,
-
-          tanggal:
-            tanggal,
-
-          jam:
-            jam,
 
           jenis:
             jenis,
@@ -1258,63 +826,50 @@ async function kirimAbsensi(
         });
 
 
-    /*
-      JIKA DATABASE GAGAL
-      HAPUS FOTO
-    */
+    /* =================================================
+       JIKA DATABASE GAGAL
+       HAPUS FOTO
+    ================================================= */
 
-    if (
-      insertError
-    ) {
+    if (insertError) {
 
       await supabaseClient
         .storage
-        .from("selfie_3")
+        .from("selfie3")
         .remove([
           filePath
         ]);
 
-
       throw insertError;
-
     }
 
 
-    /*
-      BERHASIL
-    */
+    /* =================================================
+       BERHASIL
+    ================================================= */
 
-    if (
-      jenis === "masuk"
-    ) {
+    if (jenis === "masuk") {
 
       tampilkanStatus(
-        "✅ Absen masuk berhasil disimpan!",
+        "✅ Absen masuk berhasil!",
         "success"
       );
 
     } else {
 
       tampilkanStatus(
-        "✅ Absen pulang berhasil disimpan!",
+        "✅ Absen pulang berhasil!",
         "success"
       );
 
     }
 
 
-    /*
-      RESET FORM
-    */
+    /* =================================================
+       RESET
+    ================================================= */
 
-    document.getElementById(
-      "nama"
-    ).value = "";
-
-
-    document.getElementById(
-      "kelas"
-    ).value = "";
+    fotoBlob = null;
 
 
     preview.style.display =
@@ -1325,41 +880,54 @@ async function kirimAbsensi(
       "";
 
 
+    namaInput.value =
+      "";
+
+
+    kelasInput.value =
+      "";
+
+
+    masukBtn.disabled =
+      true;
+
+    pulangBtn.disabled =
+      true;
+
+
+    fotoBtn.disabled =
+      false;
+
+    fotoBtn.textContent =
+      "📷 AMBIL FOTO";
+
+
   } catch (error) {
 
-
     console.error(
-      "ABSENSI ERROR:",
+      "ERROR ABSENSI:",
       error
     );
 
-
-    /*
-      DUPLICATE DATA
-    */
 
     if (
       error.code === "23505"
     ) {
 
-      if (
-        jenis === "masuk"
-      ) {
+      if (jenis === "masuk") {
 
         tampilkanStatus(
-          "⚠️ Siswa tersebut sudah melakukan absen masuk hari ini.",
+          "⚠️ Siswa ini sudah melakukan absen masuk hari ini.",
           "error"
         );
 
       } else {
 
         tampilkanStatus(
-          "⚠️ Siswa tersebut sudah melakukan absen pulang hari ini.",
+          "⚠️ Siswa ini sudah melakukan absen pulang hari ini.",
           "error"
         );
-
       }
-
 
     } else {
 
@@ -1368,69 +936,51 @@ async function kirimAbsensi(
         error.message,
         "error"
       );
-
     }
+
+
+    masukBtn.disabled =
+      !fotoBlob;
+
+    pulangBtn.disabled =
+      !fotoBlob;
+
+    fotoBtn.disabled =
+      false;
 
   }
 
-
-  /*
-    SELESAI MENGIRIM
-  */
 
   sedangMengirim =
     false;
-
-
-  /*
-    AKTIFKAN LAGI TOMBOL
-  */
-
-  if (
-    cameraStream
-  ) {
-
-    masukBtn.disabled =
-      false;
-
-    pulangBtn.disabled =
-      false;
-
-  }
-
 }
 
 
-
 /* =====================================================
-   MATIKAN KAMERA SAAT HALAMAN DITINGGALKAN
+   STATUS
 ===================================================== */
 
+function tampilkanStatus(
+  pesan,
+  tipe
+) {
 
-window.addEventListener(
-  "beforeunload",
-  function() {
+  statusBox.textContent =
+    pesan;
 
-    if (
-      cameraStream
-    ) {
+  statusBox.className =
+    "status " + tipe;
+}
 
-      cameraStream
-        .getTracks()
-        .forEach(
-          track =>
-            track.stop()
-        );
 
-    }
+/* =====================================================
+   MULAI
+===================================================== */
 
-  }
-);
-
+mulaiKamera();
 
 </script>
 
 </body>
-
 </html>
 ```
