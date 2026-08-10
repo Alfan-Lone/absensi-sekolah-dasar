@@ -10,330 +10,320 @@
 
 <style>
 * {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 body {
-    margin: 0;
-    padding: 15px;
-    font-family: Arial, sans-serif;
-    background: #f1f5f9;
-    color: #111827;
+  margin: 0;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  background: #f1f5f9;
+  color: #111827;
 }
 
 .container {
-    width: 100%;
-    max-width: 1200px;
-    margin: auto;
+  width: 100%;
+  max-width: 1200px;
+  margin: auto;
 }
 
 /* HEADER */
 
 .header {
-    background: linear-gradient(135deg, #2563eb, #1e40af);
-    color: white;
-    padding: 28px 20px;
-    border-radius: 20px;
-    text-align: center;
-    margin-bottom: 18px;
-    box-shadow: 0 8px 25px rgba(0,0,0,.12);
+  background: linear-gradient(135deg, #2563eb, #1e3a8a);
+  color: white;
+  padding: 28px 20px;
+  border-radius: 20px;
+  text-align: center;
+  margin-bottom: 18px;
+  box-shadow: 0 8px 25px rgba(0,0,0,.12);
 }
 
 .header-icon {
-    font-size: 42px;
+  font-size: 42px;
 }
 
 .header h1 {
-    margin: 5px 0;
-    font-size: 27px;
+  margin: 5px 0;
+  font-size: 28px;
 }
 
 .header p {
-    margin: 5px 0 0;
-    opacity: .9;
-}
-
-/* CARD */
-
-.card {
-    background: white;
-    padding: 18px;
-    border-radius: 18px;
-    margin-bottom: 18px;
-    box-shadow: 0 5px 20px rgba(0,0,0,.06);
+  margin: 5px 0 0;
+  opacity: .85;
 }
 
 /* FILTER */
 
+.card {
+  background: white;
+  padding: 18px;
+  border-radius: 18px;
+  margin-bottom: 18px;
+  box-shadow: 0 5px 20px rgba(0,0,0,.06);
+}
+
 .filters {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr auto;
-    gap: 12px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr auto;
+  gap: 12px;
 }
 
 label {
-    display: block;
-    font-size: 13px;
-    font-weight: bold;
-    margin-bottom: 7px;
+  display: block;
+  font-size: 13px;
+  font-weight: bold;
+  margin-bottom: 6px;
 }
 
 input,
 select {
-    width: 100%;
-    padding: 13px;
-    border: 1px solid #d1d5db;
-    border-radius: 10px;
-    font-size: 15px;
-    outline: none;
-    background: white;
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  font-size: 15px;
+  background: white;
+  outline: none;
 }
 
 input:focus,
 select:focus {
-    border-color: #2563eb;
+  border-color: #2563eb;
 }
 
 button {
-    border: 0;
-    border-radius: 10px;
-    padding: 13px 17px;
-    font-weight: bold;
-    cursor: pointer;
-    font-size: 14px;
+  border: 0;
+  border-radius: 10px;
+  padding: 12px 18px;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 14px;
 }
 
-.blue {
-    background: #2563eb;
-    color: white;
+.refresh {
+  background: #2563eb;
+  color: white;
 }
 
-.green {
-    background: #16a34a;
-    color: white;
-}
-
-.gray {
-    background: #64748b;
-    color: white;
-}
-
-.actions {
-    display: flex;
-    gap: 10px;
-    margin-top: 14px;
+.refresh:hover {
+  background: #1d4ed8;
 }
 
 /* STATISTIK */
 
 .stats {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-    margin-bottom: 18px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 18px;
 }
 
 .stat {
-    background: white;
-    border-radius: 16px;
-    padding: 18px;
-    text-align: center;
-    box-shadow: 0 5px 20px rgba(0,0,0,.06);
+  background: white;
+  border-radius: 16px;
+  padding: 18px;
+  text-align: center;
+  box-shadow: 0 5px 20px rgba(0,0,0,.06);
 }
 
 .stat-icon {
-    font-size: 25px;
+  font-size: 25px;
 }
 
 .stat-number {
-    font-size: 28px;
-    font-weight: bold;
-    color: #2563eb;
-    margin-top: 4px;
+  font-size: 27px;
+  font-weight: bold;
+  color: #2563eb;
+  margin-top: 4px;
 }
 
 .stat-label {
-    color: #64748b;
-    font-size: 13px;
-    margin-top: 4px;
+  color: #64748b;
+  font-size: 13px;
 }
 
-/* TABEL */
+/* TABLE */
 
 .table-wrap {
-    background: white;
-    border-radius: 18px;
-    padding: 12px;
-    box-shadow: 0 5px 20px rgba(0,0,0,.06);
-    overflow-x: auto;
+  background: white;
+  border-radius: 18px;
+  padding: 12px;
+  box-shadow: 0 5px 20px rgba(0,0,0,.06);
+  overflow-x: auto;
 }
 
 table {
-    width: 100%;
-    border-collapse: collapse;
-    min-width: 750px;
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 850px;
 }
 
 th {
-    background: #eff6ff;
-    padding: 13px;
-    text-align: left;
-    font-size: 13px;
-    border-bottom: 2px solid #dbeafe;
+  background: #f8fafc;
+  padding: 14px;
+  text-align: left;
+  font-size: 13px;
+  border-bottom: 2px solid #e5e7eb;
 }
 
 td {
-    padding: 12px;
-    border-bottom: 1px solid #e5e7eb;
-    font-size: 14px;
-    vertical-align: middle;
+  padding: 12px;
+  border-bottom: 1px solid #e5e7eb;
+  font-size: 14px;
+  vertical-align: middle;
 }
 
 tr:hover {
-    background: #f8fafc;
+  background: #f8fafc;
 }
 
 /* STATUS */
 
 .badge {
-    display: inline-block;
-    padding: 7px 10px;
-    border-radius: 8px;
-    font-size: 11px;
-    font-weight: bold;
+  display: inline-block;
+  padding: 7px 10px;
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: bold;
 }
 
 .masuk {
-    background: #dcfce7;
-    color: #166534;
+  background: #dcfce7;
+  color: #166534;
 }
 
 .pulang {
-    background: #fee2e2;
-    color: #991b1b;
+  background: #fee2e2;
+  color: #991b1b;
 }
 
 /* FOTO */
 
 .foto {
-    width: 65px;
-    height: 65px;
-    object-fit: cover;
-    border-radius: 10px;
-    border: 2px solid #e5e7eb;
-    cursor: pointer;
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 2px solid #e5e7eb;
+  cursor: pointer;
+  display: block;
 }
 
 .foto:hover {
-    opacity: .8;
+  opacity: .8;
 }
 
-.foto-error {
-    color: #dc2626;
-    font-size: 12px;
+.foto-box {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 
 .lihat-foto {
-    display: inline-block;
-    margin-top: 5px;
-    background: #2563eb;
-    color: white;
-    text-decoration: none;
-    padding: 5px 8px;
-    border-radius: 6px;
-    font-size: 11px;
+  background: #2563eb;
+  color: white;
+  padding: 6px 9px;
+  border-radius: 7px;
+  border: none;
+  font-size: 11px;
+  cursor: pointer;
+  width: fit-content;
 }
 
-/* LOADING */
+.lihat-foto:hover {
+  background: #1d4ed8;
+}
+
+.foto-error {
+  color: #dc2626;
+  font-size: 12px;
+}
 
 .loading {
-    text-align: center;
-    padding: 30px;
-    color: #64748b;
+  text-align: center;
+  padding: 30px;
+  color: #64748b;
 }
 
-/* ERROR */
-
-.error-box {
-    display: none;
-    background: #fee2e2;
-    color: #991b1b;
-    padding: 13px;
-    border-radius: 10px;
-    margin-bottom: 15px;
+.error {
+  display: none;
+  background: #fee2e2;
+  color: #991b1b;
+  padding: 12px;
+  border-radius: 10px;
+  margin-bottom: 15px;
 }
 
-/* MODAL */
+/* MODAL FOTO */
 
 .modal {
-    display: none;
-    position: fixed;
-    inset: 0;
-    z-index: 9999;
-    background: rgba(0,0,0,.85);
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  inset: 0;
+  background: rgba(0,0,0,.88);
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
 }
 
 .modal img {
-    max-width: 95%;
-    max-height: 90vh;
-    border-radius: 15px;
+  max-width: 95%;
+  max-height: 85vh;
+  border-radius: 15px;
+  object-fit: contain;
 }
 
 .close {
-    position: fixed;
-    top: 15px;
-    right: 20px;
-    color: white;
-    font-size: 40px;
-    cursor: pointer;
+  position: fixed;
+  top: 15px;
+  right: 25px;
+  color: white;
+  font-size: 42px;
+  cursor: pointer;
+  z-index: 10000;
 }
 
-/* RESPONSIVE */
+/* MOBILE */
 
-@media(max-width: 800px) {
+@media(max-width: 700px) {
 
-    .filters {
-        grid-template-columns: 1fr 1fr;
-    }
+  body {
+    padding: 10px;
+  }
 
-    .filters button {
-        width: 100%;
-    }
-}
+  .header {
+    padding: 22px 10px;
+  }
 
-@media(max-width: 600px) {
+  .header h1 {
+    font-size: 23px;
+  }
 
-    body {
-        padding: 10px;
-    }
+  .filters {
+    grid-template-columns: 1fr;
+  }
 
-    .header {
-        padding: 22px 10px;
-    }
+  .filters button {
+    width: 100%;
+  }
 
-    .header h1 {
-        font-size: 22px;
-    }
+  .stats {
+    gap: 7px;
+  }
 
-    .filters {
-        grid-template-columns: 1fr;
-    }
+  .stat {
+    padding: 13px 5px;
+  }
 
-    .stats {
-        grid-template-columns: 1fr;
-        gap: 8px;
-    }
+  .stat-number {
+    font-size: 22px;
+  }
 
-    .actions {
-        flex-direction: column;
-    }
-
-    .actions button {
-        width: 100%;
-    }
+  .stat-label {
+    font-size: 11px;
+  }
 }
 </style>
 </head>
@@ -342,304 +332,245 @@ tr:hover {
 
 <div class="container">
 
-    <!-- HEADER -->
+  <!-- HEADER -->
 
-    <div class="header">
+  <div class="header">
 
-        <div class="header-icon">
-            📊
-        </div>
+    <div class="header-icon">
+      📊
+    </div>
 
-        <h1>
-            REKAP ABSENSI SD
-        </h1>
+    <h1>REKAP ABSENSI SD</h1>
 
-        <p>
-            Data Absensi Masuk & Pulang
-        </p>
+    <p>Data Absensi Murid</p>
+
+  </div>
+
+  <div id="errorBox" class="error"></div>
+
+  <!-- FILTER -->
+
+  <div class="card">
+
+    <div class="filters">
+
+      <div>
+
+        <label>Tanggal</label>
+
+        <input
+          type="date"
+          id="tanggal"
+        >
+
+      </div>
+
+      <div>
+
+        <label>Kelas</label>
+
+        <select id="kelas">
+
+          <option value="">
+            Semua Kelas
+          </option>
+
+          <option value="Kelas 1">
+            Kelas 1
+          </option>
+
+          <option value="Kelas 2">
+            Kelas 2
+          </option>
+
+          <option value="Kelas 3">
+            Kelas 3
+          </option>
+
+          <option value="Kelas 4">
+            Kelas 4
+          </option>
+
+          <option value="Kelas 5">
+            Kelas 5
+          </option>
+
+          <option value="Kelas 6">
+            Kelas 6
+          </option>
+
+        </select>
+
+      </div>
+
+      <div>
+
+        <label>Cari Nama</label>
+
+        <input
+          type="text"
+          id="cari"
+          placeholder="Ketik nama..."
+          oninput="tampilkanData()"
+        >
+
+      </div>
+
+      <div>
+
+        <label>&nbsp;</label>
+
+        <button
+          class="refresh"
+          onclick="ambilData()"
+        >
+          🔄 Refresh
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- STATISTIK -->
+
+  <div class="stats">
+
+    <div class="stat">
+
+      <div class="stat-icon">
+        👥
+      </div>
+
+      <div
+        class="stat-number"
+        id="jumlahOrang"
+      >
+        0
+      </div>
+
+      <div class="stat-label">
+        Total Siswa
+      </div>
 
     </div>
 
 
-    <!-- ERROR -->
+    <div class="stat">
 
-    <div
-        id="errorBox"
-        class="error-box">
-    </div>
+      <div class="stat-icon">
+        🟢
+      </div>
 
+      <div
+        class="stat-number"
+        id="jumlahMasuk"
+      >
+        0
+      </div>
 
-    <!-- FILTER -->
-
-    <div class="card">
-
-        <div class="filters">
-
-            <div>
-
-                <label>
-                    Tanggal
-                </label>
-
-                <input
-                    type="date"
-                    id="tanggal">
-
-            </div>
-
-
-            <div>
-
-                <label>
-                    Kelas
-                </label>
-
-                <select id="kelas">
-
-                    <option value="">
-                        Semua Kelas
-                    </option>
-
-                    <option value="Kelas 1">
-                        Kelas 1
-                    </option>
-
-                    <option value="Kelas 2">
-                        Kelas 2
-                    </option>
-
-                    <option value="Kelas 3">
-                        Kelas 3
-                    </option>
-
-                    <option value="Kelas 4">
-                        Kelas 4
-                    </option>
-
-                    <option value="Kelas 5">
-                        Kelas 5
-                    </option>
-
-                    <option value="Kelas 6">
-                        Kelas 6
-                    </option>
-
-                </select>
-
-            </div>
-
-
-            <div>
-
-                <label>
-                    Cari Nama
-                </label>
-
-                <input
-                    type="text"
-                    id="cari"
-                    placeholder="Ketik nama...">
-
-            </div>
-
-
-            <div>
-
-                <label>
-                    &nbsp;
-                </label>
-
-                <button
-                    class="blue"
-                    onclick="ambilData()">
-
-                    🔄 REFRESH
-
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <div class="actions">
-
-            <button
-                class="green"
-                onclick="downloadCSV()">
-
-                📥 DOWNLOAD CSV
-
-            </button>
-
-
-            <button
-                class="gray"
-                onclick="resetFilter()">
-
-                ↩️ RESET
-
-            </button>
-
-        </div>
+      <div class="stat-label">
+        Absen Masuk
+      </div>
 
     </div>
 
 
-    <!-- STATISTIK -->
+    <div class="stat">
 
-    <div class="stats">
+      <div class="stat-icon">
+        🔴
+      </div>
 
-        <div class="stat">
+      <div
+        class="stat-number"
+        id="jumlahPulang"
+      >
+        0
+      </div>
 
-            <div class="stat-icon">
-                👥
-            </div>
-
-            <div
-                class="stat-number"
-                id="jumlahOrang">
-
-                0
-
-            </div>
-
-            <div class="stat-label">
-                Siswa
-            </div>
-
-        </div>
-
-
-        <div class="stat">
-
-            <div class="stat-icon">
-                🟢
-            </div>
-
-            <div
-                class="stat-number"
-                id="jumlahMasuk">
-
-                0
-
-            </div>
-
-            <div class="stat-label">
-                Absen Masuk
-            </div>
-
-        </div>
-
-
-        <div class="stat">
-
-            <div class="stat-icon">
-                🔴
-            </div>
-
-            <div
-                class="stat-number"
-                id="jumlahPulang">
-
-                0
-
-            </div>
-
-            <div class="stat-label">
-                Absen Pulang
-            </div>
-
-        </div>
+      <div class="stat-label">
+        Absen Pulang
+      </div>
 
     </div>
 
-
-    <!-- TABEL -->
-
-    <div class="table-wrap">
-
-        <table>
-
-            <thead>
-
-                <tr>
-
-                    <th>
-                        No
-                    </th>
-
-                    <th>
-                        Nama
-                    </th>
-
-                    <th>
-                        Kelas
-                    </th>
-
-                    <th>
-                        Tanggal
-                    </th>
-
-                    <th>
-                        Jam
-                    </th>
-
-                    <th>
-                        Status
-                    </th>
-
-                    <th>
-                        Foto
-                    </th>
-
-                </tr>
-
-            </thead>
+  </div>
 
 
-            <tbody id="tabelData">
+  <!-- TABEL -->
 
-                <tr>
+  <div class="table-wrap">
 
-                    <td
-                        colspan="7"
-                        class="loading">
+    <table>
 
-                        ⏳ Memuat data...
+      <thead>
 
-                    </td>
+        <tr>
 
-                </tr>
+          <th>No</th>
 
-            </tbody>
+          <th>Nama</th>
 
-        </table>
+          <th>Kelas</th>
 
-    </div>
+          <th>Tanggal</th>
+
+          <th>Jam</th>
+
+          <th>Status</th>
+
+          <th>Foto</th>
+
+        </tr>
+
+      </thead>
+
+      <tbody id="tabelData">
+
+        <tr>
+
+          <td
+            colspan="7"
+            class="loading"
+          >
+            ⏳ Memuat data...
+          </td>
+
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
 
 </div>
 
 
-<!-- MODAL FOTO -->
+<!-- MODAL -->
 
 <div
-    class="modal"
-    id="modal"
-    onclick="tutupFoto()">
+  class="modal"
+  id="modal"
+  onclick="tutupFoto()"
+>
 
-    <span
-        class="close"
-        onclick="tutupFoto()">
+  <span
+    class="close"
+    onclick="tutupFoto()"
+  >
+    ×
+  </span>
 
-        ×
-
-    </span>
-
-    <img
-        id="fotoBesar"
-        src=""
-        onclick="event.stopPropagation()">
+  <img
+    id="fotoBesar"
+    src=""
+    alt="Foto selfie"
+    onclick="event.stopPropagation()"
+  >
 
 </div>
 
@@ -651,17 +582,24 @@ tr:hover {
 ===================================================== */
 
 const SUPABASE_URL =
-    "https://prcnxtzhukfopcfzyczm.supabase.co";
+  "https://prcnxtzhukfopcfzyczm.supabase.co";
 
 const SUPABASE_KEY =
-    "sb_publishable_wUZkF_KZgqDmhlVwdOAKRA_PkmZQ920";
-
+  "sb_publishable_wUZkF_KZgqDmhlVwdOAKRA_PkmZQ920";
 
 const supabaseClient =
-    window.supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_KEY
-    );
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+
+/* =====================================================
+   PENGATURAN STORAGE
+===================================================== */
+
+const NAMA_BUCKET =
+  "selfie3";
 
 
 /* =====================================================
@@ -677,35 +615,33 @@ let semuaData = [];
 
 function tanggalHariIni() {
 
-    const sekarang =
-        new Date();
+  const sekarang = new Date();
 
-    const tahun =
-        sekarang.getFullYear();
+  const tahun =
+    sekarang.getFullYear();
 
-    const bulan =
-        String(
-            sekarang.getMonth() + 1
-        ).padStart(2, "0");
+  const bulan =
+    String(
+      sekarang.getMonth() + 1
+    ).padStart(2, "0");
 
-    const hari =
-        String(
-            sekarang.getDate()
-        ).padStart(2, "0");
+  const hari =
+    String(
+      sekarang.getDate()
+    ).padStart(2, "0");
 
-    return (
-        tahun +
-        "-" +
-        bulan +
-        "-" +
-        hari
-    );
+  return (
+    tahun +
+    "-" +
+    bulan +
+    "-" +
+    hari
+  );
 }
 
 
-document.getElementById("tanggal")
-    .value =
-    tanggalHariIni();
+document.getElementById("tanggal").value =
+  tanggalHariIni();
 
 
 /* =====================================================
@@ -714,80 +650,85 @@ document.getElementById("tanggal")
 
 async function ambilData() {
 
-    tampilkanError("");
+  tampilkanError("");
 
-    document.getElementById(
-        "tabelData"
-    ).innerHTML = `
-        <tr>
-            <td
-                colspan="7"
-                class="loading">
-
-                ⏳ Mengambil data absensi...
-
-            </td>
-        </tr>
-    `;
+  document.getElementById(
+    "tabelData"
+  ).innerHTML = `
+    <tr>
+      <td colspan="7" class="loading">
+        ⏳ Memuat data...
+      </td>
+    </tr>
+  `;
 
 
-    try {
+  try {
 
-        const hasil =
-            await supabaseClient
-                .from("absensi_sd")
-                .select("*")
-                .order(
-                    "created_at",
-                    {
-                        ascending: false
-                    }
-                );
+    const hasil =
+      await supabaseClient
+        .from("absensi_sd")
+        .select("*");
 
 
-        if (hasil.error) {
+    if (hasil.error) {
 
-            throw hasil.error;
-
-        }
-
-
-        semuaData =
-            hasil.data || [];
-
-
-        tampilkanData();
-
-
-    } catch (error) {
-
-        console.error(
-            "ERROR DATABASE:",
-            error
-        );
-
-
-        tampilkanError(
-            "Gagal mengambil data: " +
-            error.message
-        );
-
-
-        document.getElementById(
-            "tabelData"
-        ).innerHTML = `
-            <tr>
-                <td
-                    colspan="7"
-                    class="loading">
-
-                    ❌ Data tidak dapat dimuat.
-
-                </td>
-            </tr>
-        `;
+      throw hasil.error;
 
     }
+
+
+    semuaData =
+      hasil.data || [];
+
+
+    /* URUTKAN */
+
+    semuaData.sort(
+      (a, b) => {
+
+        const waktuA =
+          String(a.tanggal || "") +
+          String(a.jam || "");
+
+        const waktuB =
+          String(b.tanggal || "") +
+          String(b.jam || "");
+
+        return waktuB.localeCompare(
+          waktuA
+        );
+
+      }
+    );
+
+
+    tampilkanData();
+
+
+  } catch (error) {
+
+    console.error(error);
+
+    tampilkanError(
+      "Gagal mengambil data: " +
+      error.message
+    );
+
+    document.getElementById(
+      "tabelData"
+    ).innerHTML = `
+      <tr>
+        <td
+          colspan="7"
+          class="loading"
+        >
+          ❌ Data tidak dapat dimuat.
+        </td>
+      </tr>
+    `;
+
+  }
 
 }
 
@@ -796,758 +737,556 @@ async function ambilData() {
    TAMPILKAN DATA
 ===================================================== */
 
-async function tampilkanData() {
+function tampilkanData() {
 
-    const tanggal =
-        document.getElementById(
-            "tanggal"
-        ).value;
-
-
-    const kelas =
-        document.getElementById(
-            "kelas"
-        ).value;
+  const tanggal =
+    document.getElementById(
+      "tanggal"
+    ).value;
 
 
-    const kata =
-        document.getElementById(
-            "cari"
-        ).value
-            .trim()
-            .toLowerCase();
+  const kelas =
+    document.getElementById(
+      "kelas"
+    ).value;
 
 
-    const data =
-        semuaData.filter(
-            item => {
-
-                let tanggalItem = "";
-
-
-                if (
-                    item.created_at
-                ) {
-
-                    tanggalItem =
-                        item.created_at
-                            .substring(
-                                0,
-                                10
-                            );
-
-                }
+  const kata =
+    document.getElementById(
+      "cari"
+    ).value
+      .trim()
+      .toLowerCase();
 
 
-                const cocokTanggal =
-                    !tanggal ||
-                    tanggalItem === tanggal;
+  const data =
+    semuaData.filter(
+      item => {
+
+        const cocokTanggal =
+          !tanggal ||
+          String(
+            item.tanggal || ""
+          ) === tanggal;
 
 
-                const nama =
-                    String(
-                        item.nama || ""
-                    ).toLowerCase();
+        const cocokKelas =
+          !kelas ||
+          String(
+            item.kelas || ""
+          ).toLowerCase() ===
+          kelas.toLowerCase();
 
 
-                const cocokNama =
-                    !kata ||
-                    nama.includes(kata);
+        const nama =
+          String(
+            item.nama || ""
+          ).toLowerCase();
 
 
-                const cocokKelas =
-                    !kelas ||
-                    String(
-                        item.kelas || ""
-                    ) === kelas;
+        const cocokNama =
+          !kata ||
+          nama.includes(kata);
 
 
-                return (
-                    cocokTanggal &&
-                    cocokNama &&
-                    cocokKelas
-                );
-
-            }
+        return (
+          cocokTanggal &&
+          cocokKelas &&
+          cocokNama
         );
 
-
-    /* STATISTIK */
-
-    const namaUnik =
-        new Set(
-            data.map(
-                item =>
-                    String(
-                        item.nama || ""
-                    ).toLowerCase()
-            )
-        );
+      }
+    );
 
 
-    const masuk =
-        data.filter(
-            item =>
-                String(
-                    item.jenis || ""
-                ).toLowerCase() ===
-                "masuk"
-        );
+  /* STATISTIK */
+
+  const namaUnik =
+    new Set(
+      data.map(
+        item =>
+          String(
+            item.nama || ""
+          ).toLowerCase()
+      )
+    );
 
 
-    const pulang =
-        data.filter(
-            item =>
-                String(
-                    item.jenis || ""
-                ).toLowerCase() ===
-                "pulang"
-        );
+  const masuk =
+    data.filter(
+      item =>
+        String(
+          item.jenis || ""
+        ).toLowerCase() ===
+        "masuk"
+    ).length;
 
+
+  const pulang =
+    data.filter(
+      item =>
+        String(
+          item.jenis || ""
+        ).toLowerCase() ===
+        "pulang"
+    ).length;
+
+
+  document.getElementById(
+    "jumlahOrang"
+  ).textContent =
+    namaUnik.size;
+
+
+  document.getElementById(
+    "jumlahMasuk"
+  ).textContent =
+    masuk;
+
+
+  document.getElementById(
+    "jumlahPulang"
+  ).textContent =
+    pulang;
+
+
+  /* DATA KOSONG */
+
+  if (data.length === 0) {
 
     document.getElementById(
-        "jumlahOrang"
-    ).textContent =
-        namaUnik.size;
-
-
-    document.getElementById(
-        "jumlahMasuk"
-    ).textContent =
-        masuk.length;
-
-
-    document.getElementById(
-        "jumlahPulang"
-    ).textContent =
-        pulang.length;
-
-
-    /* DATA KOSONG */
-
-    if (
-        data.length === 0
-    ) {
-
-        document.getElementById(
-            "tabelData"
-        ).innerHTML = `
-            <tr>
-                <td
-                    colspan="7"
-                    class="loading">
-
-                    📭 Tidak ada data absensi.
-
-                </td>
-            </tr>
-        `;
-
-        return;
-
-    }
-
-
-    /* BUAT BARIS */
-
-    const hasilBaris = [];
-
-
-    for (
-        let index = 0;
-        index < data.length;
-        index++
-    ) {
-
-        const item =
-            data[index];
-
-
-        let fotoHTML =
-            `<span class="foto-error">
-                Tidak ada foto
-             </span>`;
-
-
-        /*
-          FOTO HANYA DICOBA
-          JIKA FOTO_PATH ADA
-        */
-
-        if (
-            item.foto_path &&
-            String(
-                item.foto_path
-            ).trim() !== ""
-        ) {
-
-            try {
-
-                const hasilFoto =
-                    await supabaseClient
-                        .storage
-                        .from("selfie3")
-                        .createSignedUrl(
-                            String(
-                                item.foto_path
-                            ),
-                            3600
-                        );
-
-
-                if (
-                    !hasilFoto.error &&
-                    hasilFoto.data &&
-                    hasilFoto.data.signedUrl
-                ) {
-
-                    const url =
-                        hasilFoto.data.signedUrl;
-
-
-                    const encoded =
-                        encodeURIComponent(
-                            url
-                        );
-
-
-                    fotoHTML = `
-                        <div>
-
-                            <img
-                                class="foto"
-                                src="${url}"
-                                alt="Foto selfie"
-                                onclick="bukaFoto('${encoded}')">
-
-                            <br>
-
-                            <a
-                                class="lihat-foto"
-                                href="${url}"
-                                target="_blank">
-
-                                👁️ Lihat
-
-                            </a>
-
-                        </div>
-                    `;
-
-                }
-
-            } catch (error) {
-
-                console.error(
-                    "Foto error:",
-                    error
-                );
-
-            }
-
-        }
-
-
-        /* JAM */
-
-        let jam =
-            "-";
-
-
-        if (
-            item.created_at
-        ) {
-
-            try {
-
-                const waktu =
-                    new Date(
-                        item.created_at
-                    );
-
-
-                jam =
-                    waktu.toLocaleTimeString(
-                        "id-ID",
-                        {
-                            timeZone:
-                                "Asia/Jakarta",
-
-                            hour:
-                                "2-digit",
-
-                            minute:
-                                "2-digit",
-
-                            second:
-                                "2-digit"
-                        }
-                    );
-
-            } catch (error) {
-
-                jam =
-                    "-";
-
-            }
-
-        }
-
-
-        /* TANGGAL */
-
-        let tanggalTampil =
-            "-";
-
-
-        if (
-            item.created_at
-        ) {
-
-            const bagian =
-                item.created_at
-                    .substring(
-                        0,
-                        10
-                    )
-                    .split("-");
-
-
-            if (
-                bagian.length === 3
-            ) {
-
-                tanggalTampil =
-                    bagian[2] +
-                    "-" +
-                    bagian[1] +
-                    "-" +
-                    bagian[0];
-
-            }
-
-        }
-
-
-        /* STATUS */
+      "tabelData"
+    ).innerHTML = `
+      <tr>
+        <td
+          colspan="7"
+          class="loading"
+        >
+          📭 Tidak ada data absensi.
+        </td>
+      </tr>
+    `;
+
+    return;
+
+  }
+
+
+  /* BUAT BARIS */
+
+  const baris =
+    data.map(
+      (item, index) => {
 
         const jenis =
-            String(
-                item.jenis || ""
-            ).toLowerCase();
+          String(
+            item.jenis || ""
+          ).toLowerCase();
 
 
-        let statusHTML;
+        let status = "";
 
+        if (jenis === "masuk") {
 
-        if (
-            jenis === "masuk"
-        ) {
-
-            statusHTML = `
-                <span
-                    class="badge masuk">
-
-                    🟢 MASUK
-
-                </span>
-            `;
+          status = `
+            <span class="badge masuk">
+              🟢 MASUK
+            </span>
+          `;
 
         } else {
 
-            statusHTML = `
-                <span
-                    class="badge pulang">
-
-                    🔴 PULANG
-
-                </span>
-            `;
+          status = `
+            <span class="badge pulang">
+              🔴 PULANG
+            </span>
+          `;
 
         }
 
 
-        /* BARIS */
+        return `
 
-        hasilBaris.push(`
+          <tr>
 
-            <tr>
+            <td>
+              ${index + 1}
+            </td>
 
-                <td>
-                    ${index + 1}
-                </td>
+            <td>
+              <strong>
+                ${escapeHTML(
+                  item.nama || "-"
+                )}
+              </strong>
+            </td>
 
-                <td>
-                    <strong>
-                        ${escapeHTML(
-                            item.nama || "-"
-                        )}
-                    </strong>
-                </td>
+            <td>
+              ${escapeHTML(
+                item.kelas || "-"
+              )}
+            </td>
 
-                <td>
-                    ${escapeHTML(
-                        item.kelas || "-"
-                    )}
-                </td>
+            <td>
+              ${formatTanggal(
+                item.tanggal
+              )}
+            </td>
 
-                <td>
-                    ${tanggalTampil}
-                </td>
+            <td>
+              ${formatJam(
+                item.jam
+              )}
+            </td>
 
-                <td>
-                    ${jam}
-                </td>
+            <td>
+              ${status}
+            </td>
 
-                <td>
-                    ${statusHTML}
-                </td>
+            <td>
+              <div
+                class="foto-box"
+                id="foto-${index}"
+              >
+                ⏳ Memuat foto...
+              </div>
+            </td>
 
-                <td>
-                    ${fotoHTML}
-                </td>
+          </tr>
 
-            </tr>
+        `;
 
-        `);
+      }
+    );
+
+
+  document.getElementById(
+    "tabelData"
+  ).innerHTML =
+    baris.join("");
+
+
+  /* LOAD FOTO SATU PER SATU */
+
+  data.forEach(
+    async (item, index) => {
+
+      const html =
+        await buatFoto(
+          item.foto_path
+        );
+
+
+      const element =
+        document.getElementById(
+          "foto-" + index
+        );
+
+
+      if (element) {
+
+        element.innerHTML =
+          html;
+
+      }
+
+    }
+  );
+
+}
+
+
+/* =====================================================
+   MEMBUAT URL FOTO
+===================================================== */
+
+async function buatFoto(path) {
+
+  if (!path) {
+
+    return `
+      <span class="foto-error">
+        Tidak ada foto
+      </span>
+    `;
+
+  }
+
+
+  try {
+
+    let cleanPath =
+      String(path).trim();
+
+
+    /*
+       Kalau database menyimpan URL
+       Supabase lengkap, kita ambil
+       path file-nya.
+    */
+
+    if (
+      cleanPath.startsWith("http://") ||
+      cleanPath.startsWith("https://")
+    ) {
+
+      const marker =
+        "/storage/v1/object/";
+
+      const posisi =
+        cleanPath.indexOf(marker);
+
+
+      if (posisi !== -1) {
+
+        let bagian =
+          cleanPath.substring(
+            posisi + marker.length
+          );
+
+
+        /*
+          Bisa berupa:
+
+          public/selfie3/file.jpg
+
+          authenticated/selfie3/file.jpg
+
+          sign/selfie3/file.jpg
+        */
+
+        const bagianArray =
+          bagian.split("/");
+
+
+        if (
+          bagianArray.length >= 3
+        ) {
+
+          bagianArray.shift();
+
+          bagianArray.shift();
+
+          cleanPath =
+            bagianArray.join("/");
+
+        }
+
+      }
 
     }
 
 
-    document.getElementById(
-        "tabelData"
-    ).innerHTML =
-        hasilBaris.join("");
+    /*
+       Kalau tersimpan:
 
-}
+       selfie3/foto.jpg
 
+       hapus nama bucket.
+    */
 
-/* =====================================================
-   FOTO BESAR
-===================================================== */
+    if (
+      cleanPath.startsWith(
+        NAMA_BUCKET + "/"
+      )
+    ) {
 
-function bukaFoto(
-    encodedURL
-) {
-
-    const url =
-        decodeURIComponent(
-            encodedURL
+      cleanPath =
+        cleanPath.substring(
+          NAMA_BUCKET.length + 1
         );
 
-
-    document.getElementById(
-        "fotoBesar"
-    ).src =
-        url;
+    }
 
 
-    document.getElementById(
-        "modal"
-    ).style.display =
-        "flex";
+    /*
+       Buat SIGNED URL
+    */
 
-}
-
-
-function tutupFoto() {
-
-    document.getElementById(
-        "modal"
-    ).style.display =
-        "none";
-
-
-    document.getElementById(
-        "fotoBesar"
-    ).src =
-        "";
-
-}
-
-
-/* =====================================================
-   FILTER
-===================================================== */
-
-document.getElementById(
-    "tanggal"
-).addEventListener(
-    "change",
-    tampilkanData
-);
-
-
-document.getElementById(
-    "kelas"
-).addEventListener(
-    "change",
-    tampilkanData
-);
-
-
-document.getElementById(
-    "cari"
-).addEventListener(
-    "input",
-    tampilkanData
-);
-
-
-/* =====================================================
-   RESET
-===================================================== */
-
-function resetFilter() {
-
-    document.getElementById(
-        "tanggal"
-    ).value =
-        tanggalHariIni();
-
-
-    document.getElementById(
-        "kelas"
-    ).value =
-        "";
-
-
-    document.getElementById(
-        "cari"
-    ).value =
-        "";
-
-
-    tampilkanData();
-
-}
-
-
-/* =====================================================
-   DOWNLOAD CSV
-===================================================== */
-
-function downloadCSV() {
-
-    const tanggal =
-        document.getElementById(
-            "tanggal"
-        ).value;
-
-
-    const kelas =
-        document.getElementById(
-            "kelas"
-        ).value;
-
-
-    const kata =
-        document.getElementById(
-            "cari"
-        ).value
-            .trim()
-            .toLowerCase();
-
-
-    const data =
-        semuaData.filter(
-            item => {
-
-                const tanggalItem =
-                    item.created_at
-                        ? item.created_at
-                            .substring(
-                                0,
-                                10
-                            )
-                        : "";
-
-
-                const nama =
-                    String(
-                        item.nama || ""
-                    ).toLowerCase();
-
-
-                return (
-
-                    (!tanggal ||
-                        tanggalItem ===
-                        tanggal)
-
-                    &&
-
-                    (!kelas ||
-                        String(
-                            item.kelas || ""
-                        ) === kelas)
-
-                    &&
-
-                    (!kata ||
-                        nama.includes(
-                            kata
-                        ))
-
-                );
-
-            }
+    const hasil =
+      await supabaseClient
+        .storage
+        .from(NAMA_BUCKET)
+        .createSignedUrl(
+          cleanPath,
+          3600
         );
 
 
     if (
-        data.length === 0
+      hasil.error ||
+      !hasil.data ||
+      !hasil.data.signedUrl
     ) {
 
-        alert(
-            "Tidak ada data untuk didownload."
-        );
+      console.error(
+        "Foto gagal:",
+        cleanPath,
+        hasil.error
+      );
 
-        return;
+
+      return `
+        <span class="foto-error">
+          Foto tidak dapat dibuka
+        </span>
+      `;
 
     }
 
 
-    let csv =
-        "No,Nama,Kelas,Tanggal,Jam,Jenis,Foto Path\n";
-
-
-    data.forEach(
-        (item, index) => {
-
-            let tanggal =
-                item.created_at
-                    ? item.created_at
-                        .substring(
-                            0,
-                            10
-                        )
-                    : "";
-
-
-            let jam = "";
-
-
-            if (
-                item.created_at
-            ) {
-
-                jam =
-                    new Date(
-                        item.created_at
-                    ).toLocaleTimeString(
-                        "id-ID",
-                        {
-                            timeZone:
-                                "Asia/Jakarta"
-                        }
-                    );
-
-            }
-
-
-            const nama =
-                String(
-                    item.nama || ""
-                ).replace(
-                    /"/g,
-                    '""'
-                );
-
-
-            const kelas =
-                String(
-                    item.kelas || ""
-                ).replace(
-                    /"/g,
-                    '""'
-                );
-
-
-            const jenis =
-                String(
-                    item.jenis || ""
-                ).replace(
-                    /"/g,
-                    '""'
-                );
-
-
-            const foto =
-                String(
-                    item.foto_path || ""
-                ).replace(
-                    /"/g,
-                    '""'
-                );
-
-
-            csv +=
-                (index + 1) +
-                ',"' +
-                nama +
-                '","' +
-                kelas +
-                '",' +
-                tanggal +
-                ',"' +
-                jam +
-                '","' +
-                jenis +
-                '","' +
-                foto +
-                '"\n';
-
-        }
-    );
-
-
-    const blob =
-        new Blob(
-            [csv],
-            {
-                type:
-                    "text/csv;charset=utf-8;"
-            }
-        );
-
-
     const url =
-        URL.createObjectURL(
-            blob
-        );
+      hasil.data.signedUrl;
 
 
-    const link =
-        document.createElement(
-            "a"
-        );
+    /*
+       encode URL supaya aman
+    */
+
+    const encoded =
+      encodeURIComponent(url);
 
 
-    link.href =
-        url;
+    return `
 
+      <img
+        class="foto"
+        src="${url}"
+        alt="Foto selfie"
+        onclick="bukaFoto('${encoded}')"
+      >
 
-    link.download =
-        "rekap-absensi-sd.csv";
+      <button
+        class="lihat-foto"
+        onclick="bukaFoto('${encoded}')"
+      >
+        👁️ Lihat Foto
+      </button>
 
+    `;
 
-    document.body.appendChild(
-        link
+  } catch (error) {
+
+    console.error(
+      "Error foto:",
+      error
     );
 
 
-    link.click();
+    return `
+      <span class="foto-error">
+        Foto error
+      </span>
+    `;
+
+  }
+
+}
 
 
-    document.body.removeChild(
-        link
+/* =====================================================
+   BUKA FOTO BESAR
+===================================================== */
+
+function bukaFoto(
+  encodedURL
+) {
+
+  const url =
+    decodeURIComponent(
+      encodedURL
     );
 
 
-    URL.revokeObjectURL(
-        url
-    );
+  document.getElementById(
+    "fotoBesar"
+  ).src = url;
+
+
+  document.getElementById(
+    "modal"
+  ).style.display =
+    "flex";
+
+}
+
+
+/* =====================================================
+   TUTUP FOTO
+===================================================== */
+
+function tutupFoto() {
+
+  document.getElementById(
+    "modal"
+  ).style.display =
+    "none";
+
+
+  document.getElementById(
+    "fotoBesar"
+  ).src = "";
+
+}
+
+
+/* =====================================================
+   FORMAT TANGGAL
+===================================================== */
+
+function formatTanggal(
+  tanggal
+) {
+
+  if (!tanggal) {
+
+    return "-";
+
+  }
+
+
+  const bagian =
+    String(tanggal).split("-");
+
+
+  if (
+    bagian.length !== 3
+  ) {
+
+    return tanggal;
+
+  }
+
+
+  return (
+    bagian[2] +
+    "-" +
+    bagian[1] +
+    "-" +
+    bagian[0]
+  );
+
+}
+
+
+/* =====================================================
+   FORMAT JAM
+===================================================== */
+
+function formatJam(
+  jam
+) {
+
+  if (!jam) {
+
+    return "-";
+
+  }
+
+
+  return String(
+    jam
+  ).substring(0, 8);
 
 }
 
@@ -1557,34 +1296,33 @@ function downloadCSV() {
 ===================================================== */
 
 function tampilkanError(
-    pesan
+  pesan
 ) {
 
-    const box =
-        document.getElementById(
-            "errorBox"
-        );
+  const box =
+    document.getElementById(
+      "errorBox"
+    );
 
 
-    if (!pesan) {
-
-        box.style.display =
-            "none";
-
-        box.textContent =
-            "";
-
-        return;
-
-    }
-
-
-    box.textContent =
-        pesan;
-
+  if (!pesan) {
 
     box.style.display =
-        "block";
+      "none";
+
+    box.textContent =
+      "";
+
+    return;
+
+  }
+
+
+  box.textContent =
+    pesan;
+
+  box.style.display =
+    "block";
 
 }
 
@@ -1594,37 +1332,57 @@ function tampilkanError(
 ===================================================== */
 
 function escapeHTML(
-    text
+  text
 ) {
 
-    return String(text)
+  return String(text)
 
-        .replace(
-            /&/g,
-            "&amp;"
-        )
+    .replace(
+      /&/g,
+      "&amp;"
+    )
 
-        .replace(
-            /</g,
-            "&lt;"
-        )
+    .replace(
+      /</g,
+      "&lt;"
+    )
 
-        .replace(
-            />/g,
-            "&gt;"
-        )
+    .replace(
+      />/g,
+      "&gt;"
+    )
 
-        .replace(
-            /"/g,
-            "&quot;"
-        )
+    .replace(
+      /"/g,
+      "&quot;"
+    )
 
-        .replace(
-            /'/g,
-            "&#039;"
-        );
+    .replace(
+      /'/g,
+      "&#039;"
+    );
 
 }
+
+
+/* =====================================================
+   FILTER TANGGAL / KELAS
+===================================================== */
+
+document.getElementById(
+  "tanggal"
+).addEventListener(
+  "change",
+  tampilkanData
+);
+
+
+document.getElementById(
+  "kelas"
+).addEventListener(
+  "change",
+  tampilkanData
+);
 
 
 /* =====================================================
