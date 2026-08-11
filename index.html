@@ -780,7 +780,7 @@ async function absen(jenis) {
     } =
       await supabaseClient
         .storage
-        .from("selfie3")
+        .from("selfie")
         .upload(
           filePath,
           fotoBlob,
