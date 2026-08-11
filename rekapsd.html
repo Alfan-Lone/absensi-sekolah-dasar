@@ -1,505 +1,472 @@
+```html
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Rekap Absensi SD</title>
+  <title>Rekap Absensi - Ekskul Informatika</title>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-<style>
-
-*{
-    box-sizing:border-box;
-}
-
-body{
-    margin:0;
-    padding:20px;
-    font-family:Arial,sans-serif;
-    background:#f1f5f9;
-    color:#111827;
-}
-
-.container{
-    max-width:1200px;
-    margin:auto;
-}
-
-/* HEADER */
-
-.header{
-    background:linear-gradient(135deg,#2563eb,#1e40af);
-    color:white;
-    padding:28px 20px;
-    border-radius:20px;
-    text-align:center;
-    margin-bottom:20px;
-    box-shadow:0 8px 25px rgba(0,0,0,.12);
-}
-
-.header h1{
-    margin:0;
-    font-size:28px;
-}
-
-.header p{
-    margin:8px 0 0;
-    opacity:.9;
-}
-
-/* FILTER */
-
-.card{
-    background:white;
-    padding:20px;
-    border-radius:18px;
-    margin-bottom:20px;
-    box-shadow:0 5px 20px rgba(0,0,0,.06);
-}
-
-.filters{
-    display:grid;
-    grid-template-columns:1fr 1fr 1fr auto;
-    gap:12px;
-}
-
-label{
-    display:block;
-    font-weight:bold;
-    font-size:14px;
-    margin-bottom:7px;
-}
-
-input,
-select{
-    width:100%;
-    padding:13px;
-    border:1px solid #d1d5db;
-    border-radius:10px;
-    font-size:15px;
-    outline:none;
-    background:white;
-}
-
-input:focus,
-select:focus{
-    border-color:#2563eb;
-}
-
-button{
-    border:0;
-    border-radius:10px;
-    padding:13px 18px;
-    font-weight:bold;
-    cursor:pointer;
-    font-size:14px;
-    background:#2563eb;
-    color:white;
-}
-
-button:hover{
-    opacity:.9;
-}
-
-/* STATISTIK */
-
-.stats{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:12px;
-    margin-bottom:20px;
-}
-
-.stat{
-    background:white;
-    padding:20px;
-    border-radius:18px;
-    text-align:center;
-    box-shadow:0 5px 20px rgba(0,0,0,.06);
-}
-
-.stat-number{
-    font-size:28px;
-    font-weight:bold;
-    color:#2563eb;
-}
-
-.stat-label{
-    margin-top:5px;
-    color:#64748b;
-}
-
-/* TABLE */
-
-.table-wrap{
-    background:white;
-    border-radius:18px;
-    padding:12px;
-    box-shadow:0 5px 20px rgba(0,0,0,.06);
-    overflow-x:auto;
-}
-
-table{
-    width:100%;
-    border-collapse:collapse;
-    min-width:850px;
-}
-
-th{
-    background:#f8fafc;
-    padding:14px;
-    text-align:left;
-    border-bottom:2px solid #e5e7eb;
-    font-size:14px;
-}
-
-td{
-    padding:13px;
-    border-bottom:1px solid #e5e7eb;
-    font-size:14px;
-    vertical-align:middle;
-}
-
-tr:hover{
-    background:#f8fafc;
-}
-
-/* STATUS */
-
-.badge{
-    display:inline-block;
-    padding:7px 10px;
-    border-radius:8px;
-    font-size:12px;
-    font-weight:bold;
-}
-
-.masuk{
-    background:#dcfce7;
-    color:#166534;
-}
-
-.pulang{
-    background:#fee2e2;
-    color:#991b1b;
-}
-
-/* FOTO */
-
-.foto{
-    width:70px;
-    height:70px;
-    object-fit:cover;
-    border-radius:10px;
-    border:2px solid #e5e7eb;
-    cursor:pointer;
-}
-
-.foto:hover{
-    opacity:.8;
-}
-
-.lihat-foto{
-    display:inline-block;
-    margin-top:6px;
-    padding:6px 9px;
-    border-radius:7px;
-    background:#2563eb;
-    color:white;
-    text-decoration:none;
-    font-size:11px;
-}
-
-.tidak-ada{
-    color:#94a3b8;
-    font-size:12px;
-}
-
-/* LOADING */
-
-.loading{
-    text-align:center;
-    padding:30px;
-    color:#64748b;
-}
-
-/* ERROR */
-
-.error{
-    display:none;
-    background:#fee2e2;
-    color:#991b1b;
-    padding:14px;
-    border-radius:10px;
-    margin-bottom:15px;
-}
-
-/* MODAL */
-
-.modal{
-    display:none;
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.85);
-    z-index:9999;
-    align-items:center;
-    justify-content:center;
-    padding:20px;
-}
-
-.modal img{
-    max-width:95%;
-    max-height:90vh;
-    border-radius:15px;
-}
-
-.close{
-    position:fixed;
-    top:15px;
-    right:25px;
-    color:white;
-    font-size:40px;
-    cursor:pointer;
-}
-
-/* MOBILE */
-
-@media(max-width:700px){
-
-    body{
-        padding:10px;
+  <style>
+    * {
+      box-sizing: border-box;
     }
 
-    .filters{
-        grid-template-columns:1fr;
+    body {
+      margin: 0;
+      padding: 15px;
+      font-family: Arial, sans-serif;
+      background: #f1f5f9;
+      color: #111827;
     }
 
-    .stats{
-        grid-template-columns:1fr;
+    .container {
+      width: 100%;
+      max-width: 1100px;
+      margin: auto;
     }
 
-    .header h1{
-        font-size:23px;
+    .header {
+      background: linear-gradient(135deg, #0f172a, #1e3a8a);
+      color: white;
+      padding: 25px 20px;
+      border-radius: 20px;
+      text-align: center;
+      margin-bottom: 15px;
     }
 
-}
+    .header .icon {
+      font-size: 45px;
+    }
 
-</style>
+    .header h1 {
+      margin: 5px 0;
+      font-size: 26px;
+    }
+
+    .header p {
+      margin: 5px 0 0;
+      opacity: .85;
+    }
+
+    .card {
+      background: white;
+      padding: 18px;
+      border-radius: 18px;
+      margin-bottom: 15px;
+      box-shadow: 0 5px 20px rgba(0,0,0,.06);
+    }
+
+    .filters {
+      display: grid;
+      grid-template-columns: 1fr 1fr auto;
+      gap: 10px;
+    }
+
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: bold;
+      margin-bottom: 6px;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #d1d5db;
+      border-radius: 10px;
+      font-size: 15px;
+      outline: none;
+    }
+
+    button {
+      border: 0;
+      border-radius: 10px;
+      padding: 12px 16px;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .blue {
+      background: #2563eb;
+      color: white;
+    }
+
+    .green {
+      background: #16a34a;
+      color: white;
+    }
+
+    .gray {
+      background: #64748b;
+      color: white;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .stat {
+      text-align: center;
+      padding: 15px 5px;
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 5px 20px rgba(0,0,0,.06);
+    }
+
+    .stat-icon {
+      font-size: 25px;
+    }
+
+    .stat-number {
+      font-size: 24px;
+      font-weight: bold;
+      margin-top: 4px;
+    }
+
+    .stat-label {
+      color: #64748b;
+      font-size: 12px;
+      margin-top: 3px;
+    }
+
+    .table-wrap {
+      background: white;
+      border-radius: 18px;
+      padding: 12px;
+      box-shadow: 0 5px 20px rgba(0,0,0,.06);
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 720px;
+    }
+
+    th {
+      background: #f8fafc;
+      padding: 12px;
+      text-align: left;
+      font-size: 13px;
+      border-bottom: 2px solid #e5e7eb;
+    }
+
+    td {
+      padding: 12px;
+      border-bottom: 1px solid #e5e7eb;
+      font-size: 14px;
+      vertical-align: middle;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 6px 9px;
+      border-radius: 8px;
+      font-size: 11px;
+      font-weight: bold;
+    }
+
+    .masuk {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .pulang {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .foto {
+      width: 65px;
+      height: 65px;
+      object-fit: cover;
+      border-radius: 10px;
+      border: 2px solid #e5e7eb;
+      cursor: pointer;
+      display: block;
+    }
+
+    .foto:hover {
+      opacity: .8;
+    }
+
+    .foto-loading {
+      color: #94a3b8;
+      font-size: 12px;
+    }
+
+    .foto-error {
+      color: #dc2626;
+      font-size: 12px;
+    }
+
+    .foto-buttons {
+      display: flex;
+      gap: 5px;
+      margin-top: 6px;
+    }
+
+    .foto-buttons a,
+    .foto-buttons button {
+      display: inline-block;
+      padding: 6px 8px;
+      border-radius: 7px;
+      color: white;
+      text-decoration: none;
+      font-size: 11px;
+      border: 0;
+    }
+
+    .lihat {
+      background: #2563eb;
+    }
+
+    .download {
+      background: #16a34a;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 30px;
+      color: #64748b;
+    }
+
+    .error {
+      background: #fee2e2;
+      color: #991b1b;
+      padding: 12px;
+      border-radius: 10px;
+      margin-bottom: 15px;
+      display: none;
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 9999;
+      inset: 0;
+      background: rgba(0,0,0,.85);
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal img {
+      max-width: 100%;
+      max-height: 85vh;
+      border-radius: 15px;
+    }
+
+    .close {
+      position: fixed;
+      top: 15px;
+      right: 20px;
+      color: white;
+      font-size: 40px;
+      cursor: pointer;
+    }
+
+    @media(max-width: 650px) {
+
+      body {
+        padding: 10px;
+      }
+
+      .header {
+        padding: 20px 10px;
+      }
+
+      .header h1 {
+        font-size: 22px;
+      }
+
+      .filters {
+        grid-template-columns: 1fr;
+      }
+
+      .filters button {
+        width: 100%;
+      }
+
+      .stats {
+        gap: 7px;
+      }
+
+      .stat {
+        padding: 12px 3px;
+      }
+
+      .stat-icon {
+        font-size: 20px;
+      }
+
+      .stat-number {
+        font-size: 20px;
+      }
+
+      .stat-label {
+        font-size: 10px;
+      }
+
+      .actions {
+        flex-direction: column;
+      }
+
+      .actions button {
+        width: 100%;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
 <div class="container">
 
-    <!-- HEADER -->
+  <div class="header">
+    <div class="icon">📊</div>
+    <h1>REKAP ABSENSI</h1>
+    <p>SDN WARNASARI</p>
+  </div>
 
-    <div class="header">
+  <div id="errorBox" class="error"></div>
 
-        <h1>📊 REKAP ABSENSI SD</h1>
+  <div class="card">
 
-        <p>
-            Data Absensi Masuk & Pulang
-        </p>
+    <div class="filters">
 
-    </div>
+      <div>
+        <label>Tanggal</label>
+        <input type="date" id="tanggal">
+      </div>
 
+      <div>
+        <label>Cari Nama</label>
+        <input
+          type="text"
+          id="cari"
+          placeholder="Ketik nama..."
+          oninput="tampilkanData()"
+        >
+      </div>
 
-    <!-- ERROR -->
-
-    <div
-        id="errorBox"
-        class="error">
-    </div>
-
-
-    <!-- FILTER -->
-
-    <div class="card">
-
-        <div class="filters">
-
-            <div>
-
-                <label>Tanggal</label>
-
-                <input
-                    type="date"
-                    id="tanggal"
-                    onchange="tampilkanData()">
-
-            </div>
-
-
-            <div>
-
-                <label>Kelas</label>
-
-                <select
-                    id="kelas"
-                    onchange="tampilkanData()">
-
-                    <option value="">
-                        Semua Kelas
-                    </option>
-
-                    <option value="Kelas 1">
-                        Kelas 1
-                    </option>
-
-                    <option value="Kelas 2">
-                        Kelas 2
-                    </option>
-
-                    <option value="Kelas 3">
-                        Kelas 3
-                    </option>
-
-                    <option value="Kelas 4">
-                        Kelas 4
-                    </option>
-
-                    <option value="Kelas 5">
-                        Kelas 5
-                    </option>
-
-                    <option value="Kelas 6">
-                        Kelas 6
-                    </option>
-
-                </select>
-
-            </div>
-
-
-            <div>
-
-                <label>Cari Nama</label>
-
-                <input
-                    type="text"
-                    id="cari"
-                    placeholder="Ketik nama..."
-                    oninput="tampilkanData()">
-
-            </div>
-
-
-            <div>
-
-                <label>&nbsp;</label>
-
-                <button
-                    onclick="ambilData()">
-
-                    🔄 Refresh
-
-                </button>
-
-            </div>
-
-        </div>
+      <div>
+        <label>&nbsp;</label>
+        <button
+          class="blue"
+          onclick="ambilData()"
+        >
+          🔄 REFRESH
+        </button>
+      </div>
 
     </div>
 
+    <div class="actions">
 
-    <!-- STATISTIK -->
+      <button
+        class="green"
+        onclick="downloadCSV()"
+      >
+        📥 DOWNLOAD CSV
+      </button>
 
-    <div class="stats">
-
-        <div class="stat">
-
-            <div class="stat-number"
-                 id="jumlahSiswa">
-                0
-            </div>
-
-            <div class="stat-label">
-                Total Absensi
-            </div>
-
-        </div>
-
-
-        <div class="stat">
-
-            <div class="stat-number"
-                 id="jumlahMasuk">
-                0
-            </div>
-
-            <div class="stat-label">
-                🟢 Masuk
-            </div>
-
-        </div>
-
-
-        <div class="stat">
-
-            <div class="stat-number"
-                 id="jumlahPulang">
-                0
-            </div>
-
-            <div class="stat-label">
-                🔴 Pulang
-            </div>
-
-        </div>
+      <button
+        class="gray"
+        onclick="resetFilter()"
+      >
+        ↩️ RESET
+      </button>
 
     </div>
 
-
-    <!-- TABLE -->
-
-    <div class="table-wrap">
-
-        <table>
-
-            <thead>
-
-                <tr>
-
-                    <th>No</th>
-
-                    <th>Nama</th>
-
-                    <th>Kelas</th>
-
-                    <th>Tanggal</th>
-
-                    <th>Jam</th>
-
-                    <th>Status</th>
-
-                    <th>Foto</th>
-
-                </tr>
-
-            </thead>
+  </div>
 
 
-            <tbody id="tabelData">
+  <div class="stats">
 
-                <tr>
-
-                    <td
-                        colspan="7"
-                        class="loading">
-
-                        ⏳ Memuat data...
-
-                    </td>
-
-                </tr>
-
-            </tbody>
-
-        </table>
-
+    <div class="stat">
+      <div class="stat-icon">👥</div>
+      <div
+        class="stat-number"
+        id="jumlahOrang"
+      >
+        0
+      </div>
+      <div class="stat-label">
+        Orang
+      </div>
     </div>
+
+    <div class="stat">
+      <div class="stat-icon">🟢</div>
+      <div
+        class="stat-number"
+        id="jumlahMasuk"
+      >
+        0
+      </div>
+      <div class="stat-label">
+        Absen Masuk
+      </div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-icon">🔴</div>
+      <div
+        class="stat-number"
+        id="jumlahPulang"
+      >
+        0
+      </div>
+      <div class="stat-label">
+        Absen Pulang
+      </div>
+    </div>
+
+  </div>
+
+
+  <div class="table-wrap">
+
+    <table>
+
+      <thead>
+        <tr>
+          <th>No</th>
+          <th>Nama</th>
+          <th>Tanggal</th>
+          <th>Jam</th>
+          <th>Status</th>
+          <th>Foto Selfie</th>
+        </tr>
+      </thead>
+
+      <tbody id="tabelData">
+
+        <tr>
+          <td colspan="6" class="loading">
+            ⏳ Memuat data...
+          </td>
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
 
 </div>
 
@@ -507,731 +474,943 @@ tr:hover{
 <!-- MODAL FOTO -->
 
 <div
-    class="modal"
-    id="modal"
-    onclick="tutupFoto()">
+  class="modal"
+  id="modal"
+  onclick="tutupModal()"
+>
 
-    <span
-        class="close"
-        onclick="tutupFoto()">
+  <span
+    class="close"
+    onclick="tutupModal()"
+  >
+    ×
+  </span>
 
-        ×
-
-    </span>
-
-
-    <img
-        id="fotoBesar"
-        src=""
-        onclick="event.stopPropagation()">
+  <img
+    id="fotoBesar"
+    src=""
+    alt="Foto selfie"
+    onclick="event.stopPropagation()"
+  >
 
 </div>
 
 
 <script>
 
-/* =====================================================
-   SUPABASE
-===================================================== */
+  // =====================================================
+  // SUPABASE
+  // =====================================================
 
-const SUPABASE_URL =
-"https://prcnxtzhukfopcfzyczm.supabase.co";
+  // ISI DENGAN DATA SUPABASE YANG SAMA DENGAN INDEX.HTML
 
-const SUPABASE_KEY =
-"sb_publishable_wUZkF_KZgqDmhlVwdOAKRA_PkmZQ920";
+  const SUPABASE_URL =
+    "https://prcnxtzhukfopcfzyczm.supabase.co";
 
-
-const supabaseClient =
-window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-);
+  const SUPABASE_KEY =
+    "sb_publishable_wUZkF_KZgqDmhlVwdOAKRA_PkmZQ920";
 
 
-/* =====================================================
-   VARIABEL
-===================================================== */
-
-let semuaData = [];
-
-
-/* =====================================================
-   TANGGAL HARI INI
-   MENGGUNAKAN WAKTU INDONESIA
-===================================================== */
-
-function tanggalHariIni(){
-
-    const sekarang =
-        new Date();
-
-    const formatter =
-        new Intl.DateTimeFormat(
-            "en-CA",
-            {
-                timeZone:"Asia/Jakarta",
-                year:"numeric",
-                month:"2-digit",
-                day:"2-digit"
-            }
-        );
-
-    return formatter.format(
-        sekarang
+  const supabaseClient =
+    window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_KEY
     );
-}
 
 
-document.getElementById(
+  // =====================================================
+  // VARIABEL
+  // =====================================================
+
+  let semuaData = [];
+
+
+  // =====================================================
+  // TANGGAL HARI INI
+  // =====================================================
+
+  function tanggalHariIni() {
+
+    const sekarang = new Date();
+
+    const tahun =
+      sekarang.getFullYear();
+
+    const bulan =
+      String(
+        sekarang.getMonth() + 1
+      ).padStart(2, "0");
+
+    const hari =
+      String(
+        sekarang.getDate()
+      ).padStart(2, "0");
+
+    return (
+      tahun +
+      "-" +
+      bulan +
+      "-" +
+      hari
+    );
+  }
+
+
+  document.getElementById(
     "tanggal"
-).value =
-tanggalHariIni();
+  ).value = tanggalHariIni();
 
 
-/* =====================================================
-   FORMAT WAKTU WIB
-===================================================== */
+  // =====================================================
+  // AMBIL DATA SUPABASE
+  // =====================================================
 
-function formatTanggalWIB(
-    createdAt
-){
-
-    if(!createdAt){
-        return "-";
-    }
-
-    const tanggal =
-        new Date(createdAt);
-
-    return new Intl.DateTimeFormat(
-        "id-ID",
-        {
-            timeZone:"Asia/Jakarta",
-            day:"2-digit",
-            month:"2-digit",
-            year:"numeric"
-        }
-    ).format(tanggal);
-
-}
-
-
-function formatJamWIB(
-    createdAt
-){
-
-    if(!createdAt){
-        return "-";
-    }
-
-    const tanggal =
-        new Date(createdAt);
-
-    return new Intl.DateTimeFormat(
-        "id-ID",
-        {
-            timeZone:"Asia/Jakarta",
-            hour:"2-digit",
-            minute:"2-digit",
-            second:"2-digit",
-            hour12:false
-        }
-    ).format(tanggal);
-
-}
-
-
-/* =====================================================
-   FORMAT TANGGAL UNTUK FILTER
-===================================================== */
-
-function tanggalFilterWIB(
-    createdAt
-){
-
-    if(!createdAt){
-        return "";
-    }
-
-    const tanggal =
-        new Date(createdAt);
-
-    const formatter =
-        new Intl.DateTimeFormat(
-            "en-CA",
-            {
-                timeZone:"Asia/Jakarta",
-                year:"numeric",
-                month:"2-digit",
-                day:"2-digit"
-            }
-        );
-
-    return formatter.format(
-        tanggal
-    );
-
-}
-
-
-/* =====================================================
-   AMBIL DATA
-===================================================== */
-
-async function ambilData(){
+  async function ambilData() {
 
     tampilkanError("");
 
     document.getElementById(
-        "tabelData"
+      "tabelData"
     ).innerHTML = `
-
-        <tr>
-
-            <td
-                colspan="7"
-                class="loading">
-
-                ⏳ Memuat data...
-
-            </td>
-
-        </tr>
-
+      <tr>
+        <td
+          colspan="6"
+          class="loading"
+        >
+          ⏳ Memuat data...
+        </td>
+      </tr>
     `;
 
 
-    try{
+    try {
 
-        const hasil =
-            await supabaseClient
-            .from("absensi_sd")
-            .select("*")
-            .order(
-                "created_at",
-                {
-                    ascending:false
-                }
+      const hasil =
+        await supabaseClient
+          .from("absensi")
+          .select("*");
+
+
+      if (hasil.error) {
+        throw hasil.error;
+      }
+
+
+      semuaData =
+        hasil.data || [];
+
+
+      // Urutkan dari yang terbaru
+
+      semuaData.sort(
+        (a, b) => {
+
+          const waktuA =
+            String(
+              a.tanggal || ""
+            ) +
+            String(
+              a.jam || ""
             );
 
+          const waktuB =
+            String(
+              b.tanggal || ""
+            ) +
+            String(
+              b.jam || ""
+            );
 
-        if(hasil.error){
-
-            throw hasil.error;
-
+          return waktuB.localeCompare(
+            waktuA
+          );
         }
+      );
 
 
-        semuaData =
-            hasil.data || [];
+      await tampilkanData();
 
+    } catch (error) {
 
-        console.log(
-            "Data absensi:",
-            semuaData
-        );
+      console.error(error);
 
+      tampilkanError(
+        "Gagal mengambil data: " +
+        error.message
+      );
 
-        tampilkanData();
-
-
-    }catch(error){
-
-        console.error(
-            error
-        );
-
-
-        tampilkanError(
-            "Gagal mengambil data: " +
-            error.message
-        );
-
-
-        document.getElementById(
-            "tabelData"
-        ).innerHTML = `
-
-            <tr>
-
-                <td
-                    colspan="7"
-                    class="loading">
-
-                    ❌ Data tidak dapat dimuat.
-
-                </td>
-
-            </tr>
-
-        `;
-
+      document.getElementById(
+        "tabelData"
+      ).innerHTML = `
+        <tr>
+          <td
+            colspan="6"
+            class="loading"
+          >
+            ❌ Data tidak dapat dimuat.
+          </td>
+        </tr>
+      `;
     }
+  }
 
-}
 
+  // =====================================================
+  // TAMPILKAN DATA
+  // =====================================================
 
-/* =====================================================
-   TAMPILKAN DATA
-===================================================== */
-
-async function tampilkanData(){
+  async function tampilkanData() {
 
     const tanggal =
-        document.getElementById(
-            "tanggal"
-        ).value;
-
-
-    const kelas =
-        document.getElementById(
-            "kelas"
-        ).value;
+      document.getElementById(
+        "tanggal"
+      ).value;
 
 
     const kata =
-        document.getElementById(
-            "cari"
-        ).value
+      document.getElementById(
+        "cari"
+      ).value
         .trim()
         .toLowerCase();
 
 
     const data =
-        semuaData.filter(
-            item => {
+      semuaData.filter(
+        item => {
 
-                const cocokTanggal =
-                    !tanggal ||
-                    tanggalFilterWIB(
-                        item.created_at
-                    ) === tanggal;
-
-
-                const cocokKelas =
-                    !kelas ||
-                    String(
-                        item.kelas || ""
-                    ) === kelas;
+          const cocokTanggal =
+            !tanggal ||
+            String(
+              item.tanggal || ""
+            ) === tanggal;
 
 
-                const cocokNama =
-                    !kata ||
-                    String(
-                        item.nama || ""
-                    )
-                    .toLowerCase()
-                    .includes(kata);
+          const nama =
+            String(
+              item.nama || ""
+            ).toLowerCase();
 
 
-                return (
-                    cocokTanggal &&
-                    cocokKelas &&
-                    cocokNama
-                );
-
-            }
-        );
+          const cocokNama =
+            !kata ||
+            nama.includes(kata);
 
 
-    /* STATISTIK */
+          return (
+            cocokTanggal &&
+            cocokNama
+          );
+        }
+      );
+
+
+    // ===================================================
+    // STATISTIK
+    // ===================================================
+
+    const namaUnik =
+      new Set(
+        data.map(
+          item =>
+            String(
+              item.nama || ""
+            ).toLowerCase()
+        )
+      );
+
+
+    const masuk =
+      data.filter(
+        item =>
+          String(
+            item.jenis || ""
+          ).toLowerCase() === "masuk"
+      ).length;
+
+
+    const pulang =
+      data.filter(
+        item =>
+          String(
+            item.jenis || ""
+          ).toLowerCase() === "pulang"
+      ).length;
+
 
     document.getElementById(
-        "jumlahSiswa"
+      "jumlahOrang"
     ).textContent =
-        data.length;
+      namaUnik.size;
 
 
     document.getElementById(
-        "jumlahMasuk"
+      "jumlahMasuk"
     ).textContent =
-        data.filter(
-            item =>
-                String(
-                    item.jenis || ""
-                ).toLowerCase()
-                === "masuk"
-        ).length;
+      masuk;
 
 
     document.getElementById(
-        "jumlahPulang"
+      "jumlahPulang"
     ).textContent =
-        data.filter(
-            item =>
-                String(
-                    item.jenis || ""
-                ).toLowerCase()
-                === "pulang"
-        ).length;
+      pulang;
 
 
-    /* DATA KOSONG */
+    // ===================================================
+    // TABEL KOSONG
+    // ===================================================
 
-    if(data.length === 0){
+    if (data.length === 0) {
 
-        document.getElementById(
-            "tabelData"
-        ).innerHTML = `
+      document.getElementById(
+        "tabelData"
+      ).innerHTML = `
+        <tr>
+          <td
+            colspan="6"
+            class="loading"
+          >
+            📭 Tidak ada data absensi.
+          </td>
+        </tr>
+      `;
 
-            <tr>
-
-                <td
-                    colspan="7"
-                    class="loading">
-
-                    📭 Belum ada data absensi.
-
-                </td>
-
-            </tr>
-
-        `;
-
-        return;
-
+      return;
     }
 
 
-    /* BUAT BARIS */
+    // ===================================================
+    // BUAT BARIS
+    // ===================================================
 
     const baris =
-        await Promise.all(
-
-            data.map(
-                async (
-                    item,
-                    index
-                ) => {
-
-
-                    /* FOTO */
-
-                    let fotoHTML =
-                        `<span class="tidak-ada">
-                            Tidak ada foto
-                         </span>`;
-
-
-                    if(
-                        item.foto_path
-                    ){
-
-                        try{
-
-                            const hasil =
-                                await supabaseClient
-                                .storage
-                                .from("selfie3")
-                                .createSignedUrl(
-                                    item.foto_path,
-                                    3600
-                                );
-
-
-                            if(
-                                hasil.data &&
-                                hasil.data.signedUrl
-                            ){
-
-                                const url =
-                                    hasil.data.signedUrl;
-
-
-                                const encoded =
-                                    encodeURIComponent(
-                                        url
-                                    );
-
-
-                                fotoHTML = `
-
-                                    <div>
-
-                                        <img
-                                            class="foto"
-                                            src="${url}"
-                                            alt="Foto absensi"
-                                            onclick="bukaFoto('${encoded}')">
-
-                                        <br>
-
-                                        <a
-                                            class="lihat-foto"
-                                            href="${url}"
-                                            target="_blank">
-
-                                            👁️ Lihat Foto
-
-                                        </a>
-
-                                    </div>
-
-                                `;
-
-                            }
-
-                        }catch(error){
-
-                            console.error(
-                                "Foto error:",
-                                error
-                            );
-
-                        }
-
-                    }
-
-
-                    /* STATUS */
-
-                    const jenis =
-                        String(
-                            item.jenis || ""
-                        ).toLowerCase();
-
-
-                    let statusHTML;
-
-
-                    if(
-                        jenis === "masuk"
-                    ){
-
-                        statusHTML = `
-
-                            <span
-                                class="badge masuk">
-
-                                🟢 MASUK
-
-                            </span>
-
-                        `;
-
-                    }else{
-
-                        statusHTML = `
-
-                            <span
-                                class="badge pulang">
-
-                                🔴 PULANG
-
-                            </span>
-
-                        `;
-
-                    }
-
-
-                    /* BARIS */
-
-                    return `
-
-                        <tr>
-
-                            <td>
-                                ${index + 1}
-                            </td>
-
-
-                            <td>
-
-                                <strong>
-                                    ${escapeHTML(
-                                        item.nama || "-"
-                                    )}
-                                </strong>
-
-                            </td>
-
-
-                            <td>
-
-                                ${escapeHTML(
-                                    item.kelas || "-"
-                                )}
-
-                            </td>
-
-
-                            <td>
-
-                                ${formatTanggalWIB(
-                                    item.created_at
-                                )}
-
-                            </td>
-
-
-                            <td>
-
-                                <strong>
-                                    ${formatJamWIB(
-                                        item.created_at
-                                    )}
-                                </strong>
-
-                            </td>
-
-
-                            <td>
-
-                                ${statusHTML}
-
-                            </td>
-
-
-                            <td>
-
-                                ${fotoHTML}
-
-                            </td>
-
-                        </tr>
-
-                    `;
-
-                }
-            )
-
-        );
+      await Promise.all(
+        data.map(
+          async (item, index) => {
+
+            const fotoHTML =
+              await buatFoto(
+                item.foto_path
+              );
+
+
+            const jenis =
+              String(
+                item.jenis || ""
+              ).toLowerCase();
+
+
+            const status =
+              jenis === "masuk"
+                ? `
+                  <span
+                    class="badge masuk"
+                  >
+                    🟢 MASUK
+                  </span>
+                `
+                : `
+                  <span
+                    class="badge pulang"
+                  >
+                    🔴 PULANG
+                  </span>
+                `;
+
+
+            return `
+              <tr>
+
+                <td>
+                  ${index + 1}
+                </td>
+
+                <td>
+                  <strong>
+                    ${escapeHTML(
+                      item.nama || "-"
+                    )}
+                  </strong>
+                </td>
+
+                <td>
+                  ${formatTanggal(
+                    item.tanggal
+                  )}
+                </td>
+
+                <td>
+                  ${formatJam(
+                    item.jam
+                  )}
+                </td>
+
+                <td>
+                  ${status}
+                </td>
+
+                <td>
+                  ${fotoHTML}
+                </td>
+
+              </tr>
+            `;
+          }
+        )
+      );
 
 
     document.getElementById(
-        "tabelData"
+      "tabelData"
     ).innerHTML =
-        baris.join("");
+      baris.join("");
+  }
 
-}
+
+  // =====================================================
+  // FOTO PRIVATE + SIGNED URL
+  // =====================================================
+
+  async function buatFoto(path) {
+
+    if (!path) {
+
+      return `
+        <span class="foto-error">
+          Tidak ada foto
+        </span>
+      `;
+    }
 
 
-/* =====================================================
-   BUKA FOTO BESAR
-===================================================== */
+    try {
 
-function bukaFoto(
+      const hasil =
+        await supabaseClient
+          .storage
+          .from("selfies")
+          .createSignedUrl(
+            path,
+            3600
+          );
+
+
+      if (
+        hasil.error ||
+        !hasil.data ||
+        !hasil.data.signedUrl
+      ) {
+
+        console.error(
+          "Gagal membuat signed URL:",
+          hasil.error
+        );
+
+        return `
+          <span class="foto-error">
+            Foto tidak dapat dibuka
+          </span>
+        `;
+      }
+
+
+      const url =
+        hasil.data.signedUrl;
+
+
+      const safeURL =
+        encodeURIComponent(url);
+
+
+      return `
+        <div>
+
+          <img
+            class="foto"
+            src="${url}"
+            alt="Selfie"
+            onclick="bukaFoto('${safeURL}')"
+          >
+
+          <div class="foto-buttons">
+
+            <a
+              class="lihat"
+              href="${url}"
+              target="_blank"
+            >
+              👁️ Lihat
+            </a>
+
+            <button
+              class="download"
+              onclick="downloadFoto('${safeURL}')"
+            >
+              📥 Simpan
+            </button>
+
+          </div>
+
+        </div>
+      `;
+
+    } catch (error) {
+
+      console.error(error);
+
+      return `
+        <span class="foto-error">
+          Foto error
+        </span>
+      `;
+    }
+  }
+
+
+  // =====================================================
+  // BUKA FOTO BESAR
+  // =====================================================
+
+  function bukaFoto(
     encodedURL
-){
+  ) {
 
     const url =
+      decodeURIComponent(
+        encodedURL
+      );
+
+
+    document.getElementById(
+      "fotoBesar"
+    ).src = url;
+
+
+    document.getElementById(
+      "modal"
+    ).style.display =
+      "flex";
+  }
+
+
+  function tutupModal() {
+
+    document.getElementById(
+      "modal"
+    ).style.display =
+      "none";
+
+
+    document.getElementById(
+      "fotoBesar"
+    ).src = "";
+  }
+
+
+  // =====================================================
+  // DOWNLOAD FOTO
+  // =====================================================
+
+  async function downloadFoto(
+    encodedURL
+  ) {
+
+    try {
+
+      const url =
         decodeURIComponent(
-            encodedURL
+          encodedURL
         );
 
 
+      const response =
+        await fetch(url);
+
+
+      if (!response.ok) {
+        throw new Error(
+          "Foto tidak dapat diunduh."
+        );
+      }
+
+
+      const blob =
+        await response.blob();
+
+
+      const blobURL =
+        URL.createObjectURL(
+          blob
+        );
+
+
+      const link =
+        document.createElement(
+          "a"
+        );
+
+
+      link.href =
+        blobURL;
+
+
+      link.download =
+        "selfie-absensi-" +
+        Date.now() +
+        ".jpg";
+
+
+      document.body.appendChild(
+        link
+      );
+
+
+      link.click();
+
+
+      document.body.removeChild(
+        link
+      );
+
+
+      URL.revokeObjectURL(
+        blobURL
+      );
+
+    } catch (error) {
+
+      console.error(error);
+
+      // Kalau browser HP tidak mengizinkan
+      // download langsung, buka fotonya.
+
+      alert(
+        "Download langsung tidak tersedia di browser ini. Foto akan dibuka, lalu tekan tahan foto untuk menyimpannya."
+      );
+
+      const url =
+        decodeURIComponent(
+          encodedURL
+        );
+
+      window.open(
+        url,
+        "_blank"
+      );
+    }
+  }
+
+
+  // =====================================================
+  // FORMAT TANGGAL
+  // =====================================================
+
+  function formatTanggal(
+    tanggal
+  ) {
+
+    if (!tanggal) {
+      return "-";
+    }
+
+
+    const bagian =
+      String(
+        tanggal
+      ).split("-");
+
+
+    if (
+      bagian.length !== 3
+    ) {
+      return tanggal;
+    }
+
+
+    return (
+      bagian[2] +
+      "-" +
+      bagian[1] +
+      "-" +
+      bagian[0]
+    );
+  }
+
+
+  // =====================================================
+  // FORMAT JAM
+  // =====================================================
+
+  function formatJam(
+    jam
+  ) {
+
+    if (!jam) {
+      return "-";
+    }
+
+
+    return String(
+      jam
+    ).substring(0, 8);
+  }
+
+
+  // =====================================================
+  // RESET FILTER
+  // =====================================================
+
+  function resetFilter() {
+
     document.getElementById(
-        "fotoBesar"
-    ).src =
-        url;
+      "tanggal"
+    ).value =
+      tanggalHariIni();
 
 
     document.getElementById(
-        "modal"
-    ).style.display =
-        "flex";
-
-}
+      "cari"
+    ).value =
+      "";
 
 
-function tutupFoto(){
-
-    document.getElementById(
-        "modal"
-    ).style.display =
-        "none";
+    tampilkanData();
+  }
 
 
-    document.getElementById(
-        "fotoBesar"
-    ).src =
-        "";
+  // =====================================================
+  // DOWNLOAD CSV
+  // =====================================================
 
-}
+  function downloadCSV() {
+
+    const tanggal =
+      document.getElementById(
+        "tanggal"
+      ).value;
 
 
-/* =====================================================
-   ERROR
-===================================================== */
+    const kata =
+      document.getElementById(
+        "cari"
+      ).value
+        .trim()
+        .toLowerCase();
 
-function tampilkanError(
+
+    const data =
+      semuaData.filter(
+        item => {
+
+          const cocokTanggal =
+            !tanggal ||
+            String(
+              item.tanggal || ""
+            ) === tanggal;
+
+
+          const nama =
+            String(
+              item.nama || ""
+            ).toLowerCase();
+
+
+          const cocokNama =
+            !kata ||
+            nama.includes(kata);
+
+
+          return (
+            cocokTanggal &&
+            cocokNama
+          );
+        }
+      );
+
+
+    if (data.length === 0) {
+
+      alert(
+        "Tidak ada data untuk didownload."
+      );
+
+      return;
+    }
+
+
+    let csv =
+      "No,Nama,Tanggal,Jam,Jenis,Foto Path\n";
+
+
+    data.forEach(
+      (item, index) => {
+
+        const nama =
+          String(
+            item.nama || ""
+          ).replace(
+            /"/g,
+            '""'
+          );
+
+
+        const foto =
+          String(
+            item.foto_path || ""
+          ).replace(
+            /"/g,
+            '""'
+          );
+
+
+        csv +=
+          (
+            index + 1
+          ) +
+          ',"' +
+          nama +
+          '",' +
+          (
+            item.tanggal || ""
+          ) +
+          "," +
+          (
+            item.jam || ""
+          ) +
+          "," +
+          (
+            item.jenis || ""
+          ) +
+          ',"' +
+          foto +
+          '"\n';
+      }
+    );
+
+
+    const blob =
+      new Blob(
+        [csv],
+        {
+          type:
+            "text/csv;charset=utf-8;"
+        }
+      );
+
+
+    const url =
+      URL.createObjectURL(
+        blob
+      );
+
+
+    const link =
+      document.createElement(
+        "a"
+      );
+
+
+    link.href =
+      url;
+
+
+    link.download =
+      "rekap-absensi.csv";
+
+
+    document.body.appendChild(
+      link
+    );
+
+
+    link.click();
+
+
+    document.body.removeChild(
+      link
+    );
+
+
+    URL.revokeObjectURL(
+      url
+    );
+  }
+
+
+  // =====================================================
+  // ERROR
+  // =====================================================
+
+  function tampilkanError(
     pesan
-){
+  ) {
 
     const box =
-        document.getElementById(
-            "errorBox"
-        );
+      document.getElementById(
+        "errorBox"
+      );
 
 
-    if(!pesan){
+    if (!pesan) {
 
-        box.style.display =
-            "none";
+      box.style.display =
+        "none";
 
-        box.textContent =
-            "";
+      box.textContent =
+        "";
 
-        return;
-
+      return;
     }
 
 
     box.textContent =
-        pesan;
+      pesan;
 
     box.style.display =
-        "block";
+      "block";
+  }
 
-}
 
+  // =====================================================
+  // ESCAPE HTML
+  // =====================================================
 
-/* =====================================================
-   ESCAPE HTML
-===================================================== */
-
-function escapeHTML(
+  function escapeHTML(
     text
-){
+  ) {
 
     return String(text)
-
-        .replace(
-            /&/g,
-            "&amp;"
-        )
-
-        .replace(
-            /</g,
-            "&lt;"
-        )
-
-        .replace(
-            />/g,
-            "&gt;"
-        )
-
-        .replace(
-            /"/g,
-            "&quot;"
-        )
-
-        .replace(
-            /'/g,
-            "&#039;"
-        );
-
-}
+      .replace(
+        /&/g,
+        "&amp;"
+      )
+      .replace(
+        /</g,
+        "&lt;"
+      )
+      .replace(
+        />/g,
+        "&gt;"
+      )
+      .replace(
+        /"/g,
+        "&quot;"
+      )
+      .replace(
+        /'/g,
+        "&#039;"
+      );
+  }
 
 
-/* =====================================================
-   MULAI
-===================================================== */
+  // =====================================================
+  // MULAI
+  // =====================================================
 
-ambilData();
+  ambilData();
 
 </script>
 
 </body>
 </html>
+```
