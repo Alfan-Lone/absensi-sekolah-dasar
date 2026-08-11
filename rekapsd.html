@@ -1,11 +1,10 @@
-```html
 <!DOCTYPE html>
 <html lang="id">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Rekap Absensi - Ekskul Informatika</title>
+  <title>Rekap Absensi -   SDN WARNASARI</title>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -81,6 +80,11 @@
       outline: none;
     }
 
+    input:focus {
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgba(37,99,235,.1);
+    }
+
     button {
       border: 0;
       border-radius: 10px;
@@ -88,6 +92,10 @@
       font-weight: bold;
       cursor: pointer;
       font-size: 14px;
+    }
+
+    button:hover {
+      opacity: .9;
     }
 
     .blue {
@@ -109,6 +117,7 @@
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 10px;
+      margin-bottom: 15px;
     }
 
     .stat {
@@ -194,11 +203,6 @@
 
     .foto:hover {
       opacity: .8;
-    }
-
-    .foto-loading {
-      color: #94a3b8;
-      font-size: 12px;
     }
 
     .foto-error {
@@ -349,11 +353,17 @@
 
       <div>
         <label>Tanggal</label>
-        <input type="date" id="tanggal">
+
+        <input
+          type="date"
+          id="tanggal"
+          onchange="tampilkanData()"
+        >
       </div>
 
       <div>
         <label>Cari Nama</label>
+
         <input
           type="text"
           id="cari"
@@ -364,6 +374,7 @@
 
       <div>
         <label>&nbsp;</label>
+
         <button
           class="blue"
           onclick="ambilData()"
@@ -398,42 +409,62 @@
   <div class="stats">
 
     <div class="stat">
-      <div class="stat-icon">👥</div>
+
+      <div class="stat-icon">
+        👥
+      </div>
+
       <div
         class="stat-number"
         id="jumlahOrang"
       >
         0
       </div>
+
       <div class="stat-label">
         Orang
       </div>
+
     </div>
 
+
     <div class="stat">
-      <div class="stat-icon">🟢</div>
+
+      <div class="stat-icon">
+        🟢
+      </div>
+
       <div
         class="stat-number"
         id="jumlahMasuk"
       >
         0
       </div>
+
       <div class="stat-label">
         Absen Masuk
       </div>
+
     </div>
 
+
     <div class="stat">
-      <div class="stat-icon">🔴</div>
+
+      <div class="stat-icon">
+        🔴
+      </div>
+
       <div
         class="stat-number"
         id="jumlahPulang"
       >
         0
       </div>
+
       <div class="stat-label">
         Absen Pulang
       </div>
+
     </div>
 
   </div>
@@ -444,22 +475,30 @@
     <table>
 
       <thead>
+
         <tr>
           <th>No</th>
           <th>Nama</th>
+          <th>Kelas</th>
           <th>Tanggal</th>
           <th>Jam</th>
           <th>Status</th>
           <th>Foto Selfie</th>
         </tr>
+
       </thead>
 
       <tbody id="tabelData">
 
         <tr>
-          <td colspan="6" class="loading">
+
+          <td
+            colspan="7"
+            class="loading"
+          >
             ⏳ Memuat data...
           </td>
+
         </tr>
 
       </tbody>
@@ -498,919 +537,895 @@
 
 <script>
 
-  // =====================================================
-  // SUPABASE
-  // =====================================================
+// =====================================================
+// SUPABASE
+// =====================================================
 
-  // ISI DENGAN DATA SUPABASE YANG SAMA DENGAN INDEX.HTML
+const SUPABASE_URL =
+  "https://prcnxtzhukfopcfzyczm.supabase.co";
 
-  const SUPABASE_URL =
-    "https://prcnxtzhukfopcfzyczm.supabase.co";
+const SUPABASE_KEY =
+  "sb_publishable_wUZkF_KZgqDmhlVwdOAKRA_PkmZQ920";
 
-  const SUPABASE_KEY =
-    "sb_publishable_wUZkF_KZgqDmhlVwdOAKRA_PkmZQ920";
-
-
-  const supabaseClient =
-    window.supabase.createClient(
-      SUPABASE_URL,
-      SUPABASE_KEY
-    );
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
 
 
-  // =====================================================
-  // VARIABEL
-  // =====================================================
+// =====================================================
+// VARIABEL
+// =====================================================
 
-  let semuaData = [];
+let semuaData = [];
 
 
-  // =====================================================
-  // TANGGAL HARI INI
-  // =====================================================
+// =====================================================
+// TANGGAL HARI INI
+// =====================================================
 
-  function tanggalHariIni() {
+function tanggalHariIni() {
 
-    const sekarang = new Date();
+  const sekarang = new Date();
 
-    const tahun =
-      sekarang.getFullYear();
+  const tahun =
+    sekarang.getFullYear();
 
-    const bulan =
-      String(
-        sekarang.getMonth() + 1
-      ).padStart(2, "0");
+  const bulan =
+    String(
+      sekarang.getMonth() + 1
+    ).padStart(2, "0");
 
-    const hari =
-      String(
-        sekarang.getDate()
-      ).padStart(2, "0");
+  const hari =
+    String(
+      sekarang.getDate()
+    ).padStart(2, "0");
 
-    return (
-      tahun +
-      "-" +
-      bulan +
-      "-" +
-      hari
-    );
-  }
+  return (
+    tahun +
+    "-" +
+    bulan +
+    "-" +
+    hari
+  );
+}
 
+
+document.getElementById(
+  "tanggal"
+).value =
+  tanggalHariIni();
+
+
+// =====================================================
+// AMBIL DATA SUPABASE
+// =====================================================
+
+async function ambilData() {
+
+  tampilkanError("");
 
   document.getElementById(
-    "tanggal"
-  ).value = tanggalHariIni();
+    "tabelData"
+  ).innerHTML = `
+    <tr>
+      <td
+        colspan="7"
+        class="loading"
+      >
+        ⏳ Memuat data...
+      </td>
+    </tr>
+  `;
 
+  try {
 
-  // =====================================================
-  // AMBIL DATA SUPABASE
-  // =====================================================
+    const hasil =
+      await supabaseClient
+        .from("absensi")
+        .select("*");
 
-  async function ambilData() {
+    if (hasil.error) {
+      throw hasil.error;
+    }
 
-    tampilkanError("");
+    semuaData =
+      hasil.data || [];
+
+    semuaData.sort(
+      (a, b) => {
+
+        const waktuA =
+          String(
+            a.tanggal || ""
+          ) +
+          String(
+            a.jam || ""
+          );
+
+        const waktuB =
+          String(
+            b.tanggal || ""
+          ) +
+          String(
+            b.jam || ""
+          );
+
+        return waktuB.localeCompare(
+          waktuA
+        );
+      }
+    );
+
+    await tampilkanData();
+
+  } catch (error) {
+
+    console.error(error);
+
+    tampilkanError(
+      "Gagal mengambil data: " +
+      error.message
+    );
 
     document.getElementById(
       "tabelData"
     ).innerHTML = `
       <tr>
         <td
-          colspan="6"
+          colspan="7"
           class="loading"
         >
-          ⏳ Memuat data...
+          ❌ Data tidak dapat dimuat.
+        </td>
+      </tr>
+    `;
+  }
+}
+
+
+// =====================================================
+// TAMPILKAN DATA
+// =====================================================
+
+async function tampilkanData() {
+
+  const tanggal =
+    document.getElementById(
+      "tanggal"
+    ).value;
+
+  const kata =
+    document.getElementById(
+      "cari"
+    ).value
+      .trim()
+      .toLowerCase();
+
+  const data =
+    semuaData.filter(
+      item => {
+
+        const cocokTanggal =
+          !tanggal ||
+          String(
+            item.tanggal || ""
+          ) === tanggal;
+
+        const nama =
+          String(
+            item.nama || ""
+          ).toLowerCase();
+
+        const cocokNama =
+          !kata ||
+          nama.includes(kata);
+
+        return (
+          cocokTanggal &&
+          cocokNama
+        );
+      }
+    );
+
+
+  // ===================================================
+  // STATISTIK
+  // ===================================================
+
+  const namaUnik =
+    new Set(
+      data.map(
+        item =>
+          String(
+            item.nama || ""
+          ).toLowerCase()
+      )
+    );
+
+
+  const masuk =
+    data.filter(
+      item =>
+        String(
+          item.jenis || ""
+        ).toLowerCase() === "masuk"
+    ).length;
+
+
+  const pulang =
+    data.filter(
+      item =>
+        String(
+          item.jenis || ""
+        ).toLowerCase() === "pulang"
+    ).length;
+
+
+  document.getElementById(
+    "jumlahOrang"
+  ).textContent =
+    namaUnik.size;
+
+  document.getElementById(
+    "jumlahMasuk"
+  ).textContent =
+    masuk;
+
+  document.getElementById(
+    "jumlahPulang"
+  ).textContent =
+    pulang;
+
+
+  // ===================================================
+  // DATA KOSONG
+  // ===================================================
+
+  if (data.length === 0) {
+
+    document.getElementById(
+      "tabelData"
+    ).innerHTML = `
+      <tr>
+        <td
+          colspan="7"
+          class="loading"
+        >
+          📭 Tidak ada data absensi.
         </td>
       </tr>
     `;
 
-
-    try {
-
-      const hasil =
-        await supabaseClient
-          .from("absensi")
-          .select("*");
-
-
-      if (hasil.error) {
-        throw hasil.error;
-      }
-
-
-      semuaData =
-        hasil.data || [];
-
-
-      // Urutkan dari yang terbaru
-
-      semuaData.sort(
-        (a, b) => {
-
-          const waktuA =
-            String(
-              a.tanggal || ""
-            ) +
-            String(
-              a.jam || ""
-            );
-
-          const waktuB =
-            String(
-              b.tanggal || ""
-            ) +
-            String(
-              b.jam || ""
-            );
-
-          return waktuB.localeCompare(
-            waktuA
-          );
-        }
-      );
-
-
-      await tampilkanData();
-
-    } catch (error) {
-
-      console.error(error);
-
-      tampilkanError(
-        "Gagal mengambil data: " +
-        error.message
-      );
-
-      document.getElementById(
-        "tabelData"
-      ).innerHTML = `
-        <tr>
-          <td
-            colspan="6"
-            class="loading"
-          >
-            ❌ Data tidak dapat dimuat.
-          </td>
-        </tr>
-      `;
-    }
+    return;
   }
 
 
-  // =====================================================
-  // TAMPILKAN DATA
-  // =====================================================
+  // ===================================================
+  // BUAT BARIS
+  // ===================================================
 
-  async function tampilkanData() {
+  const baris =
+    await Promise.all(
+      data.map(
+        async (item, index) => {
 
-    const tanggal =
-      document.getElementById(
-        "tanggal"
-      ).value;
-
-
-    const kata =
-      document.getElementById(
-        "cari"
-      ).value
-        .trim()
-        .toLowerCase();
+          const fotoHTML =
+            await buatFoto(
+              item.foto_path
+            );
 
 
-    const data =
-      semuaData.filter(
-        item => {
-
-          const cocokTanggal =
-            !tanggal ||
+          const jenis =
             String(
-              item.tanggal || ""
-            ) === tanggal;
-
-
-          const nama =
-            String(
-              item.nama || ""
+              item.jenis || ""
             ).toLowerCase();
 
 
-          const cocokNama =
-            !kata ||
-            nama.includes(kata);
+          const status =
+            jenis === "masuk"
+              ? `
+                <span
+                  class="badge masuk"
+                >
+                  🟢 MASUK
+                </span>
+              `
+              : `
+                <span
+                  class="badge pulang"
+                >
+                  🔴 PULANG
+                </span>
+              `;
 
 
-          return (
-            cocokTanggal &&
-            cocokNama
-          );
+          return `
+            <tr>
+
+              <td>
+                ${index + 1}
+              </td>
+
+              <td>
+                <strong>
+                  ${escapeHTML(
+                    item.nama || "-"
+                  )}
+                </strong>
+              </td>
+
+              <td>
+                ${escapeHTML(
+                  item.kelas || "-"
+                )}
+              </td>
+
+              <td>
+                ${formatTanggal(
+                  item.tanggal
+                )}
+              </td>
+
+              <td>
+                ${formatJam(
+                  item.jam
+                )}
+              </td>
+
+              <td>
+                ${status}
+              </td>
+
+              <td>
+                ${fotoHTML}
+              </td>
+
+            </tr>
+          `;
         }
-      );
+      )
+    );
 
 
-    // ===================================================
-    // STATISTIK
-    // ===================================================
-
-    const namaUnik =
-      new Set(
-        data.map(
-          item =>
-            String(
-              item.nama || ""
-            ).toLowerCase()
-        )
-      );
+  document.getElementById(
+    "tabelData"
+  ).innerHTML =
+    baris.join("");
+}
 
 
-    const masuk =
-      data.filter(
-        item =>
-          String(
-            item.jenis || ""
-          ).toLowerCase() === "masuk"
-      ).length;
+// =====================================================
+// FOTO DARI BUCKET selfie3
+// =====================================================
 
+async function buatFoto(path) {
 
-    const pulang =
-      data.filter(
-        item =>
-          String(
-            item.jenis || ""
-          ).toLowerCase() === "pulang"
-      ).length;
+  if (!path) {
 
-
-    document.getElementById(
-      "jumlahOrang"
-    ).textContent =
-      namaUnik.size;
-
-
-    document.getElementById(
-      "jumlahMasuk"
-    ).textContent =
-      masuk;
-
-
-    document.getElementById(
-      "jumlahPulang"
-    ).textContent =
-      pulang;
-
-
-    // ===================================================
-    // TABEL KOSONG
-    // ===================================================
-
-    if (data.length === 0) {
-
-      document.getElementById(
-        "tabelData"
-      ).innerHTML = `
-        <tr>
-          <td
-            colspan="6"
-            class="loading"
-          >
-            📭 Tidak ada data absensi.
-          </td>
-        </tr>
-      `;
-
-      return;
-    }
-
-
-    // ===================================================
-    // BUAT BARIS
-    // ===================================================
-
-    const baris =
-      await Promise.all(
-        data.map(
-          async (item, index) => {
-
-            const fotoHTML =
-              await buatFoto(
-                item.foto_path
-              );
-
-
-            const jenis =
-              String(
-                item.jenis || ""
-              ).toLowerCase();
-
-
-            const status =
-              jenis === "masuk"
-                ? `
-                  <span
-                    class="badge masuk"
-                  >
-                    🟢 MASUK
-                  </span>
-                `
-                : `
-                  <span
-                    class="badge pulang"
-                  >
-                    🔴 PULANG
-                  </span>
-                `;
-
-
-            return `
-              <tr>
-
-                <td>
-                  ${index + 1}
-                </td>
-
-                <td>
-                  <strong>
-                    ${escapeHTML(
-                      item.nama || "-"
-                    )}
-                  </strong>
-                </td>
-
-                <td>
-                  ${formatTanggal(
-                    item.tanggal
-                  )}
-                </td>
-
-                <td>
-                  ${formatJam(
-                    item.jam
-                  )}
-                </td>
-
-                <td>
-                  ${status}
-                </td>
-
-                <td>
-                  ${fotoHTML}
-                </td>
-
-              </tr>
-            `;
-          }
-        )
-      );
-
-
-    document.getElementById(
-      "tabelData"
-    ).innerHTML =
-      baris.join("");
+    return `
+      <span class="foto-error">
+        Tidak ada foto
+      </span>
+    `;
   }
 
 
-  // =====================================================
-  // FOTO PRIVATE + SIGNED URL
-  // =====================================================
+  try {
 
-  async function buatFoto(path) {
-
-    if (!path) {
-
-      return `
-        <span class="foto-error">
-          Tidak ada foto
-        </span>
-      `;
-    }
-
-
-    try {
-
-      const hasil =
-        await supabaseClient
-          .storage
-          .from("selfies")
-          .createSignedUrl(
-            path,
-            3600
-          );
-
-
-      if (
-        hasil.error ||
-        !hasil.data ||
-        !hasil.data.signedUrl
-      ) {
-
-        console.error(
-          "Gagal membuat signed URL:",
-          hasil.error
+    const hasil =
+      await supabaseClient
+        .storage
+        .from("selfie3")
+        .createSignedUrl(
+          path,
+          3600
         );
 
-        return `
-          <span class="foto-error">
-            Foto tidak dapat dibuka
-          </span>
-        `;
-      }
 
+    if (
+      hasil.error ||
+      !hasil.data ||
+      !hasil.data.signedUrl
+    ) {
 
-      const url =
-        hasil.data.signedUrl;
-
-
-      const safeURL =
-        encodeURIComponent(url);
-
-
-      return `
-        <div>
-
-          <img
-            class="foto"
-            src="${url}"
-            alt="Selfie"
-            onclick="bukaFoto('${safeURL}')"
-          >
-
-          <div class="foto-buttons">
-
-            <a
-              class="lihat"
-              href="${url}"
-              target="_blank"
-            >
-              👁️ Lihat
-            </a>
-
-            <button
-              class="download"
-              onclick="downloadFoto('${safeURL}')"
-            >
-              📥 Simpan
-            </button>
-
-          </div>
-
-        </div>
-      `;
-
-    } catch (error) {
-
-      console.error(error);
+      console.error(
+        "Gagal membuat signed URL:",
+        hasil.error
+      );
 
       return `
         <span class="foto-error">
-          Foto error
+          Foto tidak dapat dibuka
         </span>
       `;
     }
+
+
+    const url =
+      hasil.data.signedUrl;
+
+
+    const safeURL =
+      encodeURIComponent(url);
+
+
+    return `
+      <div>
+
+        <img
+          class="foto"
+          src="${url}"
+          alt="Selfie"
+          onclick="bukaFoto('${safeURL}')"
+        >
+
+        <div class="foto-buttons">
+
+          <a
+            class="lihat"
+            href="${url}"
+            target="_blank"
+          >
+            👁️ Lihat
+          </a>
+
+          <button
+            class="download"
+            onclick="downloadFoto('${safeURL}')"
+          >
+            📥 Simpan
+          </button>
+
+        </div>
+
+      </div>
+    `;
+
+  } catch (error) {
+
+    console.error(error);
+
+    return `
+      <span class="foto-error">
+        Foto error
+      </span>
+    `;
   }
+}
 
 
-  // =====================================================
-  // BUKA FOTO BESAR
-  // =====================================================
+// =====================================================
+// BUKA FOTO BESAR
+// =====================================================
 
-  function bukaFoto(
-    encodedURL
-  ) {
+function bukaFoto(
+  encodedURL
+) {
+
+  const url =
+    decodeURIComponent(
+      encodedURL
+    );
+
+  document.getElementById(
+    "fotoBesar"
+  ).src =
+    url;
+
+  document.getElementById(
+    "modal"
+  ).style.display =
+    "flex";
+}
+
+
+function tutupModal() {
+
+  document.getElementById(
+    "modal"
+  ).style.display =
+    "none";
+
+  document.getElementById(
+    "fotoBesar"
+  ).src =
+    "";
+}
+
+
+// =====================================================
+// DOWNLOAD FOTO
+// =====================================================
+
+async function downloadFoto(
+  encodedURL
+) {
+
+  try {
 
     const url =
       decodeURIComponent(
         encodedURL
       );
 
+    const response =
+      await fetch(url);
 
-    document.getElementById(
-      "fotoBesar"
-    ).src = url;
+    if (!response.ok) {
 
-
-    document.getElementById(
-      "modal"
-    ).style.display =
-      "flex";
-  }
-
-
-  function tutupModal() {
-
-    document.getElementById(
-      "modal"
-    ).style.display =
-      "none";
-
-
-    document.getElementById(
-      "fotoBesar"
-    ).src = "";
-  }
-
-
-  // =====================================================
-  // DOWNLOAD FOTO
-  // =====================================================
-
-  async function downloadFoto(
-    encodedURL
-  ) {
-
-    try {
-
-      const url =
-        decodeURIComponent(
-          encodedURL
-        );
-
-
-      const response =
-        await fetch(url);
-
-
-      if (!response.ok) {
-        throw new Error(
-          "Foto tidak dapat diunduh."
-        );
-      }
-
-
-      const blob =
-        await response.blob();
-
-
-      const blobURL =
-        URL.createObjectURL(
-          blob
-        );
-
-
-      const link =
-        document.createElement(
-          "a"
-        );
-
-
-      link.href =
-        blobURL;
-
-
-      link.download =
-        "selfie-absensi-" +
-        Date.now() +
-        ".jpg";
-
-
-      document.body.appendChild(
-        link
-      );
-
-
-      link.click();
-
-
-      document.body.removeChild(
-        link
-      );
-
-
-      URL.revokeObjectURL(
-        blobURL
-      );
-
-    } catch (error) {
-
-      console.error(error);
-
-      // Kalau browser HP tidak mengizinkan
-      // download langsung, buka fotonya.
-
-      alert(
-        "Download langsung tidak tersedia di browser ini. Foto akan dibuka, lalu tekan tahan foto untuk menyimpannya."
-      );
-
-      const url =
-        decodeURIComponent(
-          encodedURL
-        );
-
-      window.open(
-        url,
-        "_blank"
+      throw new Error(
+        "Foto tidak dapat diunduh."
       );
     }
-  }
-
-
-  // =====================================================
-  // FORMAT TANGGAL
-  // =====================================================
-
-  function formatTanggal(
-    tanggal
-  ) {
-
-    if (!tanggal) {
-      return "-";
-    }
-
-
-    const bagian =
-      String(
-        tanggal
-      ).split("-");
-
-
-    if (
-      bagian.length !== 3
-    ) {
-      return tanggal;
-    }
-
-
-    return (
-      bagian[2] +
-      "-" +
-      bagian[1] +
-      "-" +
-      bagian[0]
-    );
-  }
-
-
-  // =====================================================
-  // FORMAT JAM
-  // =====================================================
-
-  function formatJam(
-    jam
-  ) {
-
-    if (!jam) {
-      return "-";
-    }
-
-
-    return String(
-      jam
-    ).substring(0, 8);
-  }
-
-
-  // =====================================================
-  // RESET FILTER
-  // =====================================================
-
-  function resetFilter() {
-
-    document.getElementById(
-      "tanggal"
-    ).value =
-      tanggalHariIni();
-
-
-    document.getElementById(
-      "cari"
-    ).value =
-      "";
-
-
-    tampilkanData();
-  }
-
-
-  // =====================================================
-  // DOWNLOAD CSV
-  // =====================================================
-
-  function downloadCSV() {
-
-    const tanggal =
-      document.getElementById(
-        "tanggal"
-      ).value;
-
-
-    const kata =
-      document.getElementById(
-        "cari"
-      ).value
-        .trim()
-        .toLowerCase();
-
-
-    const data =
-      semuaData.filter(
-        item => {
-
-          const cocokTanggal =
-            !tanggal ||
-            String(
-              item.tanggal || ""
-            ) === tanggal;
-
-
-          const nama =
-            String(
-              item.nama || ""
-            ).toLowerCase();
-
-
-          const cocokNama =
-            !kata ||
-            nama.includes(kata);
-
-
-          return (
-            cocokTanggal &&
-            cocokNama
-          );
-        }
-      );
-
-
-    if (data.length === 0) {
-
-      alert(
-        "Tidak ada data untuk didownload."
-      );
-
-      return;
-    }
-
-
-    let csv =
-      "No,Nama,Tanggal,Jam,Jenis,Foto Path\n";
-
-
-    data.forEach(
-      (item, index) => {
-
-        const nama =
-          String(
-            item.nama || ""
-          ).replace(
-            /"/g,
-            '""'
-          );
-
-
-        const foto =
-          String(
-            item.foto_path || ""
-          ).replace(
-            /"/g,
-            '""'
-          );
-
-
-        csv +=
-          (
-            index + 1
-          ) +
-          ',"' +
-          nama +
-          '",' +
-          (
-            item.tanggal || ""
-          ) +
-          "," +
-          (
-            item.jam || ""
-          ) +
-          "," +
-          (
-            item.jenis || ""
-          ) +
-          ',"' +
-          foto +
-          '"\n';
-      }
-    );
-
 
     const blob =
-      new Blob(
-        [csv],
-        {
-          type:
-            "text/csv;charset=utf-8;"
-        }
-      );
+      await response.blob();
 
-
-    const url =
+    const blobURL =
       URL.createObjectURL(
         blob
       );
-
 
     const link =
       document.createElement(
         "a"
       );
 
-
     link.href =
-      url;
-
+      blobURL;
 
     link.download =
-      "rekap-absensi.csv";
-
+      "selfie-absensi-" +
+      Date.now() +
+      ".jpg";
 
     document.body.appendChild(
       link
     );
 
-
     link.click();
-
 
     document.body.removeChild(
       link
     );
 
-
     URL.revokeObjectURL(
-      url
+      blobURL
+    );
+
+  } catch (error) {
+
+    console.error(error);
+
+    alert(
+      "Download langsung tidak tersedia di browser ini. Foto akan dibuka, lalu tekan tahan foto untuk menyimpannya."
+    );
+
+    const url =
+      decodeURIComponent(
+        encodedURL
+      );
+
+    window.open(
+      url,
+      "_blank"
     );
   }
+}
 
 
-  // =====================================================
-  // ERROR
-  // =====================================================
+// =====================================================
+// FORMAT TANGGAL
+// =====================================================
 
-  function tampilkanError(
-    pesan
+function formatTanggal(
+  tanggal
+) {
+
+  if (!tanggal) {
+    return "-";
+  }
+
+  const bagian =
+    String(
+      tanggal
+    ).split("-");
+
+  if (
+    bagian.length !== 3
   ) {
+    return tanggal;
+  }
 
-    const box =
-      document.getElementById(
-        "errorBox"
-      );
+  return (
+    bagian[2] +
+    "-" +
+    bagian[1] +
+    "-" +
+    bagian[0]
+  );
+}
 
 
-    if (!pesan) {
+// =====================================================
+// FORMAT JAM
+// =====================================================
 
-      box.style.display =
-        "none";
+function formatJam(
+  jam
+) {
 
-      box.textContent =
-        "";
+  if (!jam) {
+    return "-";
+  }
 
-      return;
+  return String(
+    jam
+  ).substring(0, 8);
+}
+
+
+// =====================================================
+// RESET FILTER
+// =====================================================
+
+function resetFilter() {
+
+  document.getElementById(
+    "tanggal"
+  ).value =
+    tanggalHariIni();
+
+  document.getElementById(
+    "cari"
+  ).value =
+    "";
+
+  tampilkanData();
+}
+
+
+// =====================================================
+// DOWNLOAD CSV
+// =====================================================
+
+function downloadCSV() {
+
+  const tanggal =
+    document.getElementById(
+      "tanggal"
+    ).value;
+
+  const kata =
+    document.getElementById(
+      "cari"
+    ).value
+      .trim()
+      .toLowerCase();
+
+
+  const data =
+    semuaData.filter(
+      item => {
+
+        const cocokTanggal =
+          !tanggal ||
+          String(
+            item.tanggal || ""
+          ) === tanggal;
+
+        const nama =
+          String(
+            item.nama || ""
+          ).toLowerCase();
+
+        const cocokNama =
+          !kata ||
+          nama.includes(kata);
+
+        return (
+          cocokTanggal &&
+          cocokNama
+        );
+      }
+    );
+
+
+  if (data.length === 0) {
+
+    alert(
+      "Tidak ada data untuk didownload."
+    );
+
+    return;
+  }
+
+
+  let csv =
+    "No,Nama,Kelas,Tanggal,Jam,Jenis,Foto Path\n";
+
+
+  data.forEach(
+    (item, index) => {
+
+      const nama =
+        String(
+          item.nama || ""
+        ).replace(
+          /"/g,
+          '""'
+        );
+
+
+      const kelas =
+        String(
+          item.kelas || ""
+        ).replace(
+          /"/g,
+          '""'
+        );
+
+
+      const foto =
+        String(
+          item.foto_path || ""
+        ).replace(
+          /"/g,
+          '""'
+        );
+
+
+      csv +=
+        (
+          index + 1
+        ) +
+        ',"' +
+        nama +
+        '","' +
+        kelas +
+        '",' +
+        (
+          item.tanggal || ""
+        ) +
+        "," +
+        (
+          item.jam || ""
+        ) +
+        "," +
+        (
+          item.jenis || ""
+        ) +
+        ',"' +
+        foto +
+        '"\n';
     }
+  );
 
 
-    box.textContent =
-      pesan;
+  const blob =
+    new Blob(
+      [csv],
+      {
+        type:
+          "text/csv;charset=utf-8;"
+      }
+    );
+
+
+  const url =
+    URL.createObjectURL(
+      blob
+    );
+
+
+  const link =
+    document.createElement(
+      "a"
+    );
+
+  link.href =
+    url;
+
+  link.download =
+    "rekap-absensi.csv";
+
+
+  document.body.appendChild(
+    link
+  );
+
+  link.click();
+
+  document.body.removeChild(
+    link
+  );
+
+  URL.revokeObjectURL(
+    url
+  );
+}
+
+
+// =====================================================
+// ERROR
+// =====================================================
+
+function tampilkanError(
+  pesan
+) {
+
+  const box =
+    document.getElementById(
+      "errorBox"
+    );
+
+
+  if (!pesan) {
 
     box.style.display =
-      "block";
+      "none";
+
+    box.textContent =
+      "";
+
+    return;
   }
 
 
-  // =====================================================
-  // ESCAPE HTML
-  // =====================================================
+  box.textContent =
+    pesan;
 
-  function escapeHTML(
-    text
-  ) {
-
-    return String(text)
-      .replace(
-        /&/g,
-        "&amp;"
-      )
-      .replace(
-        /</g,
-        "&lt;"
-      )
-      .replace(
-        />/g,
-        "&gt;"
-      )
-      .replace(
-        /"/g,
-        "&quot;"
-      )
-      .replace(
-        /'/g,
-        "&#039;"
-      );
-  }
+  box.style.display =
+    "block";
+}
 
 
-  // =====================================================
-  // MULAI
-  // =====================================================
+// =====================================================
+// ESCAPE HTML
+// =====================================================
 
-  ambilData();
+function escapeHTML(
+  text
+) {
+
+  return String(text)
+
+    .replace(
+      /&/g,
+      "&amp;"
+    )
+
+    .replace(
+      /</g,
+      "&lt;"
+    )
+
+    .replace(
+      />/g,
+      "&gt;"
+    )
+
+    .replace(
+      /"/g,
+      "&quot;"
+    )
+
+    .replace(
+      /'/g,
+      "&#039;"
+    );
+}
+
+
+// =====================================================
+// MULAI
+// =====================================================
+
+ambilData();
 
 </script>
 
 </body>
 </html>
-```
