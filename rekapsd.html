@@ -1,772 +1,361 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
-
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
-
-  <title>RekapSD - SD Warnasari</title>
+  <title>Rekap Absensi SD</title>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-
   <style>
-
     * {
       box-sizing: border-box;
     }
 
-
     body {
-
       margin: 0;
-
       padding: 15px;
-
       font-family: Arial, sans-serif;
-
       background: #f1f5f9;
-
       color: #111827;
-
     }
-
 
     .container {
-
       width: 100%;
-
       max-width: 1150px;
-
       margin: auto;
-
     }
 
-
-    /* =========================
-       HEADER
-    ========================= */
-
+    /* HEADER */
     .header {
-
-      background:
-        linear-gradient(
-          135deg,
-          #0f172a,
-          #1e3a8a
-        );
-
+      background: linear-gradient(135deg, #0f172a, #1e3a8a);
       color: white;
-
       padding: 25px 20px;
-
-      border-radius: 20px;
-
+      border-radius: 0 0 20px 20px;
       text-align: center;
-
       margin-bottom: 15px;
-
-      box-shadow:
-        0 8px 25px
-        rgba(0,0,0,.10);
-
     }
-
 
     .header-icon {
-
       font-size: 45px;
-
     }
-
 
     .header h1 {
-
       margin: 5px 0;
-
-      font-size: 27px;
-
+      font-size: 28px;
     }
-
 
     .header p {
-
       margin: 5px 0 0;
-
       opacity: .85;
-
-      font-size: 14px;
-
     }
 
-
-    /* =========================
-       ERROR
-    ========================= */
-
-    .error {
-
-      display: none;
-
-      background: #fee2e2;
-
-      color: #991b1b;
-
-      padding: 13px;
-
-      border-radius: 10px;
-
-      margin-bottom: 15px;
-
-      font-weight: bold;
-
-    }
-
-
-    /* =========================
-       CARD
-    ========================= */
-
+    /* CARD */
     .card {
-
       background: white;
-
       padding: 18px;
-
       border-radius: 18px;
-
       margin-bottom: 15px;
-
-      box-shadow:
-        0 5px 20px
-        rgba(0,0,0,.06);
-
+      box-shadow: 0 5px 20px rgba(0,0,0,.06);
     }
 
-
-    /* =========================
-       FILTER
-    ========================= */
-
+    /* FILTER */
     .filters {
-
       display: grid;
-
-      grid-template-columns:
-        1fr
-        1fr
-        auto;
-
+      grid-template-columns: 1fr 1fr auto;
       gap: 10px;
-
     }
-
 
     label {
-
       display: block;
-
       font-size: 13px;
-
       font-weight: bold;
-
       margin-bottom: 6px;
-
     }
-
 
     input {
-
       width: 100%;
-
       height: 45px;
-
       padding: 10px 12px;
-
-      border:
-        1px solid
-        #d1d5db;
-
+      border: 1px solid #d1d5db;
       border-radius: 10px;
-
       font-size: 15px;
-
       outline: none;
-
     }
-
 
     input:focus {
-
       border-color: #2563eb;
-
-      box-shadow:
-        0 0 0 3px
-        rgba(37,99,235,.10);
-
     }
-
 
     button {
-
-      border: none;
-
+      border: 0;
       border-radius: 10px;
-
-      padding:
-        12px
-        16px;
-
+      padding: 12px 16px;
       font-weight: bold;
-
       cursor: pointer;
-
       font-size: 14px;
-
     }
-
-
-    button:active {
-
-      transform: scale(.98);
-
-    }
-
 
     .blue {
-
       background: #2563eb;
-
       color: white;
-
     }
-
 
     .green {
-
       background: #16a34a;
-
       color: white;
-
     }
-
 
     .gray {
-
       background: #64748b;
-
       color: white;
-
     }
 
-
-    /* =========================
-       ACTION
-    ========================= */
-
+    /* ACTION */
     .actions {
-
       display: flex;
-
       gap: 10px;
-
       margin-top: 12px;
-
-      flex-wrap: wrap;
-
     }
 
-
-    /* =========================
-       STATISTIK
-    ========================= */
-
+    /* STATISTIK */
     .stats {
-
       display: grid;
-
-      grid-template-columns:
-        repeat(3, 1fr);
-
+      grid-template-columns: repeat(3, 1fr);
       gap: 10px;
-
       margin-bottom: 15px;
-
     }
-
 
     .stat {
-
-      text-align: center;
-
-      padding: 17px 5px;
-
       background: white;
-
+      text-align: center;
+      padding: 15px 5px;
       border-radius: 15px;
-
-      box-shadow:
-        0 5px 20px
-        rgba(0,0,0,.06);
-
+      box-shadow: 0 5px 20px rgba(0,0,0,.06);
     }
-
 
     .stat-icon {
-
       font-size: 25px;
-
     }
-
 
     .stat-number {
-
-      font-size: 25px;
-
+      font-size: 24px;
       font-weight: bold;
-
       margin-top: 4px;
-
     }
-
 
     .stat-label {
-
       color: #64748b;
-
       font-size: 12px;
-
       margin-top: 3px;
-
     }
 
-
-    /* =========================
-       TABLE
-    ========================= */
-
+    /* TABLE */
     .table-wrap {
-
       background: white;
-
       border-radius: 18px;
-
       padding: 12px;
-
-      box-shadow:
-        0 5px 20px
-        rgba(0,0,0,.06);
-
+      box-shadow: 0 5px 20px rgba(0,0,0,.06);
       overflow-x: auto;
-
     }
-
 
     table {
-
       width: 100%;
-
       border-collapse: collapse;
-
-      min-width: 850px;
-
+      min-width: 900px;
     }
-
 
     th {
-
       background: #f8fafc;
-
       padding: 13px;
-
       text-align: left;
-
       font-size: 13px;
-
-      border-bottom:
-        2px solid
-        #e5e7eb;
-
+      border-bottom: 2px solid #e5e7eb;
     }
-
 
     td {
-
       padding: 12px;
-
-      border-bottom:
-        1px solid
-        #e5e7eb;
-
+      border-bottom: 1px solid #e5e7eb;
       font-size: 14px;
-
       vertical-align: middle;
-
     }
 
-
-    tr:hover td {
-
-      background: #f8fafc;
-
-    }
-
-
-    /* =========================
-       STATUS
-    ========================= */
-
+    /* STATUS */
     .badge {
-
       display: inline-block;
-
-      padding:
-        6px
-        9px;
-
+      padding: 6px 9px;
       border-radius: 8px;
-
       font-size: 11px;
-
       font-weight: bold;
-
     }
-
 
     .masuk {
-
       background: #dcfce7;
-
       color: #166534;
-
     }
-
 
     .pulang {
-
       background: #fee2e2;
-
       color: #991b1b;
-
     }
 
-
-    /* =========================
-       FOTO
-    ========================= */
+    /* FOTO */
+    .foto-box {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
 
     .foto {
-
       width: 75px;
-
       height: 75px;
-
       object-fit: cover;
-
       border-radius: 10px;
-
-      border:
-        2px solid
-        #e5e7eb;
-
+      border: 2px solid #e5e7eb;
       cursor: pointer;
-
       display: block;
-
-      transition: .2s;
-
+      background: #e5e7eb;
     }
-
 
     .foto:hover {
-
       opacity: .8;
-
-      transform: scale(1.03);
-
     }
-
-
-    .foto-box {
-
-      width: 90px;
-
-    }
-
 
     .foto-buttons {
-
       display: flex;
-
       gap: 5px;
-
-      margin-top: 6px;
-
+      margin-top: 7px;
     }
 
-
-    .foto-buttons a {
-
-      display: inline-block;
-
-      padding:
-        6px
-        8px;
-
+    .foto-buttons a,
+    .foto-buttons button {
+      padding: 6px 8px;
       border-radius: 7px;
-
       color: white;
-
       text-decoration: none;
-
       font-size: 11px;
-
-      font-weight: bold;
-
+      border: 0;
+      cursor: pointer;
     }
-
 
     .lihat {
-
       background: #2563eb;
-
     }
-
 
     .download {
-
       background: #16a34a;
-
     }
-
 
     .foto-error {
-
       color: #dc2626;
-
-      font-size: 11px;
-
+      font-size: 12px;
     }
 
-
-    .foto-tidakada {
-
-      color: #94a3b8;
-
-      font-size: 11px;
-
-    }
-
-
-    /* =========================
-       LOADING
-    ========================= */
-
+    /* LOADING */
     .loading {
-
       text-align: center;
-
-      padding: 35px;
-
+      padding: 30px;
       color: #64748b;
-
     }
 
-
-    /* =========================
-       MODAL
-    ========================= */
-
-    .modal {
-
+    /* ERROR */
+    .error {
+      background: #fee2e2;
+      color: #991b1b;
+      padding: 12px;
+      border-radius: 10px;
+      margin-bottom: 15px;
       display: none;
-
-      position: fixed;
-
-      z-index: 9999;
-
-      inset: 0;
-
-      background:
-        rgba(0,0,0,.88);
-
-      align-items: center;
-
-      justify-content: center;
-
-      padding: 20px;
-
     }
 
+    /* MODAL */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 99999;
+      inset: 0;
+      background: rgba(0,0,0,.88);
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
 
     .modal img {
-
       max-width: 95%;
-
       max-height: 85vh;
-
       border-radius: 15px;
-
       object-fit: contain;
-
     }
-
 
     .close {
-
       position: fixed;
-
       top: 10px;
-
       right: 20px;
-
       color: white;
-
-      font-size: 42px;
-
+      font-size: 45px;
       cursor: pointer;
-
-      line-height: 1;
-
     }
 
-
-    .modal-download {
-
-      position: fixed;
-
-      bottom: 20px;
-
-      left: 50%;
-
-      transform: translateX(-50%);
-
-      background: #16a34a;
-
-      color: white;
-
-      padding:
-        12px
-        18px;
-
-      border-radius: 10px;
-
-      text-decoration: none;
-
-      font-weight: bold;
-
-    }
-
-
-    /* =========================
-       RESPONSIVE
-    ========================= */
-
+    /* MOBILE */
     @media(max-width: 650px) {
 
       body {
-
         padding: 10px;
-
       }
-
 
       .header {
-
         padding: 20px 10px;
-
       }
-
 
       .header h1 {
-
         font-size: 23px;
-
       }
-
 
       .filters {
-
         grid-template-columns: 1fr;
-
       }
-
 
       .filters button {
-
         width: 100%;
-
       }
-
 
       .stats {
-
         gap: 7px;
-
       }
-
 
       .stat {
-
-        padding: 13px 3px;
-
+        padding: 12px 3px;
       }
-
 
       .stat-icon {
-
         font-size: 20px;
-
       }
-
 
       .stat-number {
-
-        font-size: 21px;
-
+        font-size: 20px;
       }
-
 
       .stat-label {
-
         font-size: 10px;
-
       }
-
 
       .actions {
-
         flex-direction: column;
-
       }
-
 
       .actions button {
-
         width: 100%;
-
       }
-
     }
-
   </style>
-
 </head>
-
 
 <body>
 
-
 <div class="container">
 
-
   <!-- HEADER -->
-
   <div class="header">
 
     <div class="header-icon">
@@ -785,21 +374,16 @@
 
 
   <!-- ERROR -->
-
   <div
     id="errorBox"
-    class="error"
-  ></div>
+    class="error">
+  </div>
 
 
   <!-- FILTER -->
-
   <div class="card">
 
     <div class="filters">
-
-
-      <!-- TANGGAL -->
 
       <div>
 
@@ -815,8 +399,6 @@
 
       </div>
 
-
-      <!-- CARI -->
 
       <div>
 
@@ -834,8 +416,6 @@
       </div>
 
 
-      <!-- REFRESH -->
-
       <div>
 
         <label>
@@ -851,11 +431,8 @@
 
       </div>
 
-
     </div>
 
-
-    <!-- ACTION -->
 
     <div class="actions">
 
@@ -865,7 +442,6 @@
       >
         📥 DOWNLOAD CSV
       </button>
-
 
       <button
         class="gray"
@@ -880,9 +456,7 @@
 
 
   <!-- STATISTIK -->
-
   <div class="stats">
-
 
     <div class="stat">
 
@@ -943,12 +517,10 @@
 
     </div>
 
-
   </div>
 
 
-  <!-- TABEL -->
-
+  <!-- TABLE -->
   <div class="table-wrap">
 
     <table>
@@ -990,9 +562,7 @@
       </thead>
 
 
-      <tbody
-        id="tabelData"
-      >
+      <tbody id="tabelData">
 
         <tr>
 
@@ -1010,7 +580,6 @@
     </table>
 
   </div>
-
 
 </div>
 
@@ -1030,7 +599,6 @@
     ×
   </span>
 
-
   <img
     id="fotoBesar"
     src=""
@@ -1038,23 +606,10 @@
     onclick="event.stopPropagation()"
   >
 
-
-  <a
-    id="downloadModal"
-    class="modal-download"
-    href="#"
-    target="_blank"
-    download
-    onclick="event.stopPropagation()"
-  >
-    📥 DOWNLOAD FOTO
-  </a>
-
 </div>
 
 
 <script>
-
 
 /* =====================================================
    SUPABASE
@@ -1063,10 +618,8 @@
 const SUPABASE_URL =
   "https://prcnxtzhukfopcfzyczm.supabase.co";
 
-
 const SUPABASE_KEY =
   "sb_publishable_wUZkF_KZgqDmhlVwdOAKRA_PkmZQ920";
-
 
 const supabaseClient =
   window.supabase.createClient(
@@ -1076,15 +629,11 @@ const supabaseClient =
 
 
 /* =====================================================
-   SETTING
+   BUCKET FOTO
 ===================================================== */
 
-const BUCKET_FOTO =
+const NAMA_BUCKET =
   "selfie3";
-
-
-const NAMA_TABEL =
-  "absensi_sd";
 
 
 /* =====================================================
@@ -1100,31 +649,20 @@ let semuaData = [];
 
 function tanggalHariIni() {
 
-  const sekarang =
-    new Date();
-
+  const sekarang = new Date();
 
   const tahun =
     sekarang.getFullYear();
 
-
   const bulan =
     String(
       sekarang.getMonth() + 1
-    ).padStart(
-      2,
-      "0"
-    );
-
+    ).padStart(2, "0");
 
   const hari =
     String(
       sekarang.getDate()
-    ).padStart(
-      2,
-      "0"
-    );
-
+    ).padStart(2, "0");
 
   return (
     tahun +
@@ -1133,18 +671,12 @@ function tanggalHariIni() {
     "-" +
     hari
   );
-
 }
 
 
-/* =====================================================
-   SET TANGGAL AWAL
-===================================================== */
-
 document.getElementById(
   "tanggal"
-).value =
-  tanggalHariIni();
+).value = tanggalHariIni();
 
 
 /* =====================================================
@@ -1155,42 +687,37 @@ async function ambilData() {
 
   tampilkanError("");
 
-
   document.getElementById(
     "tabelData"
   ).innerHTML = `
-
     <tr>
-
       <td
         colspan="7"
         class="loading"
       >
-        ⏳ Memuat data...
+        ⏳ Mengambil data absensi...
       </td>
-
     </tr>
-
   `;
 
 
   try {
 
+    /*
+      KITA TIDAK MENGGUNAKAN FILTER TANGGAL
+      DI SUPABASE.
+
+      Semua data diambil terlebih dahulu.
+    */
 
     const hasil =
       await supabaseClient
-        .from(
-          NAMA_TABEL
-        )
+        .from("absensi_sd")
         .select("*");
 
 
-    if (
-      hasil.error
-    ) {
-
+    if (hasil.error) {
       throw hasil.error;
-
     }
 
 
@@ -1198,33 +725,28 @@ async function ambilData() {
       hasil.data || [];
 
 
-    /* =================================================
-       URUTKAN DATA TERBARU
-    ================================================= */
+    console.log(
+      "DATA ABSENSI:",
+      semuaData
+    );
+
+
+    /*
+      URUTKAN DATA TERBARU
+    */
 
     semuaData.sort(
-      function(a, b) {
+      (a, b) => {
 
         const waktuA =
-          String(
-            a.tanggal || ""
-          ) +
-          String(
-            a.jam || ""
-          );
-
+          dapatkanTanggalWaktu(a);
 
         const waktuB =
-          String(
-            b.tanggal || ""
-          ) +
-          String(
-            b.jam || ""
-          );
+          dapatkanTanggalWaktu(b);
 
-
-        return waktuB.localeCompare(
-          waktuA
+        return (
+          new Date(waktuB) -
+          new Date(waktuA)
         );
 
       }
@@ -1237,7 +759,7 @@ async function ambilData() {
   } catch (error) {
 
     console.error(
-      "ERROR AMBIL DATA:",
+      "ERROR SUPABASE:",
       error
     );
 
@@ -1251,22 +773,167 @@ async function ambilData() {
     document.getElementById(
       "tabelData"
     ).innerHTML = `
-
       <tr>
-
         <td
           colspan="7"
           class="loading"
         >
           ❌ Data tidak dapat dimuat.
         </td>
-
       </tr>
-
     `;
+  }
+
+}
+
+
+/* =====================================================
+   TANGGAL / WAKTU DATA
+===================================================== */
+
+function dapatkanTanggalWaktu(item) {
+
+  /*
+    Jika kolom tanggal tersedia
+  */
+
+  if (item.tanggal) {
+
+    return (
+      String(item.tanggal) +
+      "T" +
+      String(
+        item.jam || "00:00:00"
+      )
+    );
 
   }
 
+
+  /*
+    Jika tidak ada tanggal,
+    gunakan created_at
+  */
+
+  if (item.created_at) {
+
+    return item.created_at;
+
+  }
+
+
+  return "1970-01-01T00:00:00";
+}
+
+
+/* =====================================================
+   TANGGAL DATA
+===================================================== */
+
+function dapatkanTanggal(item) {
+
+  if (item.tanggal) {
+
+    return String(
+      item.tanggal
+    ).substring(0, 10);
+
+  }
+
+
+  if (item.created_at) {
+
+    /*
+      Ubah ke waktu Indonesia
+    */
+
+    const tanggal =
+      new Date(
+        item.created_at
+      );
+
+
+    const tahun =
+      tanggal.toLocaleString(
+        "en-US",
+        {
+          timeZone: "Asia/Jakarta",
+          year: "numeric"
+        }
+      );
+
+    const bulan =
+      tanggal.toLocaleString(
+        "en-US",
+        {
+          timeZone: "Asia/Jakarta",
+          month: "2-digit"
+        }
+      );
+
+    const hari =
+      tanggal.toLocaleString(
+        "en-US",
+        {
+          timeZone: "Asia/Jakarta",
+          day: "2-digit"
+        }
+      );
+
+
+    return (
+      tahun +
+      "-" +
+      bulan +
+      "-" +
+      hari
+    );
+
+  }
+
+
+  return "";
+}
+
+
+/* =====================================================
+   JAM DATA
+===================================================== */
+
+function dapatkanJam(item) {
+
+  if (item.jam) {
+
+    return String(
+      item.jam
+    ).substring(0, 8);
+
+  }
+
+
+  if (item.created_at) {
+
+    const tanggal =
+      new Date(
+        item.created_at
+      );
+
+
+    return tanggal.toLocaleTimeString(
+      "id-ID",
+      {
+        timeZone: "Asia/Jakarta",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: false
+      }
+    );
+
+  }
+
+
+  return "-";
 }
 
 
@@ -1276,8 +943,7 @@ async function ambilData() {
 
 function tampilkanData() {
 
-
-  const tanggal =
+  const tanggalDipilih =
     document.getElementById(
       "tanggal"
     ).value;
@@ -1291,46 +957,52 @@ function tampilkanData() {
       .toLowerCase();
 
 
-  /* ===================================================
-     FILTER
-  =================================================== */
+  /*
+    HANYA KELAS 6
+  */
 
   const data =
     semuaData.filter(
-      function(item) {
+      item => {
+
+        const kelas =
+          String(
+            item.kelas || ""
+          )
+          .trim()
+          .toLowerCase();
+
+
+        const cocokKelas =
+          kelas === "kelas 6" ||
+          kelas === "6";
+
+
+        const tanggalData =
+          dapatkanTanggal(item);
 
 
         const cocokTanggal =
-          !tanggal ||
-          String(
-            item.tanggal || ""
-          ) === tanggal;
+          !tanggalDipilih ||
+          tanggalData === tanggalDipilih;
 
 
         const nama =
           String(
             item.nama || ""
-          ).toLowerCase();
+          )
+          .toLowerCase();
 
 
         const cocokNama =
           !kata ||
-          nama.includes(
-            kata
-          );
-
-
-        const cocokKelas =
-          String(
-            item.kelas || ""
-          ).toLowerCase() ===
-          "kelas 6";
+          nama.includes(kata);
 
 
         return (
+          cocokKelas &&
           cocokTanggal &&
-          cocokNama &&
-          cocokKelas
+          cocokNama
         );
 
       }
@@ -1344,40 +1016,35 @@ function tampilkanData() {
   const namaUnik =
     new Set(
       data.map(
-        function(item) {
-
-          return String(
+        item =>
+          String(
             item.nama || ""
-          ).toLowerCase();
-
-        }
+          )
+          .trim()
+          .toLowerCase()
       )
     );
 
 
   const masuk =
     data.filter(
-      function(item) {
-
-        return String(
+      item =>
+        String(
           item.jenis || ""
-        ).toLowerCase() ===
-        "masuk";
-
-      }
+        )
+        .trim()
+        .toLowerCase() === "masuk"
     ).length;
 
 
   const pulang =
     data.filter(
-      function(item) {
-
-        return String(
+      item =>
+        String(
           item.jenis || ""
-        ).toLowerCase() ===
-        "pulang";
-
-      }
+        )
+        .trim()
+        .toLowerCase() === "pulang"
     ).length;
 
 
@@ -1403,29 +1070,22 @@ function tampilkanData() {
      DATA KOSONG
   =================================================== */
 
-  if (
-    data.length === 0
-  ) {
+  if (data.length === 0) {
 
     document.getElementById(
       "tabelData"
     ).innerHTML = `
-
       <tr>
-
         <td
           colspan="7"
           class="loading"
         >
           📭 Tidak ada data absensi Kelas 6.
         </td>
-
       </tr>
-
     `;
 
     return;
-
   }
 
 
@@ -1435,42 +1095,43 @@ function tampilkanData() {
 
   const baris =
     data.map(
-      function(item, index) {
-
+      (item, index) => {
 
         const jenis =
           String(
             item.jenis || ""
-          ).toLowerCase();
+          )
+          .trim()
+          .toLowerCase();
 
 
-        let status;
+        let statusHTML;
 
 
-        if (
-          jenis === "masuk"
-        ) {
+        if (jenis === "masuk") {
 
-          status = `
-
-            <span
-              class="badge masuk"
-            >
+          statusHTML = `
+            <span class="badge masuk">
               🟢 MASUK
             </span>
+          `;
 
+        } else if (jenis === "pulang") {
+
+          statusHTML = `
+            <span class="badge pulang">
+              🔴 PULANG
+            </span>
           `;
 
         } else {
 
-          status = `
-
-            <span
-              class="badge pulang"
-            >
-              🔴 PULANG
+          statusHTML = `
+            <span class="badge">
+              ${escapeHTML(
+                item.jenis || "-"
+              )}
             </span>
-
           `;
 
         }
@@ -1483,24 +1144,19 @@ function tampilkanData() {
 
 
         return `
-
           <tr>
 
             <td>
               ${index + 1}
             </td>
 
-
             <td>
-
               <strong>
                 ${escapeHTML(
                   item.nama || "-"
                 )}
               </strong>
-
             </td>
-
 
             <td>
               ${escapeHTML(
@@ -1508,34 +1164,26 @@ function tampilkanData() {
               )}
             </td>
 
-
             <td>
               ${formatTanggal(
-                item.tanggal
+                dapatkanTanggal(item)
               )}
             </td>
 
-
             <td>
-              ${formatJam(
-                item.jam
-              )}
+              ${dapatkanJam(item)}
             </td>
 
-
             <td>
-              ${status}
+              ${statusHTML}
             </td>
-
 
             <td>
               ${fotoHTML}
             </td>
 
           </tr>
-
         `;
-
       }
     );
 
@@ -1549,208 +1197,128 @@ function tampilkanData() {
 
 
 /* =====================================================
-   FOTO PUBLIC
+   FOTO PUBLIC DARI BUCKET selfie3
 ===================================================== */
 
 function buatFoto(path) {
 
-
-  if (
-    !path
-  ) {
+  if (!path) {
 
     return `
-
-      <span class="foto-tidakada">
-        Tidak ada foto
+      <span class="foto-error">
+        ❌ Tidak ada foto
       </span>
-
     `;
 
   }
 
 
-  try {
+  /*
+    PENTING:
+
+    Karena bucket selfie3 PUBLIC,
+    kita menggunakan getPublicUrl.
+
+    TIDAK menggunakan:
+    createSignedUrl()
+  */
+
+  const hasil =
+    supabaseClient
+      .storage
+      .from(NAMA_BUCKET)
+      .getPublicUrl(path);
 
 
-    /* =================================================
-       BERSIHKAN PATH
-    ================================================= */
-
-    let cleanPath =
-      String(path)
-        .trim();
+  const url =
+    hasil.data.publicUrl;
 
 
-    /*
-      Jika database ternyata menyimpan
-      URL lengkap, ambil bagian path
-      setelah nama bucket.
-    */
-
-    const posisiBucket =
-      cleanPath.indexOf(
-        BUCKET_FOTO + "/"
-      );
-
-
-    if (
-      posisiBucket !== -1
-    ) {
-
-      cleanPath =
-        cleanPath.substring(
-          posisiBucket +
-          BUCKET_FOTO.length +
-          1
-        );
-
-    }
-
-
-    /*
-      Hilangkan slash di awal
-    */
-
-    cleanPath =
-      cleanPath.replace(
-        /^\/+/,
-        ""
-      );
-
-
-    /* =================================================
-       PUBLIC URL
-    ================================================= */
-
-    const hasil =
-      supabaseClient
-        .storage
-        .from(
-          BUCKET_FOTO
-        )
-        .getPublicUrl(
-          cleanPath
-        );
-
-
-    const url =
-      hasil.data.publicUrl;
-
-
-    if (
-      !url
-    ) {
-
-      return `
-
-        <span class="foto-error">
-          URL foto tidak ditemukan
-        </span>
-
-      `;
-
-    }
-
-
-    const encoded =
-      encodeURIComponent(
-        url
-      );
-
+  if (!url) {
 
     return `
+      <span class="foto-error">
+        ❌ URL foto tidak ditemukan
+      </span>
+    `;
 
-      <div class="foto-box">
+  }
 
 
-        <img
+  /*
+    Encode URL supaya aman
+    dimasukkan ke onclick.
+  */
 
-          class="foto"
+  const encodedURL =
+    encodeURIComponent(url);
 
-          src="${url}"
 
-          alt="Foto selfie"
+  return `
+    <div class="foto-box">
 
-          loading="lazy"
+      <img
+        class="foto"
+        src="${url}"
+        alt="Foto selfie"
+        loading="lazy"
+        onclick="bukaFoto('${encodedURL}')"
+        onerror="fotoError(this)"
+      >
 
-          onclick="
-            bukaFoto('${encoded}')
-          "
+      <div class="foto-buttons">
 
-          onerror="
-            this.style.display='none';
-            this.nextElementSibling.style.display='block';
-          "
-
+        <a
+          class="lihat"
+          href="${url}"
+          target="_blank"
+          rel="noopener"
         >
+          👁️ Lihat
+        </a>
 
-
-        <span
-          class="foto-error"
-          style="display:none"
+        <button
+          class="download"
+          onclick="downloadFoto('${encodedURL}')"
         >
-          Foto tidak ditemukan
-        </span>
-
-
-        <div class="foto-buttons">
-
-
-          <a
-
-            class="lihat"
-
-            href="${url}"
-
-            target="_blank"
-
-          >
-            👁️ Lihat
-          </a>
-
-
-          <a
-
-            class="download"
-
-            href="${url}"
-
-            download
-
-            target="_blank"
-
-          >
-            📥 Simpan
-          </a>
-
-
-        </div>
-
+          📥 Simpan
+        </button>
 
       </div>
 
-    `;
+    </div>
+  `;
+
+}
 
 
-  } catch (error) {
+/* =====================================================
+   JIKA FOTO ERROR
+===================================================== */
+
+function fotoError(img) {
+
+  img.style.display =
+    "none";
 
 
-    console.error(
-      "FOTO ERROR:",
-      error
+  const pesan =
+    document.createElement(
+      "span"
     );
 
 
-    return `
+  pesan.className =
+    "foto-error";
 
-      <span class="foto-error">
-        Foto error
-      </span>
 
-    `;
+  pesan.textContent =
+    "❌ Foto tidak ditemukan";
 
-  }
+
+  img.parentNode.prepend(
+    pesan
+  );
 
 }
 
@@ -1762,7 +1330,6 @@ function buatFoto(path) {
 function bukaFoto(
   encodedURL
 ) {
-
 
   const url =
     decodeURIComponent(
@@ -1777,12 +1344,6 @@ function bukaFoto(
 
 
   document.getElementById(
-    "downloadModal"
-  ).href =
-    url;
-
-
-  document.getElementById(
     "modal"
   ).style.display =
     "flex";
@@ -1791,11 +1352,10 @@ function bukaFoto(
 
 
 /* =====================================================
-   TUTUP MODAL
+   TUTUP FOTO
 ===================================================== */
 
 function tutupModal() {
-
 
   document.getElementById(
     "modal"
@@ -1808,11 +1368,114 @@ function tutupModal() {
   ).src =
     "";
 
+}
 
-  document.getElementById(
-    "downloadModal"
-  ).href =
-    "#";
+
+/* =====================================================
+   DOWNLOAD FOTO
+===================================================== */
+
+async function downloadFoto(
+  encodedURL
+) {
+
+  const url =
+    decodeURIComponent(
+      encodedURL
+    );
+
+
+  try {
+
+    /*
+      Ambil file dari URL PUBLIC
+    */
+
+    const response =
+      await fetch(url);
+
+
+    if (!response.ok) {
+
+      throw new Error(
+        "Foto tidak dapat diambil."
+      );
+
+    }
+
+
+    const blob =
+      await response.blob();
+
+
+    const blobURL =
+      URL.createObjectURL(
+        blob
+      );
+
+
+    const link =
+      document.createElement(
+        "a"
+      );
+
+
+    link.href =
+      blobURL;
+
+
+    link.download =
+      "foto-absensi-" +
+      Date.now() +
+      ".jpg";
+
+
+    document.body.appendChild(
+      link
+    );
+
+
+    link.click();
+
+
+    document.body.removeChild(
+      link
+    );
+
+
+    setTimeout(
+      () => {
+        URL.revokeObjectURL(
+          blobURL
+        );
+      },
+      1000
+    );
+
+
+  } catch (error) {
+
+    console.error(
+      "DOWNLOAD ERROR:",
+      error
+    );
+
+
+    /*
+      Fallback:
+      buka foto di tab baru.
+    */
+
+    window.open(
+      url,
+      "_blank"
+    );
+
+    alert(
+      "Foto sudah dibuka. Jika download tidak langsung berjalan, klik kanan foto lalu pilih 'Simpan gambar sebagai...'."
+    );
+
+  }
 
 }
 
@@ -1825,13 +1488,8 @@ function formatTanggal(
   tanggal
 ) {
 
-
-  if (
-    !tanggal
-  ) {
-
+  if (!tanggal) {
     return "-";
-
   }
 
 
@@ -1852,9 +1510,9 @@ function formatTanggal(
 
   return (
     bagian[2] +
-    "-" +
+    "/" +
     bagian[1] +
-    "-" +
+    "/" +
     bagian[0]
   );
 
@@ -1862,39 +1520,10 @@ function formatTanggal(
 
 
 /* =====================================================
-   FORMAT JAM
-===================================================== */
-
-function formatJam(
-  jam
-) {
-
-
-  if (
-    !jam
-  ) {
-
-    return "-";
-
-  }
-
-
-  return String(
-    jam
-  ).substring(
-    0,
-    8
-  );
-
-}
-
-
-/* =====================================================
-   RESET FILTER
+   RESET
 ===================================================== */
 
 function resetFilter() {
-
 
   document.getElementById(
     "tanggal"
@@ -1919,8 +1548,7 @@ function resetFilter() {
 
 function downloadCSV() {
 
-
-  const tanggal =
+  const tanggalDipilih =
     document.getElementById(
       "tanggal"
     ).value;
@@ -1936,14 +1564,28 @@ function downloadCSV() {
 
   const data =
     semuaData.filter(
-      function(item) {
+      item => {
+
+        const kelas =
+          String(
+            item.kelas || ""
+          )
+          .trim()
+          .toLowerCase();
+
+
+        const cocokKelas =
+          kelas === "kelas 6" ||
+          kelas === "6";
+
+
+        const tanggalData =
+          dapatkanTanggal(item);
 
 
         const cocokTanggal =
-          !tanggal ||
-          String(
-            item.tanggal || ""
-          ) === tanggal;
+          !tanggalDipilih ||
+          tanggalData === tanggalDipilih;
 
 
         const nama =
@@ -1954,31 +1596,20 @@ function downloadCSV() {
 
         const cocokNama =
           !kata ||
-          nama.includes(
-            kata
-          );
-
-
-        const cocokKelas =
-          String(
-            item.kelas || ""
-          ).toLowerCase() ===
-          "kelas 6";
+          nama.includes(kata);
 
 
         return (
+          cocokKelas &&
           cocokTanggal &&
-          cocokNama &&
-          cocokKelas
+          cocokNama
         );
 
       }
     );
 
 
-  if (
-    data.length === 0
-  ) {
+  if (data.length === 0) {
 
     alert(
       "Tidak ada data untuk didownload."
@@ -1989,21 +1620,12 @@ function downloadCSV() {
   }
 
 
-  /* =================================================
-     HEADER CSV
-  ================================================= */
-
   let csv =
     "No,Nama,Kelas,Tanggal,Jam,Jenis,Foto Path\n";
 
 
-  /* =================================================
-     DATA CSV
-  ================================================= */
-
   data.forEach(
-    function(item, index) {
-
+    (item, index) => {
 
       const nama =
         String(
@@ -2016,7 +1638,7 @@ function downloadCSV() {
 
       const kelas =
         String(
-          item.kelas || "Kelas 6"
+          item.kelas || ""
         ).replace(
           /"/g,
           '""'
@@ -2033,57 +1655,32 @@ function downloadCSV() {
 
 
       csv +=
-
         (
           index + 1
         ) +
-
         ',"' +
-
         nama +
-
         '","' +
-
         kelas +
-
         '",' +
-
-        (
-          item.tanggal || ""
-        ) +
-
+        dapatkanTanggal(item) +
         "," +
-
-        (
-          item.jam || ""
-        ) +
-
+        dapatkanJam(item) +
         "," +
-
         (
           item.jenis || ""
         ) +
-
         ',"' +
-
         foto +
-
         '"\n';
 
     }
   );
 
 
-  /* =================================================
-     BUAT FILE
-  ================================================= */
-
   const blob =
     new Blob(
-      [
-        "\ufeff" +
-        csv
-      ],
+      [csv],
       {
         type:
           "text/csv;charset=utf-8;"
@@ -2108,7 +1705,7 @@ function downloadCSV() {
 
 
   link.download =
-    "rekapsd.csv";
+    "rekap-absensi-sd-kelas-6.csv";
 
 
   document.body.appendChild(
@@ -2132,13 +1729,12 @@ function downloadCSV() {
 
 
 /* =====================================================
-   ERROR
+   ERROR BOX
 ===================================================== */
 
 function tampilkanError(
   pesan
 ) {
-
 
   const box =
     document.getElementById(
@@ -2146,9 +1742,7 @@ function tampilkanError(
     );
 
 
-  if (
-    !pesan
-  ) {
+  if (!pesan) {
 
     box.style.display =
       "none";
@@ -2179,31 +1773,23 @@ function escapeHTML(
   text
 ) {
 
-
-  return String(
-    text
-  )
-
+  return String(text)
     .replace(
       /&/g,
       "&amp;"
     )
-
     .replace(
       /</g,
       "&lt;"
     )
-
     .replace(
       />/g,
       "&gt;"
     )
-
     .replace(
       /"/g,
       "&quot;"
     )
-
     .replace(
       /'/g,
       "&#039;"
@@ -2218,10 +1804,7 @@ function escapeHTML(
 
 ambilData();
 
-
 </script>
 
-
 </body>
-
 </html>
