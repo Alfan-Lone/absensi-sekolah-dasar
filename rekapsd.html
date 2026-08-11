@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Rekap Absensi -   SDN WARNASARI</title>
+  <title>Rekap Absensi - SDN WARNASARI</title>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -587,7 +587,7 @@
 
       const hasil =
         await supabaseClient
-          .from("selfie")
+          .from("absensi")
           .select("*");
 
 
