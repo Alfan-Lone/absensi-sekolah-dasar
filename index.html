@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Absensi Siswa SD WARNASARI</title>
+  <title>Absensi Siswa SD Warnasari</title>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -36,7 +36,7 @@
       background: white;
       border-radius: 24px;
       padding: 28px;
-      box-shadow: 0 15px 45px rgba(0,0,0,.12);
+      box-shadow: 0 15px 45px rgba(0, 0, 0, 0.12);
     }
 
     .header {
@@ -54,7 +54,7 @@
       align-items: center;
       justify-content: center;
       font-size: 40px;
-      box-shadow: 0 8px 20px rgba(37,99,235,.25);
+      box-shadow: 0 8px 20px rgba(37, 99, 235, 0.25);
     }
 
     .header h1 {
@@ -87,8 +87,7 @@
       color: #374151;
     }
 
-    input,
-    select {
+    input {
       width: 100%;
       height: 50px;
       padding: 0 14px;
@@ -100,10 +99,24 @@
       margin-bottom: 16px;
     }
 
-    input:focus,
-    select:focus {
+    input:focus {
       border-color: #2563eb;
-      box-shadow: 0 0 0 3px rgba(37,99,235,.1);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+
+    .kelas-box {
+      width: 100%;
+      height: 50px;
+      padding: 0 14px;
+      border: 1px solid #d1d5db;
+      border-radius: 12px;
+      font-size: 16px;
+      background: #f8fafc;
+      display: flex;
+      align-items: center;
+      margin-bottom: 16px;
+      color: #111827;
+      font-weight: bold;
     }
 
     .camera-title {
@@ -135,7 +148,7 @@
       left: 10px;
       right: 10px;
       bottom: 10px;
-      background: rgba(0,0,0,.55);
+      background: rgba(0, 0, 0, 0.55);
       color: white;
       padding: 9px;
       border-radius: 10px;
@@ -163,11 +176,11 @@
       font-weight: bold;
       cursor: pointer;
       margin-top: 8px;
-      transition: .2s;
+      transition: 0.2s;
     }
 
     button:active {
-      transform: scale(.98);
+      transform: scale(0.98);
     }
 
     button:disabled {
@@ -199,6 +212,7 @@
       text-align: center;
       font-size: 14px;
       font-weight: bold;
+      line-height: 1.5;
     }
 
     .status.success {
@@ -224,6 +238,13 @@
       color: #94a3b8;
       font-size: 12px;
       margin-top: 20px;
+    }
+
+    .bucket-info {
+      text-align: center;
+      font-size: 11px;
+      color: #94a3b8;
+      margin-top: 5px;
     }
 
     @media (max-width: 600px) {
@@ -256,6 +277,7 @@
 
   <div class="card">
 
+    <!-- HEADER -->
     <div class="header">
 
       <div class="header-icon">
@@ -267,12 +289,13 @@
       </h1>
 
       <p>
-        SDN WARNASARI
+        SD WARNASARI
       </p>
 
     </div>
 
 
+    <!-- TANGGAL -->
     <div
       class="tanggal"
       id="tanggal"
@@ -282,7 +305,6 @@
 
 
     <!-- NAMA -->
-
     <label for="nama">
       Nama Siswa
     </label>
@@ -296,26 +318,19 @@
 
 
     <!-- KELAS -->
-
-    <label for="kelas">
+    <label>
       Kelas
     </label>
 
-    <select id="kelas">
-
-      <option value="Kelas 6">
-        Kelas 6
-      </option>
-
-    </select>
+    <div class="kelas-box">
+      Kelas 6
+    </div>
 
 
     <!-- KAMERA -->
-
     <div class="camera-title">
       Foto Selfie
     </div>
-
 
     <div class="camera">
 
@@ -333,11 +348,11 @@
     </div>
 
 
+    <!-- CANVAS -->
     <canvas id="canvas"></canvas>
 
 
     <!-- PREVIEW -->
-
     <img
       id="preview"
       class="preview"
@@ -345,8 +360,7 @@
     >
 
 
-    <!-- AMBIL FOTO -->
-
+    <!-- TOMBOL FOTO -->
     <button
       id="fotoBtn"
       class="foto-btn"
@@ -356,8 +370,7 @@
     </button>
 
 
-    <!-- ABSEN MASUK -->
-
+    <!-- TOMBOL MASUK -->
     <button
       id="masukBtn"
       class="masuk-btn"
@@ -368,8 +381,7 @@
     </button>
 
 
-    <!-- ABSEN PULANG -->
-
+    <!-- TOMBOL PULANG -->
     <button
       id="pulangBtn"
       class="pulang-btn"
@@ -380,6 +392,7 @@
     </button>
 
 
+    <!-- STATUS -->
     <div
       id="status"
       class="status"
@@ -388,6 +401,10 @@
 
     <div class="footer">
       Masukkan nama, pastikan kelas 6, lalu ambil foto untuk melakukan absensi.
+    </div>
+
+    <div class="bucket-info">
+      Penyimpanan foto: selfie3
     </div>
 
   </div>
@@ -416,7 +433,23 @@ const supabaseClient =
 
 
 /* =====================================================
-   VARIABEL
+   NAMA BUCKET
+===================================================== */
+
+const BUCKET_FOTO =
+  "selfie3";
+
+
+/* =====================================================
+   NAMA TABEL
+===================================================== */
+
+const NAMA_TABEL =
+  "absensi_sd";
+
+
+/* =====================================================
+   ELEMENT HTML
 ===================================================== */
 
 const video =
@@ -431,9 +464,6 @@ const preview =
 const namaInput =
   document.getElementById("nama");
 
-const kelasInput =
-  document.getElementById("kelas");
-
 const masukBtn =
   document.getElementById("masukBtn");
 
@@ -446,6 +476,10 @@ const fotoBtn =
 const statusBox =
   document.getElementById("status");
 
+
+/* =====================================================
+   VARIABEL
+===================================================== */
 
 let fotoBlob = null;
 
@@ -460,7 +494,8 @@ let cameraStream = null;
 
 function tampilkanTanggal() {
 
-  const sekarang = new Date();
+  const sekarang =
+    new Date();
 
   const tanggal =
     sekarang.toLocaleDateString(
@@ -473,10 +508,10 @@ function tampilkanTanggal() {
       }
     );
 
-
   document.getElementById(
     "tanggal"
-  ).textContent = tanggal;
+  ).textContent =
+    tanggal;
 }
 
 
@@ -506,6 +541,7 @@ async function mulaiKamera() {
       await navigator.mediaDevices.getUserMedia({
 
         video: {
+
           facingMode: "user",
 
           width: {
@@ -515,6 +551,7 @@ async function mulaiKamera() {
           height: {
             ideal: 960
           }
+
         },
 
         audio: false
@@ -535,13 +572,13 @@ async function mulaiKamera() {
   } catch (error) {
 
     console.error(
-      "ERROR KAMERA:",
+      "KAMERA ERROR:",
       error
     );
 
 
     tampilkanStatus(
-      "❌ Kamera tidak dapat digunakan. Pastikan izin kamera sudah diberikan dan website dibuka melalui HTTPS.",
+      "❌ Kamera tidak dapat digunakan. Pastikan izin kamera diberikan dan website dibuka melalui HTTPS.",
       "error"
     );
   }
@@ -558,7 +595,11 @@ function ambilFoto() {
     namaInput.value.trim();
 
 
-  if (nama.length < 2) {
+  /* CEK NAMA */
+
+  if (
+    nama.length < 2
+  ) {
 
     tampilkanStatus(
       "Masukkan nama siswa terlebih dahulu.",
@@ -571,6 +612,8 @@ function ambilFoto() {
   }
 
 
+  /* CEK KAMERA */
+
   const width =
     video.videoWidth;
 
@@ -578,7 +621,10 @@ function ambilFoto() {
     video.videoHeight;
 
 
-  if (!width || !height) {
+  if (
+    !width ||
+    !height
+  ) {
 
     tampilkanStatus(
       "Kamera belum siap. Tunggu beberapa detik.",
@@ -588,6 +634,8 @@ function ambilFoto() {
     return;
   }
 
+
+  /* SET CANVAS */
 
   canvas.width =
     width;
@@ -600,6 +648,8 @@ function ambilFoto() {
     canvas.getContext("2d");
 
 
+  /* FOTO */
+
   context.drawImage(
     video,
     0,
@@ -608,6 +658,8 @@ function ambilFoto() {
     height
   );
 
+
+  /* UBAH KE BLOB */
 
   canvas.toBlob(
 
@@ -628,7 +680,11 @@ function ambilFoto() {
         blob;
 
 
-      if (preview.src) {
+      /* HAPUS PREVIEW LAMA */
+
+      if (
+        preview.src
+      ) {
 
         try {
 
@@ -637,8 +693,11 @@ function ambilFoto() {
           );
 
         } catch (e) {}
+
       }
 
+
+      /* BUAT PREVIEW */
 
       preview.src =
         URL.createObjectURL(
@@ -649,6 +708,8 @@ function ambilFoto() {
       preview.style.display =
         "block";
 
+
+      /* AKTIFKAN TOMBOL */
 
       masukBtn.disabled =
         false;
@@ -677,12 +738,46 @@ function ambilFoto() {
 
 
 /* =====================================================
+   BUAT NAMA FILE AMAN
+===================================================== */
+
+function buatNamaFile(nama) {
+
+  let hasil =
+    nama
+      .toLowerCase()
+      .trim()
+      .replace(
+        /[^a-z0-9]+/g,
+        "-"
+      )
+      .replace(
+        /^-+|-+$/g,
+        ""
+      );
+
+
+  if (!hasil) {
+
+    hasil =
+      "siswa";
+  }
+
+
+  return hasil;
+}
+
+
+/* =====================================================
    ABSEN
 ===================================================== */
 
 async function absen(jenis) {
 
-  if (sedangMengirim) {
+  if (
+    sedangMengirim
+  ) {
+
     return;
   }
 
@@ -691,24 +786,22 @@ async function absen(jenis) {
     namaInput.value.trim();
 
 
-  /* KELAS SELALU KELAS 6 */
+  /* CEK NAMA */
 
-  const kelas =
-    "Kelas 6";
-
-
-  if (nama.length < 2) {
+  if (
+    nama.length < 2
+  ) {
 
     tampilkanStatus(
       "Masukkan nama siswa terlebih dahulu.",
       "error"
     );
 
-    namaInput.focus();
-
     return;
   }
 
+
+  /* CEK FOTO */
 
   if (!fotoBlob) {
 
@@ -736,15 +829,19 @@ async function absen(jenis) {
 
 
   tampilkanStatus(
-    "⏳ Mengirim absensi...",
+    "⏳ Sedang menyimpan absensi...",
     "info"
   );
+
+
+  let filePath =
+    null;
 
 
   try {
 
     /* =================================================
-       TANGGAL DAN WAKTU
+       WAKTU
     ================================================= */
 
     const sekarang =
@@ -754,7 +851,10 @@ async function absen(jenis) {
     const tanggal =
       sekarang
         .toISOString()
-        .slice(0, 10);
+        .slice(
+          0,
+          10
+        );
 
 
     const waktu =
@@ -765,34 +865,17 @@ async function absen(jenis) {
        NAMA FILE
     ================================================= */
 
-    let namaFile =
-      nama
-        .toLowerCase()
-        .replace(
-          /[^a-z0-9]+/g,
-          "-"
-        )
-        .replace(
-          /^-|-$/g,
-          ""
-        );
-
-
-    if (!namaFile) {
-
-      namaFile =
-        "siswa";
-    }
+    const namaFile =
+      buatNamaFile(
+        nama
+      );
 
 
     /* =================================================
        PATH FOTO
-
-       BUCKET:
-       selfie
     ================================================= */
 
-    const filePath =
+    filePath =
       tanggal +
       "/" +
       namaFile +
@@ -803,20 +886,34 @@ async function absen(jenis) {
       ".jpg";
 
 
+    console.log(
+      "Bucket:",
+      BUCKET_FOTO
+    );
+
+    console.log(
+      "File path:",
+      filePath
+    );
+
+
     /* =================================================
-       UPLOAD FOTO KE STORAGE selfie
+       UPLOAD FOTO KE BUCKET selfie3
     ================================================= */
 
-    const {
-      error: uploadError
-    } =
+    const uploadResult =
       await supabaseClient
         .storage
-        .from("selfie")
+        .from(
+          BUCKET_FOTO
+        )
         .upload(
           filePath,
           fotoBlob,
           {
+            cacheControl:
+              "3600",
+
             contentType:
               "image/jpeg",
 
@@ -826,28 +923,63 @@ async function absen(jenis) {
         );
 
 
-    if (uploadError) {
+    if (
+      uploadResult.error
+    ) {
 
-      throw uploadError;
+      console.error(
+        "UPLOAD ERROR:",
+        uploadResult.error
+      );
+
+      throw new Error(
+        "Gagal upload foto: " +
+        uploadResult.error.message
+      );
     }
 
 
     /* =================================================
-       SIMPAN DATA KE DATABASE
+       BUAT PUBLIC URL
     ================================================= */
 
-    const {
-      error: insertError
-    } =
+    const publicURL =
+      supabaseClient
+        .storage
+        .from(
+          BUCKET_FOTO
+        )
+        .getPublicUrl(
+          filePath
+        );
+
+
+    const fotoURL =
+      publicURL.data.publicUrl;
+
+
+    console.log(
+      "Foto URL:",
+      fotoURL
+    );
+
+
+    /* =================================================
+       SIMPAN KE DATABASE
+    ================================================= */
+
+    const insertResult =
       await supabaseClient
-        .from("absensi_sd")
+        .from(
+          NAMA_TABEL
+        )
         .insert({
 
           nama:
             nama,
 
           kelas:
-            kelas,
+            "Kelas 6",
 
           jenis:
             jenis,
@@ -859,21 +991,44 @@ async function absen(jenis) {
 
 
     /* =================================================
-       JIKA DATABASE GAGAL
-       HAPUS FOTO
+       DATABASE ERROR
     ================================================= */
 
-    if (insertError) {
+    if (
+      insertResult.error
+    ) {
 
-      await supabaseClient
-        .storage
-        .from("selfie")
-        .remove([
-          filePath
-        ]);
+      console.error(
+        "DATABASE ERROR:",
+        insertResult.error
+      );
 
 
-      throw insertError;
+      /* HAPUS FOTO YANG SUDAH UPLOAD */
+
+      const removeResult =
+        await supabaseClient
+          .storage
+          .from(
+            BUCKET_FOTO
+          )
+          .remove([
+            filePath
+          ]);
+
+
+      if (
+        removeResult.error
+      ) {
+
+        console.error(
+          "GAGAL MENGHAPUS FOTO:",
+          removeResult.error
+        );
+      }
+
+
+      throw insertResult.error;
     }
 
 
@@ -881,17 +1036,19 @@ async function absen(jenis) {
        BERHASIL
     ================================================= */
 
-    if (jenis === "masuk") {
+    if (
+      jenis === "masuk"
+    ) {
 
       tampilkanStatus(
-        "✅ Absen masuk berhasil!",
+        "✅ Absen masuk berhasil disimpan!",
         "success"
       );
 
     } else {
 
       tampilkanStatus(
-        "✅ Absen pulang berhasil!",
+        "✅ Absen pulang berhasil disimpan!",
         "success"
       );
 
@@ -899,40 +1056,19 @@ async function absen(jenis) {
 
 
     /* =================================================
-       RESET FORM
+       RESET FOTO
     ================================================= */
 
     fotoBlob =
       null;
 
 
-    if (preview.src) {
-
-      try {
-
-        URL.revokeObjectURL(
-          preview.src
-        );
-
-      } catch (e) {}
-    }
-
-
-    preview.src =
-      "";
-
     preview.style.display =
       "none";
 
 
-    namaInput.value =
+    preview.src =
       "";
-
-
-    /* KELAS TETAP KELAS 6 */
-
-    kelasInput.value =
-      "Kelas 6";
 
 
     masukBtn.disabled =
@@ -945,8 +1081,17 @@ async function absen(jenis) {
     fotoBtn.disabled =
       false;
 
+
     fotoBtn.textContent =
       "📷 AMBIL FOTO";
+
+
+    /* =================================================
+       KOSONGKAN NAMA
+    ================================================= */
+
+    namaInput.value =
+      "";
 
 
   } catch (error) {
@@ -957,11 +1102,17 @@ async function absen(jenis) {
     );
 
 
+    /* =================================================
+       ERROR DUPLIKAT
+    ================================================= */
+
     if (
       error.code === "23505"
     ) {
 
-      if (jenis === "masuk") {
+      if (
+        jenis === "masuk"
+      ) {
 
         tampilkanStatus(
           "⚠️ Siswa ini sudah melakukan absen masuk hari ini.",
@@ -974,22 +1125,21 @@ async function absen(jenis) {
           "⚠️ Siswa ini sudah melakukan absen pulang hari ini.",
           "error"
         );
-
       }
 
     } else {
 
       tampilkanStatus(
         "❌ Gagal menyimpan absensi: " +
-        (
-          error.message ||
-          "Terjadi kesalahan."
-        ),
+        error.message,
         "error"
       );
-
     }
 
+
+    /* =================================================
+       KEMBALIKAN TOMBOL
+    ================================================= */
 
     masukBtn.disabled =
       !fotoBlob;
@@ -999,7 +1149,6 @@ async function absen(jenis) {
 
     fotoBtn.disabled =
       false;
-
   }
 
 
@@ -1020,29 +1169,45 @@ function tampilkanStatus(
   statusBox.textContent =
     pesan;
 
-
   statusBox.className =
-    "status " + tipe;
+    "status " +
+    tipe;
 }
 
 
 /* =====================================================
-   HENTIKAN KAMERA SAAT HALAMAN DITUTUP
+   HENTIKAN KAMERA
+===================================================== */
+
+function hentikanKamera() {
+
+  if (
+    cameraStream
+  ) {
+
+    cameraStream
+      .getTracks()
+      .forEach(
+        track => {
+          track.stop();
+        }
+      );
+
+    cameraStream =
+      null;
+  }
+}
+
+
+/* =====================================================
+   SAAT HALAMAN DITUTUP
 ===================================================== */
 
 window.addEventListener(
   "beforeunload",
   function() {
 
-    if (cameraStream) {
-
-      cameraStream
-        .getTracks()
-        .forEach(
-          track =>
-            track.stop()
-        );
-    }
+    hentikanKamera();
 
   }
 );
