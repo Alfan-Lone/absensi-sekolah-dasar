@@ -1,508 +1,7 @@
-```html
-<!DOCTYPE html>
-<html lang="id">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>Rekap Absensi - SDN WARNASARI</title>
-
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-  <style>
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      padding: 15px;
-      font-family: Arial, sans-serif;
-      background: #f1f5f9;
-      color: #111827;
-    }
-
-    .container {
-      width: 100%;
-      max-width: 1100px;
-      margin: auto;
-    }
-
-    .header {
-      background: linear-gradient(135deg, #0f172a, #1e3a8a);
-      color: white;
-      padding: 25px 20px;
-      border-radius: 20px;
-      text-align: center;
-      margin-bottom: 15px;
-    }
-
-    .header .icon {
-      font-size: 45px;
-    }
-
-    .header h1 {
-      margin: 5px 0;
-      font-size: 26px;
-    }
-
-    .header p {
-      margin: 5px 0 0;
-      opacity: .85;
-    }
-
-    .card {
-      background: white;
-      padding: 18px;
-      border-radius: 18px;
-      margin-bottom: 15px;
-      box-shadow: 0 5px 20px rgba(0,0,0,.06);
-    }
-
-    .filters {
-      display: grid;
-      grid-template-columns: 1fr 1fr auto;
-      gap: 10px;
-    }
-
-    label {
-      display: block;
-      font-size: 13px;
-      font-weight: bold;
-      margin-bottom: 6px;
-    }
-
-    input {
-      width: 100%;
-      padding: 12px;
-      border: 1px solid #d1d5db;
-      border-radius: 10px;
-      font-size: 15px;
-      outline: none;
-    }
-
-    button {
-      border: 0;
-      border-radius: 10px;
-      padding: 12px 16px;
-      font-weight: bold;
-      cursor: pointer;
-      font-size: 14px;
-    }
-
-    .blue {
-      background: #2563eb;
-      color: white;
-    }
-
-    .green {
-      background: #16a34a;
-      color: white;
-    }
-
-    .gray {
-      background: #64748b;
-      color: white;
-    }
-
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-    }
-
-    .stat {
-      text-align: center;
-      padding: 15px 5px;
-      background: white;
-      border-radius: 15px;
-      box-shadow: 0 5px 20px rgba(0,0,0,.06);
-    }
-
-    .stat-icon {
-      font-size: 25px;
-    }
-
-    .stat-number {
-      font-size: 24px;
-      font-weight: bold;
-      margin-top: 4px;
-    }
-
-    .stat-label {
-      color: #64748b;
-      font-size: 12px;
-      margin-top: 3px;
-    }
-
-    .table-wrap {
-      background: white;
-      border-radius: 18px;
-      padding: 12px;
-      box-shadow: 0 5px 20px rgba(0,0,0,.06);
-      overflow-x: auto;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      min-width: 720px;
-    }
-
-    th {
-      background: #f8fafc;
-      padding: 12px;
-      text-align: left;
-      font-size: 13px;
-      border-bottom: 2px solid #e5e7eb;
-    }
-
-    td {
-      padding: 12px;
-      border-bottom: 1px solid #e5e7eb;
-      font-size: 14px;
-      vertical-align: middle;
-    }
-
-    .badge {
-      display: inline-block;
-      padding: 6px 9px;
-      border-radius: 8px;
-      font-size: 11px;
-      font-weight: bold;
-    }
-
-    .masuk {
-      background: #dcfce7;
-      color: #166534;
-    }
-
-    .pulang {
-      background: #fee2e2;
-      color: #991b1b;
-    }
-
-    .foto {
-      width: 65px;
-      height: 65px;
-      object-fit: cover;
-      border-radius: 10px;
-      border: 2px solid #e5e7eb;
-      cursor: pointer;
-      display: block;
-    }
-
-    .foto:hover {
-      opacity: .8;
-    }
-
-    .foto-loading {
-      color: #94a3b8;
-      font-size: 12px;
-    }
-
-    .foto-error {
-      color: #dc2626;
-      font-size: 12px;
-    }
-
-    .foto-buttons {
-      display: flex;
-      gap: 5px;
-      margin-top: 6px;
-    }
-
-    .foto-buttons a,
-    .foto-buttons button {
-      display: inline-block;
-      padding: 6px 8px;
-      border-radius: 7px;
-      color: white;
-      text-decoration: none;
-      font-size: 11px;
-      border: 0;
-    }
-
-    .lihat {
-      background: #2563eb;
-    }
-
-    .download {
-      background: #16a34a;
-    }
-
-    .loading {
-      text-align: center;
-      padding: 30px;
-      color: #64748b;
-    }
-
-    .error {
-      background: #fee2e2;
-      color: #991b1b;
-      padding: 12px;
-      border-radius: 10px;
-      margin-bottom: 15px;
-      display: none;
-    }
-
-    .actions {
-      display: flex;
-      gap: 10px;
-      margin-top: 12px;
-    }
-
-    .modal {
-      display: none;
-      position: fixed;
-      z-index: 9999;
-      inset: 0;
-      background: rgba(0,0,0,.85);
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
-
-    .modal img {
-      max-width: 100%;
-      max-height: 85vh;
-      border-radius: 15px;
-    }
-
-    .close {
-      position: fixed;
-      top: 15px;
-      right: 20px;
-      color: white;
-      font-size: 40px;
-      cursor: pointer;
-    }
-
-    @media(max-width: 650px) {
-
-      body {
-        padding: 10px;
-      }
-
-      .header {
-        padding: 20px 10px;
-      }
-
-      .header h1 {
-        font-size: 22px;
-      }
-
-      .filters {
-        grid-template-columns: 1fr;
-      }
-
-      .filters button {
-        width: 100%;
-      }
-
-      .stats {
-        gap: 7px;
-      }
-
-      .stat {
-        padding: 12px 3px;
-      }
-
-      .stat-icon {
-        font-size: 20px;
-      }
-
-      .stat-number {
-        font-size: 20px;
-      }
-
-      .stat-label {
-        font-size: 10px;
-      }
-
-      .actions {
-        flex-direction: column;
-      }
-
-      .actions button {
-        width: 100%;
-      }
-    }
-  </style>
-</head>
-
-<body>
-
-<div class="container">
-
-  <div class="header">
-    <div class="icon">📊</div>
-    <h1>REKAP ABSENSI</h1>
-    <p>EKSKUL INFORMATIKA</p>
-  </div>
-
-  <div id="errorBox" class="error"></div>
-
-  <div class="card">
-
-    <div class="filters">
-
-      <div>
-        <label>Tanggal</label>
-        <input type="date" id="tanggal">
-      </div>
-
-      <div>
-        <label>Cari Nama</label>
-        <input
-          type="text"
-          id="cari"
-          placeholder="Ketik nama..."
-          oninput="tampilkanData()"
-        >
-      </div>
-
-      <div>
-        <label>&nbsp;</label>
-        <button
-          class="blue"
-          onclick="ambilData()"
-        >
-          🔄 REFRESH
-        </button>
-      </div>
-
-    </div>
-
-    <div class="actions">
-
-      <button
-        class="green"
-        onclick="downloadCSV()"
-      >
-        📥 DOWNLOAD CSV
-      </button>
-
-      <button
-        class="gray"
-        onclick="resetFilter()"
-      >
-        ↩️ RESET
-      </button>
-
-    </div>
-
-  </div>
-
-
-  <div class="stats">
-
-    <div class="stat">
-      <div class="stat-icon">👥</div>
-      <div
-        class="stat-number"
-        id="jumlahOrang"
-      >
-        0
-      </div>
-      <div class="stat-label">
-        Orang
-      </div>
-    </div>
-
-    <div class="stat">
-      <div class="stat-icon">🟢</div>
-      <div
-        class="stat-number"
-        id="jumlahMasuk"
-      >
-        0
-      </div>
-      <div class="stat-label">
-        Absen Masuk
-      </div>
-    </div>
-
-    <div class="stat">
-      <div class="stat-icon">🔴</div>
-      <div
-        class="stat-number"
-        id="jumlahPulang"
-      >
-        0
-      </div>
-      <div class="stat-label">
-        Absen Pulang
-      </div>
-    </div>
-
-  </div>
-
-
-  <div class="table-wrap">
-
-    <table>
-
-      <thead>
-        <tr>
-          <th>No</th>
-          <th>Nama</th>
-          <th>Tanggal</th>
-          <th>Jam</th>
-          <th>Status</th>
-          <th>Foto Selfie</th>
-        </tr>
-      </thead>
-
-      <tbody id="tabelData">
-
-        <tr>
-          <td colspan="6" class="loading">
-            ⏳ Memuat data...
-          </td>
-        </tr>
-
-      </tbody>
-
-    </table>
-
-  </div>
-
-</div>
-
-
-<!-- MODAL FOTO -->
-
-<div
-  class="modal"
-  id="modal"
-  onclick="tutupModal()"
->
-
-  <span
-    class="close"
-    onclick="tutupModal()"
-  >
-    ×
-  </span>
-
-  <img
-    id="fotoBesar"
-    src=""
-    alt="Foto selfie"
-    onclick="event.stopPropagation()"
-  >
-
-</div>
-
-
 <script>
-
   // =====================================================
   // SUPABASE
   // =====================================================
-
-  // ISI DENGAN DATA SUPABASE YANG SAMA DENGAN INDEX.HTML
 
   const SUPABASE_URL =
     "https://prcnxtzhukfopcfzyczm.supabase.co";
@@ -510,12 +9,18 @@
   const SUPABASE_KEY =
     "sb_publishable_wUZkF_KZgqDmhlVwdOAKRA_PkmZQ920";
 
-
   const supabaseClient =
     window.supabase.createClient(
       SUPABASE_URL,
       SUPABASE_KEY
     );
+
+
+  // =====================================================
+  // NAMA BUCKET FOTO
+  // =====================================================
+
+  const BUCKET_FOTO = "selfie3";
 
 
   // =====================================================
@@ -556,9 +61,8 @@
   }
 
 
-  document.getElementById(
-    "tanggal"
-  ).value = tanggalHariIni();
+  document.getElementById("tanggal").value =
+    tanggalHariIni();
 
 
   // =====================================================
@@ -573,15 +77,11 @@
       "tabelData"
     ).innerHTML = `
       <tr>
-        <td
-          colspan="6"
-          class="loading"
-        >
+        <td colspan="6" class="loading">
           ⏳ Memuat data...
         </td>
       </tr>
     `;
-
 
     try {
 
@@ -600,26 +100,18 @@
         hasil.data || [];
 
 
-      // Urutkan dari yang terbaru
+      // Urutkan dari terbaru
 
       semuaData.sort(
         (a, b) => {
 
           const waktuA =
-            String(
-              a.tanggal || ""
-            ) +
-            String(
-              a.jam || ""
-            );
+            String(a.tanggal || "") +
+            String(a.jam || "");
 
           const waktuB =
-            String(
-              b.tanggal || ""
-            ) +
-            String(
-              b.jam || ""
-            );
+            String(b.tanggal || "") +
+            String(b.jam || "");
 
           return waktuB.localeCompare(
             waktuA
@@ -629,6 +121,7 @@
 
 
       await tampilkanData();
+
 
     } catch (error) {
 
@@ -643,10 +136,7 @@
         "tabelData"
       ).innerHTML = `
         <tr>
-          <td
-            colspan="6"
-            class="loading"
-          >
+          <td colspan="6" class="loading">
             ❌ Data tidak dapat dimuat.
           </td>
         </tr>
@@ -757,7 +247,7 @@
 
 
     // ===================================================
-    // TABEL KOSONG
+    // TIDAK ADA DATA
     // ===================================================
 
     if (data.length === 0) {
@@ -868,7 +358,7 @@
 
 
   // =====================================================
-  // FOTO PRIVATE + SIGNED URL
+  // FOTO DARI BUCKET selfie3
   // =====================================================
 
   async function buatFoto(path) {
@@ -885,10 +375,17 @@
 
     try {
 
+      /*
+       * PENTING:
+       * Foto sekarang diambil dari bucket:
+       *
+       * selfie3
+       */
+
       const hasil =
         await supabaseClient
           .storage
-          .from("selfies")
+          .from(BUCKET_FOTO)
           .createSignedUrl(
             path,
             3600
@@ -918,6 +415,11 @@
         hasil.data.signedUrl;
 
 
+      /*
+       * Encode URL supaya aman
+       * ketika dikirim ke fungsi JavaScript.
+       */
+
       const safeURL =
         encodeURIComponent(url);
 
@@ -928,21 +430,37 @@
           <img
             class="foto"
             src="${url}"
-            alt="Selfie"
+            alt="Foto selfie"
             onclick="bukaFoto('${safeURL}')"
+            onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"
           >
 
+          <span
+            class="foto-error"
+            style="display:none;"
+          >
+            ❌ Foto gagal dimuat
+          </span>
+
+
           <div class="foto-buttons">
+
+            <!-- TOMBOL LIHAT -->
 
             <a
               class="lihat"
               href="${url}"
               target="_blank"
+              rel="noopener noreferrer"
             >
               👁️ Lihat
             </a>
 
+
+            <!-- TOMBOL DOWNLOAD -->
+
             <button
+              type="button"
               class="download"
               onclick="downloadFoto('${safeURL}')"
             >
@@ -956,11 +474,14 @@
 
     } catch (error) {
 
-      console.error(error);
+      console.error(
+        "Error foto:",
+        error
+      );
 
       return `
         <span class="foto-error">
-          Foto error
+          ❌ Foto error
         </span>
       `;
     }
@@ -971,27 +492,40 @@
   // BUKA FOTO BESAR
   // =====================================================
 
-  function bukaFoto(
-    encodedURL
-  ) {
+  function bukaFoto(encodedURL) {
 
-    const url =
-      decodeURIComponent(
-        encodedURL
+    try {
+
+      const url =
+        decodeURIComponent(
+          encodedURL
+        );
+
+
+      document.getElementById(
+        "fotoBesar"
+      ).src = url;
+
+
+      document.getElementById(
+        "modal"
+      ).style.display =
+        "flex";
+
+    } catch (error) {
+
+      console.error(error);
+
+      alert(
+        "Foto tidak dapat dibuka."
       );
-
-
-    document.getElementById(
-      "fotoBesar"
-    ).src = url;
-
-
-    document.getElementById(
-      "modal"
-    ).style.display =
-      "flex";
+    }
   }
 
+
+  // =====================================================
+  // TUTUP FOTO
+  // =====================================================
 
   function tutupModal() {
 
@@ -1011,9 +545,7 @@
   // DOWNLOAD FOTO
   // =====================================================
 
-  async function downloadFoto(
-    encodedURL
-  ) {
+  async function downloadFoto(encodedURL) {
 
     try {
 
@@ -1023,13 +555,19 @@
         );
 
 
+      /*
+       * Ambil file dari signed URL
+       */
+
       const response =
         await fetch(url);
 
 
       if (!response.ok) {
+
         throw new Error(
-          "Foto tidak dapat diunduh."
+          "HTTP " +
+          response.status
         );
       }
 
@@ -1037,6 +575,10 @@
       const blob =
         await response.blob();
 
+
+      /*
+       * Buat file sementara
+       */
 
       const blobURL =
         URL.createObjectURL(
@@ -1060,6 +602,10 @@
         ".jpg";
 
 
+      link.style.display =
+        "none";
+
+
       document.body.appendChild(
         link
       );
@@ -1073,30 +619,57 @@
       );
 
 
-      URL.revokeObjectURL(
-        blobURL
+      /*
+       * Hapus URL sementara
+       */
+
+      setTimeout(
+        () => {
+          URL.revokeObjectURL(
+            blobURL
+          );
+        },
+        1000
       );
+
 
     } catch (error) {
 
-      console.error(error);
-
-      // Kalau browser HP tidak mengizinkan
-      // download langsung, buka fotonya.
-
-      alert(
-        "Download langsung tidak tersedia di browser ini. Foto akan dibuka, lalu tekan tahan foto untuk menyimpannya."
+      console.error(
+        "Download gagal:",
+        error
       );
 
-      const url =
-        decodeURIComponent(
-          encodedURL
+
+      /*
+       * Jika browser tidak mengizinkan
+       * download langsung, buka foto.
+       */
+
+      try {
+
+        const url =
+          decodeURIComponent(
+            encodedURL
+          );
+
+
+        alert(
+          "Download langsung tidak tersedia di browser ini. Foto akan dibuka."
         );
 
-      window.open(
-        url,
-        "_blank"
-      );
+
+        window.open(
+          url,
+          "_blank"
+        );
+
+      } catch (e) {
+
+        alert(
+          "Foto tidak dapat didownload."
+        );
+      }
     }
   }
 
@@ -1105,9 +678,7 @@
   // FORMAT TANGGAL
   // =====================================================
 
-  function formatTanggal(
-    tanggal
-  ) {
+  function formatTanggal(tanggal) {
 
     if (!tanggal) {
       return "-";
@@ -1123,6 +694,7 @@
     if (
       bagian.length !== 3
     ) {
+
       return tanggal;
     }
 
@@ -1141,9 +713,7 @@
   // FORMAT JAM
   // =====================================================
 
-  function formatJam(
-    jam
-  ) {
+  function formatJam(jam) {
 
     if (!jam) {
       return "-";
@@ -1341,9 +911,7 @@
   // ERROR
   // =====================================================
 
-  function tampilkanError(
-    pesan
-  ) {
+  function tampilkanError(pesan) {
 
     const box =
       document.getElementById(
@@ -1375,9 +943,7 @@
   // ESCAPE HTML
   // =====================================================
 
-  function escapeHTML(
-    text
-  ) {
+  function escapeHTML(text) {
 
     return String(text)
       .replace(
@@ -1410,7 +976,3 @@
   ambilData();
 
 </script>
-
-</body>
-</html>
-```
